@@ -4,7 +4,7 @@ import logo from "../assets/logonav.svg"
 import { Link } from 'react-scroll';
 const Navbar = () => {
   return (
-    <div className='flex justify-between items-center px-[135px] py-[39px] w-full fixed top-0'>
+    <div className='flex justify-between items-center px-[135px] w-full h-[117px] mb-[126px]'>
         <div>
             <img src={logo} alt="loading" className='w-full h-full object-contain' />
         </div>
@@ -16,16 +16,29 @@ const Navbar = () => {
             </li>
         </ul>
         {/* login-regist button */}
-        <div className='flex justify-center items-center text-center'>
-
-            <div className='bg-third hover:bg-secondary w-[105px] h-[39px] rounded-[10px]  text-white'>
-                <button className='items-center'>Masuk</button>
-            </div>
-            
-            <div className='border-2 border-secondary bg-none hover:bg-secondary w-[105px] h-[39px] rounded-[10px] items-center text-secondary hover:text-white'>
-                <button className='items-center'>Register</button>
-            </div>
-
+        <div className='flex gap-[10px]'>
+            {/* Login */}
+            <button className='
+            flex 
+            bg-third 
+            hover:bg-secondary 
+            w-[105px] h-[39px] 
+            rounded-[10px] 
+            text-white 
+            items-center justify-center'>
+                Masuk</button>
+            {/* Register */}
+            <button className='
+            flex 
+            bg-none 
+            hover:bg-secondary 
+            w-[105px] h-[39px] 
+            rounded-[10px]  
+            text-secondary 
+            items-center 
+            hover:text-white border-2 
+            border-secondary justify-center'>
+                Register</button>
         </div>
         
     </div>
