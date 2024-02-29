@@ -4,11 +4,14 @@ import playstore from "../assets/App Store Black Border.svg";
 import appstore from "../assets/Google Play Black Border.svg";
 import featureee from "../assets/laterrr.svg";
 import logo3d from "../assets/About/logo3d.svg";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import ombak from "../assets/About/ombak.png";
 
 const Dashboard = () => {
   return (
     <div>
+      <Navbar />
       {/* HEADING SECTION */}
       <div className="flex justify-between w-full bg-primer px-[5%] md:px-[10%] lg:px-[10%] md:flex-row gap-[20px] lg:gap-[200px]">
         <div className="w-full md:w-[60%]">
@@ -53,8 +56,9 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
 
-export default Dashboard;
+export default Dashboard

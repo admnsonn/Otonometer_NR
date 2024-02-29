@@ -1,9 +1,9 @@
-import Dashboard from "../pages/Dashboard"
+import Login from "../pages/Login"
 
 const Dashboardpage = () => {
   return (
     <div>
-      <Dashboard />
+      <Login />
     </div>
   )
 }

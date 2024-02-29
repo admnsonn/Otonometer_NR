@@ -8,7 +8,7 @@ import logotiktok from "../assets/tiktok.svg"
 import logoig from "../assets/insta.svg"
 import logotwitter from "../assets/twitter.svg"
 
-const Footer = () => {
+function Footer() {
   return (
     <div className='grid grid-row-3 w-full h-[250px] bg-secondary px-[135px] pt-[20px]'>
         <div className='flex justify-between w-full'>
@@ -44,9 +44,8 @@ const Footer = () => {
         <hr/>
         <p className='text-[14px] text-white'>© 2023 PT. Teknologi Otonometer Nusantara. All Rights Reserved. | teknologiotonometernusantara@gmail.com</p>
     </div>
-    
 
-  )
+  );
 }
 
 export default Footer
