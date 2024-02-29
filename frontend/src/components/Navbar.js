@@ -2,7 +2,11 @@ import React from 'react'
 import { navLink } from '../data/datanya';
 import logo from "../assets/logonav.svg"
 import { Link } from 'react-scroll';
+
+import {useNavigate} from 'react-router-dom'
+
 function Navbar() {
+    const navgate = useNavigate()
   return (
     <div className='flex justify-between items-center px-[135px] w-full h-[117px] mb-[126px]'>
         <div>
@@ -18,7 +22,9 @@ function Navbar() {
         {/* login-regist button */}
         <div className='flex gap-[10px]'>
             {/* Login */}
-            <button className='
+            <button 
+            onClick={() => navgate('Login')}
+            className='
             flex 
             bg-third 
             hover:bg-secondary 
@@ -28,7 +34,9 @@ function Navbar() {
             items-center justify-center'>
                 Masuk</button>
             {/* Register */}
-            <button className='
+            <button 
+            onClick={() => navgate('Register')}
+            className='
             flex 
             bg-none 
             hover:bg-secondary 

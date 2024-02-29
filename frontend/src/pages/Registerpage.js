@@ -1,9 +1,9 @@
-import Login from "../pages/Login"
+import Register from "../pages/Register"
 
 const HalamanLogin = () => {
   return (
     <div>
-      <Login />
+      <Register />
     </div>
   )
 }
