@@ -1,11 +1,11 @@
 import React from 'react';
 import Illustration from '../assets/Auth/ilustrasi.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { ReactComponent as AppleIcon } from '../assets/icons/apple.svg';
-import { ReactComponent as GoogleIcon } from '../assets/icons/google.svg';
+import { faArrowAltCircleLeft, faArrowCircleLeft, faArrowLeft, faBackspace, faBackward, faBackwardFast, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { ReactComponent as AppleIcon } from '../assets/icons/apel.svg';
+import { ReactComponent as GoogleIcon } from '../assets/icons/gugol.svg';
 import { ReactComponent as MicrosoftIcon } from '../assets/icons/microsoft.svg';
-import { ReactComponent as NeracaIcon } from '../assets/icons/neracaruang.svg';
+import { ReactComponent as NeracaIcon } from '../assets/icons/neracaruangqu.svg';
 import { Link } from 'react-router-dom';
 
 
@@ -41,17 +41,21 @@ class Login extends React.Component {
             <img src={Illustration} alt="Illustration" className="max-h-full w-full" style={{ maxWidth: '100%' }} />
           </div>
         {/* Bagian Kanan: Form Login */}
+        <button className='flex align-top ml-[50px] mt-[50px] h-[20px] w-[20px]
+        ' onclick="">
+          <FontAwesomeIcon icon={faArrowCircleLeft} color='#24445A' className='fa-2x' />
+        </button>
         <div className="md:w-1/2 flex justify-center items-center">
           <form onSubmit={this.handleSubmit} className="max-w-md bg-white rounded px-8 pt-6 pb-8">
-            <h1 className="text-6xl font-bold mb-4 text-center" style={{ color: '#24445A' }}>Masuk</h1>
+            <h1 className="text-6xl font-bold mb-4 text-left text-secondary">Masuk</h1>
             {/* Tulisan di bawah judul */}
-            <p className="text-sm mb-8" style={{ color: '#064878' }}>Masuk ke akun Anda untuk mengakses <span className="font-bold" style={{ color: '#24445A' }}>fitur lainnya</span> Otonometer</p>
+            <p className="text-sm mb-8 text-secondary">Masuk ke akun Anda untuk mengakses <span className="font-bold">fitur lainnya</span> Otonometer</p>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+              <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="email">
                 Email
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
                 id="email"
                 type="email"
                 placeholder="Email"
@@ -62,11 +66,14 @@ class Login extends React.Component {
               />
             </div>
             <div className="mb-6 relative">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+              <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="password">
                 Kata Sandi
               </label>
+              <div className='flex justify-between'>
+
+              </div>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
                 id="password"
                 type={this.state.showPassword ? 'text' : 'password'}
                 placeholder="Masukkan Kata Sandi"
@@ -74,20 +81,20 @@ class Login extends React.Component {
                 value={this.state.password}
                 onChange={this.handleChange}
                 required
+                
               />
               <button
                 type="button"
                 onClick={this.togglePasswordVisibility}
-                className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-                style={{ top: '50%', transform: 'translateY(-30%)' }}
+                className="absolute inset-y-0 right-0 px-4"
+                style={{ top: '45%', color:'#24445A'}}
               >
-                <FontAwesomeIcon icon={this.state.showPassword ? faEye : faEyeSlash} />
+                <FontAwesomeIcon icon={this.state.showPassword ? faEye : faEyeSlash} color='#24445A' />
               </button>
             </div>
             <div className="flex items-center justify-center">
               <button
-                className="text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
-                style={{ backgroundColor: '#86BBD8' }}
+                className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-third hover:bg-secondary"
                 type="submit"
               >
                 Masuk
@@ -101,15 +108,47 @@ class Login extends React.Component {
             </div>
             {/* Button Login dengan cara lain */}
             <div className="flex flex-col items-center mt-4 space-y-4">
-              <button 
-                className="bg-white border-2 border-A7A7A7 py-2 px-4 rounded flex items-center focus:outline-none focus:shadow-outline w-full" 
-                onClick={() => {}}
-                onMouseEnter={(e) => { e.target.style.backgroundColor = '#86BBD8'; e.target.style.color = '#fff' }} 
-                onMouseLeave={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.color = '#A7A7A7' }} 
+            <button 
+                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]" 
               >
-                <NeracaIcon className="w-5 h-5 mr-2" />
-                <span style={{ fontSize: '16px' }} className="font-normal">Masuk dengan Neraca Ruang</span>
+                <div className='flex items-center justify-center gap-4'>
+                  <NeracaIcon />
+                  <span className=''>Masuk dengan Neraca Ruang</span>
+                </div>
+                
               </button>
+
+              <button 
+                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]" 
+              >
+                <div className='flex items-center justify-center gap-4'>
+                  <AppleIcon />
+                  <span className=''>Masuk dengan Apple</span>
+                </div>
+                
+              </button>
+
+              <button 
+                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]" 
+              >
+                <div className='flex items-center justify-center gap-4'>
+                  <GoogleIcon />
+                  <span className=''>Masuk dengan Google</span>
+                </div>
+                
+              </button>
+
+              <button 
+                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]" 
+              >
+                <div className='flex items-center justify-center gap-4'>
+                  <MicrosoftIcon />
+                  <span className=''>Masuk dengan Microsoft</span>
+                </div>
+                
+              </button>
+{/* 
+              
               <button 
                 className="bg-white border-2 border-A7A7A7 py-2 px-4 rounded flex items-center focus:outline-none focus:shadow-outline w-full" 
                 onClick={() => {}}
@@ -136,10 +175,10 @@ class Login extends React.Component {
               >
                 <MicrosoftIcon className="w-5 h-5 mr-2" />
                 <span style={{ fontSize: '16px' }} className="font-normal">Masuk dengan Microsoft</span>
-              </button>
+              </button> */}
             </div>
 
-            <div className="flex items-center justify-center mt-4">
+            <div className="flex items-center justify-center mt-4 font-regular text-[14px] text-secondary">
               <span >Belum memiliki akun?</span>
               <span className="ml-1">
               <Link to="/register" className="font-bold" style={{ color: '#24445A' }}>Daftar</Link>

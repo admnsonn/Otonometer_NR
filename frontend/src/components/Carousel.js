@@ -53,7 +53,7 @@ const Carousel = () => {
         ))}
       </div>
       <div className="controls">
-      {/* {controlLinks.map((index) => (
+      {controlLinks.map((index) => (
           <a
             key={index}
             href="#"
@@ -63,7 +63,7 @@ const Carousel = () => {
           >
             <img src={imageSources[index - 1]} alt={`Control ${index}`} />
           </a>
-        ))} */}
+        ))}
       </div>
     </div>
   );
