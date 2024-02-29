@@ -1,15 +1,18 @@
 import Footer from "./components/Footer";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
-function App() {
+import Dashboardpage from "./pages/Dashboardpage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+const App = () => {
   return (
-    <div>
-      {/* <Login/> */}
-      <Navbar/>
-      <Dashboard/>
-      <Footer/>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<Dashboardpage />}></Route>
+      </Routes>
+    </Router>
   );
-}
+};
+
 export default App;
