@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../assets/biglogo.svg";
 import playstore from "../assets/App Store Black Border.svg";
 import appstore from "../assets/Google Play Black Border.svg";
-import featureee from "../assets/laterrr.svg";
+import Carousel from "../components/Carousel";
 import logo3d from "../assets/About/logo3d.svg";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -26,7 +26,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="w-[35%]">
-          <img src={featureee} alt="" className="w-full" />
+          <Carousel />
         </div>
       </div>
 
