@@ -16,6 +16,7 @@ class Register extends React.Component {
     this.state = {
       email: '',
       password: '',
+      konfirm: '',
       showPassword: false, // State untuk mengontrol visibilitas password
       step: 1, // Langkah saat ini dalam proses pendaftaran
       title: '', // State untuk menyimpan gelar
@@ -223,7 +224,7 @@ class Register extends React.Component {
               />
             </div>
           </div>
-          <div className="w-full mb-4">
+          {/* <div className="w-full mb-4">
                 <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="birthDate">
                   Tanggal Lahir
                 </label>
@@ -241,7 +242,7 @@ class Register extends React.Component {
                     <FontAwesomeIcon icon={faCalendar} className="text-gray-400" />
                   </div>
                 </div>
-              </div>
+              </div>   */}
               {/* Dropdown untuk memilih provinsi */}
               <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
                 <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="province">
@@ -256,6 +257,7 @@ class Register extends React.Component {
                   required
                 >
                   <option value="">Pilih Provinsi</option>
+                  <option value="dummy">dummy</option>
                   {/* Daftar provinsi */}
                 </select>
               </div>
@@ -273,26 +275,27 @@ class Register extends React.Component {
                   required
                 >
                   <option value="">Pilih Kabupaten/Kota</option>
+                  <option value="dummy">dummy</option>
                   {/* Daftar kabupaten/kota */}
                 </select>
               </div>
               {/* Field untuk mengisi kodepos */}
-              <div className="w-full mb-4">
+              <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
                 <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="postalCode">
-                  Kodepos
+                  Kode pos
                 </label>
                 <input
                   className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
                   id="postalCode"
                   type="text"
-                  placeholder="Kodepos"
+                  placeholder="Kode pos"
                   name="postalCode"
                   value={this.state.postalCode}
                   onChange={this.handleChange}
                   required
                 />
               </div>
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center w-full sm:w-1/2 md:w-auto pr-2 h-[40px]">
               <button
                 className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-third hover:bg-secondary"
                 // style={{ backgroundColor: '#86BBD8' }}
@@ -311,9 +314,108 @@ class Register extends React.Component {
         </form>
 
       );
-    } else {
+    } else if(step===3) {
       // Jika Anda memiliki lebih banyak langkah, tambahkan kondisi di sini
       // Contoh: else if (step === 3) { ... }
+      form = (
+        <form onSubmit={this.handleSubmit} className="max-w-md bg-white rounded px-8 pt-6 pb-8">
+          <h1 className="text-6xl font-bold mb-4 text-left" style={{ color: '#24445A' }}>Daftar</h1>
+          {/* Tulisan di bawah judul */}
+          <p className="text-sm mb-8 " style={{ color: '#064878' }}>Daftarkan diri Anda untuk mengakses <span className="font-bold" style={{ color: '#24445A' }}>fitur lainnya</span> Otonometer</p>
+          <div className="mb-4 w-[384px]">
+            <div className="relative mb-4 pr-2">
+              <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="password">
+                Kata Sandi
+              </label>
+              <div className='flex justify-between'>
+
+              </div>
+              <input
+                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+                id="password"
+                type={this.state.showPassword ? 'text' : 'password'}
+                placeholder="Masukkan Kata Sandi"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+                required
+                
+              />
+              <button
+                type="button"
+                onClick={this.togglePasswordVisibility}
+                className="absolute inset-y-0 right-0 px-4"
+                style={{ top: '45%', color:'#24445A'}}
+              >
+                <FontAwesomeIcon icon={this.state.showPassword ? faEye : faEyeSlash} color='#24445A' />
+              </button>
+            </div>
+            
+            <div className="relative pr-2">
+              <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="password">
+                Konfirmasi Kata Sandi
+              </label>
+              <div className='flex justify-between'>
+
+              </div>
+              <input
+                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+                id="konfirm"
+                type={this.state.showPassword ? 'text' : 'password'}
+                placeholder="Konfirmasi Kata Sandi"
+                name="konfirm"
+                value={this.state.konfirm}
+                onChange={this.handleChange}
+                required
+                
+              />
+              <button
+                type="button"
+                onClick={this.togglePasswordVisibility}
+                className="absolute inset-y-0 right-0 px-4"
+                style={{ top: '45%', color:'#24445A'}}
+              >
+                <FontAwesomeIcon icon={this.state.showPassword ? faEye : faEyeSlash} color='#24445A' />
+              </button>
+            </div>
+          </div>
+          
+              {/* Dropdown untuk memilih */}
+              <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
+                <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="province">
+                  Dimana anda mendengar Otonometer?
+                </label>
+                <select
+                  className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+                  id="province"
+                  name="province"
+                  value={this.state.province}
+                  onChange={this.handleChange}
+                  required
+                >
+                  <option value="">Pilih</option>
+                </select>
+              </div>
+              
+              <div className="flex items-center justify-center w-full sm:w-1/2 md:w-auto pr-2 h-[40px]">
+              <button
+                className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-third hover:bg-secondary"
+                // style={{ backgroundColor: '#86BBD8' }}
+                type="submit"
+              >
+                Daftar
+              </button>
+            </div>
+
+          <div className="flex items-center justify-center mt-4 font-regular text-[14px] text-secondary">
+            <span>Sudah memiliki akun?</span>
+            <span className="ml-1">
+              <Link to="/login" className="font-bold" style={{ color: '#24445A' }}>Masuk</Link>
+            </span>
+          </div>
+        </form>
+
+      );
     }
 
     return (

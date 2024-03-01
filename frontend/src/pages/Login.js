@@ -65,7 +65,7 @@ class Login extends React.Component {
                 required
               />
             </div>
-            <div className="mb-6 relative">
+            <div className="relative">
               <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="password">
                 Kata Sandi
               </label>
@@ -92,9 +92,14 @@ class Login extends React.Component {
                 <FontAwesomeIcon icon={this.state.showPassword ? faEye : faEyeSlash} color='#24445A' />
               </button>
             </div>
+            <div className='text-right mb-6 mt-2 text-medium text-[14px] text-secondary hover:text-third'>
+              <button>
+                Lupa Kata Sandi?
+              </button>
+            </div>
             <div className="flex items-center justify-center">
               <button
-                className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-third hover:bg-secondary"
+                className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-secondary hover:bg-third"
                 type="submit"
               >
                 Masuk
