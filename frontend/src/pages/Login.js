@@ -1,6 +1,7 @@
 import React from 'react';
 import Illustration from '../assets/Auth/ilustrasi.jpg';
 import Swal from 'sweetalert2';
+import '../style/Components.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -39,9 +40,18 @@ class Login extends React.Component {
   
     if (isEmailValid) {
       Swal.fire({
-        icon: 'success',
+        iconHtml: '<img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" class="custom-icon" />',
         title: 'SUCCESS!',
         text: 'Berhasil Login!',
+        confirmButtonText: 'Berhasil',
+        confirmButtonColor: '#27AE60',
+        customClass: {
+          customClass: 'dsd',
+          icon: 'no-border',
+          title: 'title-icon',
+          text: 'text-icon',
+          confirmButton: 'confirm-icon',
+        },
       }).then((result) => {
         if (result.isConfirmed) {
           const navigate = useNavigate();
@@ -51,8 +61,8 @@ class Login extends React.Component {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Login Failed',
-        text: 'Invalid email or password. Please try again.',
+        title: 'ERROR!',
+        text: 'Harap login terlebih dahulu!',
       });
     }
   };

@@ -1,0 +1,25 @@
+.no-border {
+  border: 0;
+  border-width: 10px;
+}
+
+.title-icon {
+  color: #27ae60;
+  font-weight: 700;
+}
+
+.text-icon {
+  color: #24445a;
+  font-weight: 500;
+}
+
+.confirm-icon{
+    font-weight: 600;
+    color: #24445a;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.dsd{
+    border-radius: 100px;
+}
