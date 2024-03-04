@@ -12,7 +12,7 @@ const App = () => {
         <Route exact path="/" element={<HalamanDashboard />}></Route>
 		    <Route exact path="/Login" element={<HalamanLogin />}></Route>
         <Route exact path="/Register" element={<HalamanRegister />}></Route>
-        <Route exact path="/carousel" element={<Carousel />}></Route>
+        {/* <Route exact path="/carousel" element={<Carousel />}></Route> */}
       </Routes>
     </Router>
   );

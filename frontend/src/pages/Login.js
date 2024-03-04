@@ -1,5 +1,7 @@
 import React from 'react';
 import Illustration from '../assets/Auth/ilustrasi.jpg';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowAltCircleLeft, faArrowCircleLeft, faArrowLeft, faBackspace, faBackward, faBackwardFast, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { ReactComponent as AppleIcon } from '../assets/icons/apel.svg';
@@ -31,6 +33,30 @@ class Login extends React.Component {
     this.setState((prevState) => ({
       showPassword: !prevState.showPassword,
     }));
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = this.state;
+    const isEmailValid = /\S+@\S+\.\S+/.test(email);
+  
+    if (isEmailValid) {
+      Swal.fire({
+        icon: 'success',
+        title: 'SUCCESS!',
+        text: 'Berhasil Login!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/';
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Invalid email or password. Please try again.',
+      });
+    }
   };
 
   render() {
@@ -101,6 +127,7 @@ class Login extends React.Component {
               <button
                 className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-secondary hover:bg-third"
                 type="submit"
+                onClick={this.handleSubmit}
               >
                 Masuk
               </button>
