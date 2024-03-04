@@ -1,6 +1,8 @@
 import React from "react";
 import Illustration from "../assets/Auth/ilustrasi.jpg";
 import DatePicker from "react-datepicker"; // Import komponen datepicker
+import Swal from "sweetalert2";
+import "../style/Components.css";
 import "react-datepicker/dist/react-datepicker.css"; // Import CSS untuk datepicker
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -55,6 +57,67 @@ class Register extends React.Component {
     this.setState({
       step: this.state.step + 1, // Pindah ke langkah selanjutnya
     });
+  };
+
+  submitBerhasil = async () => {
+    const { value: otp } = await Swal.fire({
+      title: "Verifikasi Email Anda!",
+      html: `
+      <div style="text-align: center; margin-bottom: 10px; font-size: 15px">Kode OTP</div>
+        <input id="otp1" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
+        <input id="otp2" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
+        <input id="otp3" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
+        <input id="otp4" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
+        <br>
+        <br>
+        <br>
+        <br>
+      `,
+      focusConfirm: false,
+      preConfirm: () => {
+        const otp1 = document.getElementById("otp1").value;
+        const otp2 = document.getElementById("otp2").value;
+        const otp3 = document.getElementById("otp3").value;
+        const otp4 = document.getElementById("otp4").value;
+
+        if (!otp1 || !otp2 || !otp3 || !otp4) {
+          Swal.showValidationMessage("Semua field harus diisi");
+          return false;
+        }
+        const enteredOtp = otp1 + otp2 + otp3 + otp4;
+        return enteredOtp;
+      },
+      confirmButtonText: "Simpan",
+      confirmButtonColor: "#86BBD8",
+      cancelButtonText: "Batalkan",
+      cancelButtonColor: "#CD3838",
+      showCancelButton: true,
+      customClass: {
+        text: "text-icon",
+        confirmButton: "otp-button simpan-button",
+        cancelButton: "otp-button batalkan-button",
+      },
+    });
+
+    if (otp) {
+      Swal.fire({
+        iconHtml:'<img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" class="custom-icon" />',
+        title: "SUCCESS!",
+        text: "Berhasil Login!",
+        confirmButtonText: "Berhasil",
+        confirmButtonColor: "#27AE60",
+        customClass: {
+          icon: "no-border",
+          title: "title-icon",
+          text: "text-icon",
+          confirmButton: "confirm-icon",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/Login";
+        }
+      });
+    }
   };
 
   render() {
@@ -476,6 +539,7 @@ class Register extends React.Component {
               className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-third hover:bg-secondary"
               // style={{ backgroundColor: '#86BBD8' }}
               type="submit"
+              onClick={this.submitBerhasil}
             >
               Daftar
             </button>

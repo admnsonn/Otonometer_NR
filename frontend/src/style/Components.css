@@ -13,13 +13,40 @@
   font-weight: 500;
 }
 
-.confirm-icon{
-    font-weight: 600;
-    color: #24445a;
-    padding-left: 100px;
-    padding-right: 100px;
+.confirm-icon {
+  font-weight: 600;
+  padding-left: 100px;
+  padding-right: 100px;
 }
 
-.dsd{
-    border-radius: 100px;
+.title-icon-error {
+  color: #cd3838;
+  font-weight: 700;
+}
+
+.custom-class {
+  border-radius: 100px;
+  padding-left: 50px;
+}
+
+.otp-input {
+  margin-right: 1px;
+  margin-left: 1px;
+}
+
+.otp-button {
+  margin-right: 100px;
+  margin-left: 100px;
+}
+
+.simpan-button {
+  font-weight: 200;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.batalkan-button {
+  font-weight: 200;
+  padding-left: 95px;
+  padding-right: 95px;
 }
