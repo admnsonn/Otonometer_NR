@@ -5,9 +5,89 @@ import geo from "../assets/icons/geodating.svg";
 import people from "../assets/icons/people.svg";
 import industri from "../assets/icons/industri.svg";
 import Switchbtn from "../components/Switchbtn";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const Jelajahmain = () => {
-  const [isProvincial, setIsProvincial] = React.useState(true);
+  const [selectedOption, setSelectedOption] = useState("Provinsi");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const [selectedKota, setSelectedKota] = useState("Kota");
+  const [dropdownKota, setDropdownKota] = useState(false);
+
+  const [selectedTahun, setSelectedTahun] = useState("Tahun");
+  const [dropdownTahun, setDropdownTahun] = useState(false);
+
+  const handleDropdownClick = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleDropdownKota = () => {
+    setDropdownKota(!dropdownKota);
+  };
+
+  const handleDropdownTahun = () => {
+    setDropdownTahun(!dropdownTahun);
+  };
+
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    setDropdownOpen(false);
+  };
+
+  const handleOptionKota = (option) => {
+    setSelectedKota(option);
+    setDropdownKota(false);
+  };
+
+  const handleOptionTahun = (option) => {
+    setSelectedTahun(option);
+    setDropdownTahun(false);
+  };
+
+  const renderDropdownOptions = () => {
+    const options = ["Jawa Barat", "Jawa Tengah", "Jawa Timur"];
+
+    return options.map((option, index) => (
+      <div
+        key={index}
+        onClick={() => handleOptionClick(option)}
+        className="flex  w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+      >
+        <p>{option}</p>
+      </div>
+    ));
+  };
+
+  const renderDropdownKota = () => {
+    const options = ["Kota Bandung", "Kota Cirebon", "Kota Bekasi"];
+
+    return options.map((option, index) => (
+      <div
+        key={index}
+        onClick={() => handleOptionKota(option)}
+        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+      >
+        <p>{option}</p>
+      </div>
+    ));
+  };
+
+  const renderDropdownTahun = () => {
+    const options = ["2022", "2021", "2020"];
+
+    return options.map((option, index) => (
+      <div
+        key={index}
+        onClick={() => handleOptionTahun(option)}
+        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+      >
+        <p>{option}</p>
+      </div>
+    ));
+  };
+
+  const [isProvincial, setIsProvincial] = React.useState(false);
   const [displayedData, setDisplayedData] = React.useState([]);
 
   const provincialData = [
@@ -28,13 +108,18 @@ const Jelajahmain = () => {
     { name: "KOTA BEKASI", value: 100, rank: 4 },
   ];
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isProvincial) {
       setDisplayedData(provincialData);
     } else {
       setDisplayedData(nationalData);
     }
   }, [isProvincial]);
+
+  const handleSwitchChange = () => {
+    setIsProvincial((prevIsProvincial) => !prevIsProvincial);
+    console.log(isProvincial);
+  };
 
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center">
@@ -45,16 +130,57 @@ const Jelajahmain = () => {
         Jelajahi Data Wilayah!
       </h1>
       {/* DROPDOWN */}
-      <div className="flex mt-[24px] mb-[24px] gap-[60px]">
-        <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-          <p>Jawa Barat</p>
-        </button>
-        <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-          <p>Kota Bandung</p>
-        </button>
-        <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-          <p>Tahun</p>
-        </button>
+      <div className=" flex gap-[50px] relative mt-[24px] mb-[24px]">
+        <div
+          onClick={handleDropdownClick}
+          className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+        >
+          <p>{selectedOption}</p>
+          <FontAwesomeIcon
+            icon={faCaretDown}
+            color="#24445A"
+            className="ml-[20px]"
+          />
+        </div>
+        {dropdownOpen && (
+          <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px]">
+            {renderDropdownOptions()}
+          </div>
+        )}
+
+        <div
+          onClick={handleDropdownKota}
+          className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+        >
+          <p>{selectedKota}</p>
+          <FontAwesomeIcon
+            icon={faCaretDown}
+            color="#24445A"
+            className="ml-[20px]"
+          />
+        </div>
+        {dropdownKota && (
+          <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px] ml-[216px]">
+            {renderDropdownKota()}
+          </div>
+        )}
+
+        <div
+          onClick={handleDropdownTahun}
+          className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+        >
+          <p>{selectedTahun}</p>
+          <FontAwesomeIcon
+            icon={faCaretDown}
+            color="#24445A"
+            className="ml-[20px]"
+          />
+        </div>
+        {dropdownTahun && (
+          <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px] ml-[434px]">
+            {renderDropdownTahun()}
+          </div>
+        )}
       </div>
 
       <img
@@ -114,7 +240,7 @@ const Jelajahmain = () => {
       {/* SWITCH */}
       <div className="flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px]">
         {isProvincial ? "PROVINSI" : "NASIONAL"}
-        <Switchbtn onChange={() => setIsProvincial(!isProvincial)} />
+        <Switchbtn onChange={handleSwitchChange} />
         {!isProvincial ? "PROVINSI" : "NASIONAL"}
       </div>
       {/* TEXT */}
@@ -137,6 +263,7 @@ const Jelajahmain = () => {
             <p className="w-[195px] font-bold text-secondary text-[24px] relative">
               {item.name}
             </p>
+            <p className="font-bold text-third text-[20px]">(rata-rata)</p>
           </div>
           <div className="w-[660px] border-2 rounded-full border-secondary">
             <p className="px-2 font-bold text-[20px]">{item.value}</p>
