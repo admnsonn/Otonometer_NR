@@ -8,6 +8,7 @@ import Jelajahpage from "./pages/Jelajahpage";
 import Berkacapage from "./pages/Berkacapage";
 import Dashboardpage from "./pages/Dashboardpage";
 import Profilepage from "./pages/Profilepage";
+import Jelajahmainpage from "./pages/Jelajahmainpage";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route exact path="/Register" element={<HalamanRegister />}></Route>
         <Route exact path="/Jelajah" element={<Jelajahpage />}></Route>
         <Route exact path="/Profile" element={<Profilepage />}></Route>
+        <Route exact path="/Jelajahmain" element={<Jelajahmainpage />}></Route>
       </Routes>
     </Router>
   );
