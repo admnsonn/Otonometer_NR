@@ -1,4 +1,4 @@
-import Dashboard from "../pages/Profile"
+import Profile from "../pages/Profile"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 
@@ -6,7 +6,7 @@ const Profilepage = () => {
   return (
     <div>
       <Navbar />
-      <Dashboard />
+      <Profile />
       <Footer />
     </div>
   )
