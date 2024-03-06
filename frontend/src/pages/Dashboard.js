@@ -10,9 +10,9 @@ import ombak from "../assets/About/ombak.png";
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="">
       {/* HEADING SECTION */}
-      <div className="flex justify-between w-full bg-primer px-[5%] md:px-[10%] lg:px-[10%] md:flex-row gap-[20px] lg:gap-[200px]">
+      <div className="flex justify-between w-full bg-primer px-[5%] md:px-[10%] lg:px-[10%] md:flex-row gap-[20px] lg:gap-[200px] mt-[200px]">
         <div className="w-full md:w-[60%]">
           <img src={logo} alt="loading" className="h-[82px]" />
           <p className="w-full text-[20px] mt-[30px] text-secondary">

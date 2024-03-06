@@ -134,10 +134,10 @@ const Utakmain = () => {
         
         {/* <img src={bulat} alt="" className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] opacity-50 w-full" /> */}
         <div className="flex bg-none w-[167px] h-[41px] rounded-[10px] text-secondary border-2 border-secondary text-[14px] font-semibold items-center justify-center">
-          JELAJAH
+          UTAK-ATIK
         </div>
         <h1 className="flex justify-center items-center text-secondary text-[34px] font-bold mt-[24px]">
-          Jelajahi Data Wilayah!
+          Utak-Atik Menyajikan Insight Tanpa Batas!
         </h1>
         {/* DROPDOWN */}
         <div className=" flex gap-[50px] relative mt-[24px] mb-[24px]">

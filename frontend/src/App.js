@@ -1,11 +1,8 @@
 import React from "react";
-import HalamanDashboard from "./pages/Dashboardpage";
 import HalamanLogin from "./pages/Loginpage"
 import HalamanRegister from "./pages/Registerpage"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Utakpage from "./pages/Utakpage";
 import Jelajahpage from "./pages/Jelajahpage";
-import Berkacapage from "./pages/Berkacapage";
 import Dashboardpage from "./pages/Dashboardpage";
 import Profilepage from "./pages/Profilepage";
 import Jelajahmainpage from "./pages/Jelajahmainpage";
@@ -21,9 +18,9 @@ const App = () => {
         <Route exact path="/Register" element={<HalamanRegister />}></Route>
         <Route exact path="/Jelajah" element={<Jelajahpage />}></Route>
         <Route exact path="/Profile" element={<Profilepage />}></Route>
-        <Route exact path="/Jelajahmain" element={<Jelajahmainpage />}></Route>
-        <Route exact path="/Jelajahmain" element={<Utakmainpage />}></Route>
-        <Route exact path="/Jelajahmain" element={<Berkacamainpage />}></Route>
+        <Route exact path="/Jelajahmainpage" element={<Jelajahmainpage />}></Route>
+        <Route exact path="/Utakmainpage" element={<Utakmainpage />}></Route>
+        <Route exact path="/Berkacamainpage" element={<Berkacamainpage />}></Route>
       </Routes>
     </Router>
   );
