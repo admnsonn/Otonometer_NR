@@ -8,7 +8,7 @@ import {useNavigate} from 'react-router-dom'
 function Navbar() {
     const navgate = useNavigate()
   return (
-    <div className='flex justify-between items-center px-[135px] w-full h-[117px] mb-[50px]'>
+    <div className='flex justify-between items-center px-[135px] w-full h-[117px] mb-[30px]'>
         <div>
             <img src={logo} alt="loading" className='w-full h-full object-contain' />
         </div>
