@@ -195,83 +195,9 @@ const Profile = () => {
               <p className="text-sm font-medium text-gray-500">Hari ini, 19.30</p>
             </div>
           </div>
-            {/* Card */}
-            <div className="flex items-center justify-between border-b pb-3 mb-3"style={{ marginLeft: "42px", marginRight: "42px" }}>
-            {/* Gambar */}
-            <div className="flex items-center">
-              <img src={imgcard} alt="Gambar" className="w-24 h-24 rounded-lg mr-3 bg-white" />
-              <div>
-                {/* Tahun */}
-                <p className="text-sm font-medium mb-1">2024</p>
-                {/* Nama Kota */}
-                <p className="text-xl font-bold mb-1">Kota Bandung</p>
-                {/* Label Keuangan - Operasi */}
-                <p className="text-sm font-medium mb-1">Keuangan - Operasi</p>
-              </div>
-            </div>
-            <div>
-              {/* Waktu */}
-              <p className="text-sm font-medium text-gray-500">Hari ini, 19.30</p>
-            </div>
+            
           </div>
-            {/* Card */}
-            <div className="flex items-center justify-between border-b pb-3 mb-3"style={{ marginLeft: "42px", marginRight: "42px" }}>
-            {/* Gambar */}
-            <div className="flex items-center">
-              <img src={imgcard} alt="Gambar" className="w-24 h-24 rounded-lg mr-3 bg-white" />
-              <div>
-                {/* Tahun */}
-                <p className="text-sm font-medium mb-1">2024</p>
-                {/* Nama Kota */}
-                <p className="text-xl font-bold mb-1">Kota Bandung</p>
-                {/* Label Keuangan - Operasi */}
-                <p className="text-sm font-medium mb-1">Keuangan - Operasi</p>
-              </div>
-            </div>
-            <div>
-              {/* Waktu */}
-              <p className="text-sm font-medium text-gray-500">Hari ini, 19.30</p>
-            </div>
-          </div>
-            {/* Card */}
-            <div className="flex items-center justify-between border-b pb-3 mb-3"style={{ marginLeft: "42px", marginRight: "42px" }}>
-            {/* Gambar */}
-            <div className="flex items-center">
-              <img src={imgcard} alt="Gambar" className="w-24 h-24 rounded-lg mr-3 bg-white" />
-              <div>
-                {/* Tahun */}
-                <p className="text-sm font-medium mb-1">2024</p>
-                {/* Nama Kota */}
-                <p className="text-xl font-bold mb-1">Kota Bandung</p>
-                {/* Label Keuangan - Operasi */}
-                <p className="text-sm font-medium mb-1">Keuangan - Operasi</p>
-              </div>
-            </div>
-            <div>
-              {/* Waktu */}
-              <p className="text-sm font-medium text-gray-500">Hari ini, 19.30</p>
-            </div>
-          </div>
-            {/* Card */}
-            <div className="flex items-center justify-between border-b pb-3 mb-3"style={{ marginLeft: "42px", marginRight: "42px" }}>
-            {/* Gambar */}
-            <div className="flex items-center">
-              <img src={imgcard} alt="Gambar" className="w-24 h-24 rounded-lg mr-3 bg-white" />
-              <div>
-                {/* Tahun */}
-                <p className="text-sm font-medium mb-1">2024</p>
-                {/* Nama Kota */}
-                <p className="text-xl font-bold mb-1">Kota Bandung</p>
-                {/* Label Keuangan - Operasi */}
-                <p className="text-sm font-medium mb-1">Keuangan - Operasi</p>
-              </div>
-            </div>
-            <div>
-              {/* Waktu */}
-              <p className="text-sm font-medium text-gray-500">Hari ini, 19.30</p>
-            </div>
-          </div>
-            </div>
+            
           )}
           {activeTab === "save" && (
             <div>
