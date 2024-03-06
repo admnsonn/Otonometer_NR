@@ -9,6 +9,8 @@ import Berkacapage from "./pages/Berkacapage";
 import Dashboardpage from "./pages/Dashboardpage";
 import Profilepage from "./pages/Profilepage";
 import Jelajahmainpage from "./pages/Jelajahmainpage";
+import Utakmainpage from "./pages/Utakmainpage";
+import Berkacamainpage from "./pages/Berkacamainpage";
 
 const App = () => {
   return (
@@ -20,6 +22,8 @@ const App = () => {
         <Route exact path="/Jelajah" element={<Jelajahpage />}></Route>
         <Route exact path="/Profile" element={<Profilepage />}></Route>
         <Route exact path="/Jelajahmain" element={<Jelajahmainpage />}></Route>
+        <Route exact path="/Jelajahmain" element={<Utakmainpage />}></Route>
+        <Route exact path="/Jelajahmain" element={<Berkacamainpage />}></Route>
       </Routes>
     </Router>
   );
