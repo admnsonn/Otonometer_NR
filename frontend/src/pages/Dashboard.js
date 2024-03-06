@@ -4,15 +4,13 @@ import playstore from "../assets/App Store Black Border.svg";
 import appstore from "../assets/Google Play Black Border.svg";
 import Carousel from "../components/Carousel";
 import logo3d from "../assets/About/logo3d.svg";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import ombak from "../assets/About/ombak.png";
 
 const Dashboard = () => {
   return (
     <div className="">
       {/* HEADING SECTION */}
-      <div className="flex justify-between w-full bg-primer px-[5%] md:px-[10%] lg:px-[10%] md:flex-row gap-[20px] lg:gap-[200px] mt-[200px]">
+      <div className="flex justify-between w-full bg-primer pl-[5%] md:pl-[10%] lg:pl-[10%] md:flex-row gap-[20px] lg:gap-[200px] mt-[200px]">
         <div className="w-full md:w-[60%]">
           <img src={logo} alt="loading" className="h-[82px]" />
           <p className="w-full text-[20px] mt-[30px] text-secondary">
@@ -25,9 +23,10 @@ const Dashboard = () => {
             <img src={playstore} alt="loading" className="hover:" />
           </div>
         </div>
-        <div className="w-[35%]">
+      </div>
+
+      <div className="relative bottom-[450px] left-0 right-0">
           <Carousel />
-        </div>
       </div>
 
       {/* ABOUT SECTION */}
