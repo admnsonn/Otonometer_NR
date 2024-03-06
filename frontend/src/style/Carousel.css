@@ -23,6 +23,7 @@
   -webkit-transition: -webkit-transform 1s;
   transition: all 1s ease-in-out;
   margin-left: 120px;
+  margin-bottom: 30px;
 }
 
 .slide {
@@ -35,8 +36,8 @@
 }
 
 .slide:nth-child(2) {
-  top: -20rem;
-  rotate: 90deg;
+  bottom: -20rem;
+  rotate: 270deg;
 }
 
 .slide:nth-child(3) {
@@ -45,8 +46,8 @@
 }
 
 .slide:nth-child(4) {
-  bottom: -20rem;
-  rotate: 270deg;
+  top: -20rem;
+  rotate: 90deg;
 }
 
 .slide.active img {
@@ -68,6 +69,7 @@
   position: sticky;
   bottom: 5rem;
   cursor: pointer;
+  transform: translate(620px,-50px);
 }
 
 .controls a {
@@ -85,5 +87,5 @@
 }
 
 .controls img {
-  width: 5rem;
+  width: 3rem;
 }

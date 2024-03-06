@@ -9,6 +9,8 @@ import Jelajahmainpage from "./pages/Jelajahmainpage";
 import Utakmainpage from "./pages/Utakmainpage";
 import Berkacamainpage from "./pages/Berkacamainpage";
 import Jelajahprofilpage from "./pages/Jelajahprofilpage";
+import Utakpage from "./pages/Utakpage";
+import Berkacapage from "./pages/Berkacapage";
 
 const App = () => {
   return (
@@ -18,6 +20,8 @@ const App = () => {
 		    <Route exact path="/Login" element={<HalamanLogin />}></Route>
         <Route exact path="/Register" element={<HalamanRegister />}></Route>
         <Route exact path="/Jelajah" element={<Jelajahpage />}></Route>
+        <Route exact path="/Utak" element={<Utakpage />}></Route>
+        <Route exact path="/Berkaca" element={<Berkacapage />}></Route>
         <Route exact path="/Profile" element={<Profilepage />}></Route>
         <Route exact path="/Jelajahmainpage" element={<Jelajahmainpage />}></Route>
         <Route exact path="/Utakmainpage" element={<Utakmainpage />}></Route>

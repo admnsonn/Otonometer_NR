@@ -5,7 +5,13 @@ const Carousel = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [intervalId, setIntervalId] = useState(0);
 
-    const imageSources = [require('../assets/jelajah.png'), require('../assets/utak.png'), require('../assets/berkaca.png'), require('../assets/lens.png')];
+    const imageSources = [
+        { src: require('../assets/jelajah.png'), href: '/Jelajah'},
+        { src: require('../assets/utak.png'), href: '/Utak' },
+        { src: require('../assets/berkaca.png'), href: '/Berkaca' },
+        { src: require('../assets/lens.png'), href: '/' }
+    ];
+
     const controlLinks = [1, 2, 3, 4];
 
     useEffect(() => {
@@ -21,7 +27,7 @@ const Carousel = () => {
 
     const handleControlClick = (index) => {
         clearInterval(intervalId);
-        const rotationDegree = -((index - 1) * 90);
+        const rotationDegree = ((index - 1) * 90);
         document.querySelector(".carousel").style.transform = `rotate(${rotationDegree}deg)`;
         setActiveIndex(index - 1);
     };
@@ -33,13 +39,15 @@ const Carousel = () => {
     return (
         <div className="slideshow">
             <div className="carousel" onMouseEnter={handleMouseEnter}>
-                {imageSources.map((image, index) => (
+                {imageSources.map(({ src, href }, index) => (
                     <div key={index} className={`slide ${index === activeIndex ? "active" : ""}`}>
-                        <img src={image} alt={`Slide ${index + 1}`} />
+                        <a href={href} target="_self" rel="noopener noreferrer">
+                            <img src={src} alt={`Slide ${index + 1}`} />
+                        </a>
                     </div>
                 ))}
             </div>
-            
+
             <div className="controls">
                 {controlLinks.map((index) => (
                     <a
@@ -49,7 +57,7 @@ const Carousel = () => {
                         className={`${index === activeIndex + 1 ? "active" : ""}`}
                         onClick={() => handleControlClick(index)}
                     >
-                        <img src={imageSources[index - 1]} alt={`Control ${index}`} />
+                        <img src={imageSources[index - 1].src} alt={`Control ${index}`} />
                     </a>
                 ))}
             </div>
