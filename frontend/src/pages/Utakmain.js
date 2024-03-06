@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import peta from "../assets/petajelajah.png";
 import map from "../assets/icons/peta.png";
 import geo from "../assets/icons/geodating.svg";
 import people from "../assets/icons/people.svg";
 import industri from "../assets/icons/industri.svg";
-import Switchbtn from "../components/Switchbtn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import bulat from "../assets/bg-elemen.svg";
 
 const Utakmain = () => {
   const [selectedOption, setSelectedOption] = useState("Provinsi");
@@ -19,6 +17,9 @@ const Utakmain = () => {
   const [selectedTahun, setSelectedTahun] = useState("Tahun");
   const [dropdownTahun, setDropdownTahun] = useState(false);
 
+  const [selectedDataset, setSelectedDataset] = useState("Pilih");
+  const [dropdownDataset, setDropdownDataset] = useState(false);
+
   const handleDropdownClick = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -29,6 +30,10 @@ const Utakmain = () => {
 
   const handleDropdownTahun = () => {
     setDropdownTahun(!dropdownTahun);
+  };
+
+  const handleDropdownDataset = () => {
+    setDropdownDataset(!dropdownDataset);
   };
 
   const handleOptionClick = (option) => {
@@ -44,6 +49,11 @@ const Utakmain = () => {
   const handleOptionTahun = (option) => {
     setSelectedTahun(option);
     setDropdownTahun(false);
+  };
+
+  const handleOptionDataset = (option) => {
+    setSelectedDataset(option);
+    setDropdownDataset(false);
   };
 
   const renderDropdownOptions = () => {
@@ -88,38 +98,17 @@ const Utakmain = () => {
     ));
   };
 
-  const [isProvincial, setIsProvincial] = React.useState(false);
-  const [displayedData, setDisplayedData] = React.useState([]);
-
-  const provincialData = [
-    { name: "JAWA BARAT", value: 100 },
-    { name: "KOTA BANDUNG", value: 90, rank: 12 },
-    { name: "KOTA CIREBON", value: 150, rank: 1 },
-    { name: "KOTA BANJAR", value: 120, rank: 2 },
-    { name: "KOTA SUKABUMI", value: 110, rank: 3 },
-    { name: "KOTA PANGANDARAN", value: 100, rank: 4 },
-  ];
-
-  const nationalData = [
-    { name: "INDONESIA", value: 100 },
-    { name: "KOTA BANDUNG", value: 90, rank: 12 },
-    { name: "KOTA MAHAKAMULU", value: 150, rank: 1 },
-    { name: "KOTA JAMBI", value: 120, rank: 2 },
-    { name: "KOTA CIREBON", value: 110, rank: 3 },
-    { name: "KOTA BEKASI", value: 100, rank: 4 },
-  ];
-
-  React.useEffect(() => {
-    if (isProvincial) {
-      setDisplayedData(provincialData);
-    } else {
-      setDisplayedData(nationalData);
-    }
-  }, [isProvincial]);
-
-  const handleSwitchChange = () => {
-    setIsProvincial((prevIsProvincial) => !prevIsProvincial);
-    console.log(isProvincial);
+  const renderDropdownDataset = () => {
+    const options = ["Keuangan", "Ekonomi", "Statik"];
+    return options.map((option, index) => (
+      <div
+        key={index}
+        onClick={() => handleOptionDataset(option)}
+        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+      >
+        <p>{option}</p>
+      </div>
+    ));
   };
 
   return (
@@ -131,7 +120,6 @@ const Utakmain = () => {
           <div class="absolute top-[450px] left-[800px] w-[220px] h-[220px] bg-secondary rounded-full mix-blend-multiply filter opacity-10 animate-blob animation-delay-2000"></div>
           <div class="absolute top-[400px] left-[800px] w-[390px] h-[390px] bg-third rounded-full mix-blend-multiply filter opacity-40 animate-blob animation-delay-2000"></div>
         </div>
-        
         {/* <img src={bulat} alt="" className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] opacity-50 w-full" /> */}
         <div className="flex bg-none w-[167px] h-[41px] rounded-[10px] text-secondary border-2 border-secondary text-[14px] font-semibold items-center justify-center">
           UTAK-ATIK
@@ -191,7 +179,7 @@ const Utakmain = () => {
               {renderDropdownTahun()}
             </div>
           )}
-        </div>
+          </div>
 
         <img
           src={peta}
@@ -222,65 +210,24 @@ const Utakmain = () => {
             <p>10³ Jiwa</p>
           </div>
         </div>
-
-        {/* OPSI */}
-        <div className="flex mt-[24px] gap-[60px]">
-          <button className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center ">
-            <p>KEUANGAN</p>
-          </button>
-          <button className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center ">
-            <p>EKONOMI</p>
-          </button>
-          <button className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center">
-            <p>STATISTIK</p>
-          </button>
-        </div>
+        <h1 className="text-secondary mt-[90px] text-[14px] font-semibold">DATASET 1</h1>
         {/* DROPDOWN */}
-        <div className="flex mt-[28px] gap-[60px]">
-          <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-            <p>Belanja</p>
-          </button>
-          <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-            <p>Operasi</p>
-          </button>
-          <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-            <p>Pilih</p>
-          </button>
-        </div>
-        {/* SWITCH */}
-        <div className="flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px]">
-          {isProvincial ? "PROVINSI" : "NASIONAL"}
-          <Switchbtn onChange={handleSwitchChange} />
-          {!isProvincial ? "PROVINSI" : "NASIONAL"}
-        </div>
-        {/* TEXT */}
-        <div className="text-secondary text-center mt-[48px]">
-          <p className="text-[32px] font-extrabold text-secondary">
-            PERINGKAT KOTA BANDUNG
-          </p>
-          <p className="text-[24px] font-regular italic">
-            (Rp10<sup>3</sup>/kapita)
-          </p>
-        </div>
-
-        {/* DATA */}
-        {displayedData.map((item, index) => (
-          <div
-            key={index}
-            className="flex w-[1153px] items-center justify-center gap-[80px] mt-[20px]"
+        <div
+            onClick={handleDropdownDataset}
+            className="flex bg-secondary w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mt-[10px]"
           >
-            <div>
-              <p className="w-[195px] font-bold text-secondary text-[24px] relative">
-                {item.name}
-              </p>
-              <p className="font-bold text-third text-[20px]">(rata-rata)</p>
-            </div>
-            <div className="w-[660px] border-2 rounded-full border-secondary">
-              <p className="px-2 font-bold text-[20px]">{item.value}</p>
-            </div>
-            <p className="font-bold text-third text-[24px]">#{item.rank}</p>
+            <p>{selectedDataset}</p>
+            <FontAwesomeIcon
+              icon={faCaretDown}
+              color="white"
+              className="ml-[20px]"
+            />
           </div>
-        ))}
+          {dropdownDataset && (
+            <div className="absolute z-[20px] bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[990px]">
+              {renderDropdownDataset()}
+            </div>
+          )}
       </div>
   );
 };
