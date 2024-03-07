@@ -7,7 +7,11 @@ import industri from "../assets/icons/industri.svg";
 import Switchbtn from "../components/Switchbtn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
 import bulat from "../assets/circ.svg";
+import "../style/Switchbtn.css";
+import "../style/Components.css";
+
 
 const Jelajahmain = () => {
   const [selectedOption, setSelectedOption] = useState("Provinsi");
@@ -88,39 +92,18 @@ const Jelajahmain = () => {
     ));
   };
 
-  const [isProvincial, setIsProvincial] = React.useState(false);
-  const [displayedData, setDisplayedData] = React.useState([]);
+  const [activeTab, setActiveTab] = useState("provinsi");
 
-  const provincialData = [
-    { name: "JAWA BARAT", value: 100 },
-    { name: "KOTA BANDUNG", value: 90, rank: 12 },
-    { name: "KOTA CIREBON", value: 150, rank: 1 },
-    { name: "KOTA BANJAR", value: 120, rank: 2 },
-    { name: "KOTA SUKABUMI", value: 110, rank: 3 },
-    { name: "KOTA PANGANDARAN", value: 100, rank: 4 },
-  ];
-
-  const nationalData = [
-    { name: "INDONESIA", value: 100 },
-    { name: "KOTA BANDUNG", value: 90, rank: 12 },
-    { name: "KOTA MAHAKAMULU", value: 150, rank: 1 },
-    { name: "KOTA JAMBI", value: 120, rank: 2 },
-    { name: "KOTA CIREBON", value: 110, rank: 3 },
-    { name: "KOTA BEKASI", value: 100, rank: 4 },
-  ];
-
-  React.useEffect(() => {
-    if (isProvincial) {
-      setDisplayedData(provincialData);
-    } else {
-      setDisplayedData(nationalData);
-    }
-  }, [isProvincial]);
-
-  const handleSwitchChange = () => {
-    setIsProvincial((prevIsProvincial) => !prevIsProvincial);
-    console.log(isProvincial);
+  const toggleTab = () => {
+    setActiveTab(activeTab === "provinsi" ? "nasional" : "provinsi");
   };
+
+  const SwitchBtn = ({ selected, onSelect }) => (
+    <div className="switch" onClick={onSelect}>
+      <input type="checkbox" id="toggle" checked={selected === "nasional"} />
+      <label htmlFor="toggle" className="slider"></label>
+    </div>
+  );
 
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px]">
@@ -249,10 +232,14 @@ const Jelajahmain = () => {
         </button>
       </div>
       {/* SWITCH */}
-      <div className="flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px]">
-        {isProvincial ? "PROVINSI" : "NASIONAL"}
-        <Switchbtn onChange={handleSwitchChange} />
-        {!isProvincial ? "PROVINSI" : "NASIONAL"}
+      <div className="flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px] text-[20px]">
+        <p className={activeTab === "nasional" ? "inactive-text" : ""}>
+          PROVINSI
+        </p>
+        <SwitchBtn selected={activeTab} onSelect={toggleTab} />
+        <p className={activeTab === "provinsi" ? "inactive-text" : ""}>
+          NASIONAL
+        </p>
       </div>
       {/* TEXT */}
       <div className="text-secondary text-center mt-[48px]">
@@ -265,23 +252,170 @@ const Jelajahmain = () => {
       </div>
 
       {/* DATA */}
-      {displayedData.map((item, index) => (
-        <div
-          key={index}
-          className="flex w-[1153px] items-center justify-center gap-[80px] mt-[20px]"
-        >
-          <div>
-            <p className="w-[195px] font-bold text-secondary text-[24px] relative">
-              {item.name}
-            </p>
-            <p className="font-bold text-third text-[20px]">(rata-rata)</p>
+      {activeTab === "provinsi" && (
+        <div>
+          <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">JAWA BARAT</p>
+              <p className="font-bold text-third text-[20px]">(rata-rata)</p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
           </div>
-          <div className="w-[660px] border-2 rounded-full border-secondary">
-            <p className="px-2 font-bold text-[20px]">{item.value}</p>
+
+          <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                KOTA BANDUNG
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
           </div>
-          <p className="font-bold text-third text-[24px]">#{item.rank}</p>
+
+          <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                KOTA CIREBON
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[30px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                KOTA BANJAR
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                KOTA SUKABUMI
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                PANGANDARAN
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
         </div>
-      ))}
+      )}
+
+      {activeTab === "nasional" && (
+        <div>
+          <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">INDONESIA</p>
+              <p className="font-bold text-third text-[20px]">(rata-rata)</p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                KOTA BANDUNG
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[50px] gap-[60px] justify-end">
+            <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
+              <p>50</p>
+              <FontAwesomeIcon
+                icon={faCaretDown}
+                color="#24445A"
+                className="ml-[20px]"
+              />
+            </button>
+            <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
+              <p>TERBARU</p>
+              <FontAwesomeIcon
+                icon={faArrowDownShortWide}
+                color="#24445A"
+                className="ml-[20px]"
+              />
+            </button>
+          </div>
+
+          <div className="flex mt-[50px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">MAHAKAMULU</p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[30px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">KOTA JAMBI</p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[30px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                KOTA CIREBON
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[30px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                KOTA BEKASI
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
