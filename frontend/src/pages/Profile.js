@@ -5,10 +5,6 @@ import ProfileImage from "../assets/profile-image.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
-  faCog,
-  faUser,
-  faPencilAlt,
-  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import ketinggian from "../assets/ketinggian.png";
 import polusi from "../assets/polusi.png";
@@ -20,11 +16,16 @@ import editicon from "../assets/Edit.png"
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("activity");
   const [selectedTab, setSelectedTab] = useState("all");
+  const [showPopup, setShowPopup] = useState(false);
   
 
   const toggleTab = () => {
     setActiveTab(activeTab === "activity" ? "save" : "activity")  ;
     setSelectedTab("all")
+  };
+  
+  const togglePopup = () => {
+    setShowPopup(!showPopup); // Mengubah nilai state showPopup menjadi sebaliknya
   };
 
   return (
@@ -41,7 +42,7 @@ const Profile = () => {
               className="rounded-md"
               style={{ width: "105px", height: "99px" }}
             />
-            <h1
+            <h1 
               className="text-xl mt-4 font-bold"
               style={{ fontSize: "24px", color: "#24445A" }}
             >
@@ -56,9 +57,82 @@ const Profile = () => {
             <button
               className="text-white py-2 px-4 rounded mt-4 w-[313px]"
               style={{ backgroundColor: "#86BBD8" }}
+              onClick={togglePopup} // Add onClick event handler here
             >
               Perbarui data diri
             </button>
+             {/* Popup Form Update data diri*/}
+             {showPopup && (
+                <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                  <div className="bg-white p-8 rounded-lg relative">
+                    <h1 className="text-xl font-bold mb-4">Perbaharui Data Profile</h1>
+                    <div className="relative mb-4">
+                      <img
+                        src={ProfileImage}
+                        alt="Profile"
+                        className=" mx-auto"
+                        style={{ width: "100px", height: "100px" }}
+                      />
+                      {/* <button className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2" onClick={togglePopup}>
+                        <img src={editicon} alt="Edit" style={{ width: "20px", height: "20px" }} />
+                      </button> */}
+                    </div>
+                    <form className="mb-4">
+                      <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                          Email
+                        </label>
+                        <input
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          id="name"
+                          type="text"
+                          placeholder="Enter your full name"
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                          Email Address
+                        </label>
+                        <input
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          id="email"
+                          type="email"
+                          placeholder="Enter your email address"
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                          Password
+                        </label>
+                        <input
+                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          id="password"
+                          type="password"
+                          placeholder="Enter your password"
+                        />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <button
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                          type="button"
+                          onClick={togglePopup}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                          type="submit"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
+
+            {/* End of Popup Form */}
             <button
               className="text-white py-2 px-4 rounded mt-4 w-[313px]"
               style={{ backgroundColor: "#86BBD8" }}
@@ -394,4 +468,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
