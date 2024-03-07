@@ -23,7 +23,8 @@ const Profile = () => {
   
 
   const toggleTab = () => {
-    setActiveTab(activeTab === "activity" ? "save" : "activity");
+    setActiveTab(activeTab === "activity" ? "save" : "activity")  ;
+    setSelectedTab("all")
   };
 
   return (
@@ -393,3 +394,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
