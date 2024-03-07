@@ -1,17 +1,28 @@
 import React, { useState, useEffect } from "react";
 import peta from "../assets/petajelajah.png";
-import map from "../assets/icons/peta.png";
+import maps from "../assets/icons/peta.png";
 import geo from "../assets/icons/geodating.svg";
 import people from "../assets/icons/people.svg";
 import industri from "../assets/icons/industri.svg";
+import partai from "../assets/icons/partai.svg";
 import pejabat from "../assets/foto/pejabat1.svg";
-import Switchbtn from "../components/Switchbtn";
+import dprd from "../assets/foto/pejabat2.svg";
+import "../style/Switchbtn.css";
+import "../style/Components.css";
 import Circleimage from "../components/Circleimage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import bulat from "../assets/bg-elemen.svg";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Jelajahprofil = () => {
+  const [activeTab, setActiveTab] = useState("pemda");
+
+  const toggleTab = () => {
+    setActiveTab(activeTab === "pemda" ? "dprd" : "pemda");
+  };
+
   const [selectedOption, setSelectedOption] = useState("Provinsi");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -62,6 +73,13 @@ const Jelajahprofil = () => {
     ));
   };
 
+  const SwitchBtn = ({ selected, onSelect }) => (
+    <div className="switch" onClick={onSelect}>
+      <input type="checkbox" id="toggle" checked={selected === "dprd"} />
+      <label htmlFor="toggle" className="slider"></label>
+    </div>
+  );
+
   const renderDropdownKota = () => {
     const options = ["Kota Bandung", "Kota Cirebon", "Kota Bekasi"];
 
@@ -88,6 +106,16 @@ const Jelajahprofil = () => {
         <p>{option}</p>
       </div>
     ));
+  };
+
+  const Carousel = () => {
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    };
   };
 
   return (
@@ -168,7 +196,7 @@ const Jelajahprofil = () => {
       />
       <div className="flex mb-[10px] gap-[30px]">
         <div className="">
-          <img src={map} alt="" className="flex w-6" />
+          <img src={maps} alt="" className="flex w-6" />
         </div>
         <div className="text-[#064878] font-semibold mt-[5px] text-[20px]">
           <p>-6.902186, 107.618756</p>
@@ -193,10 +221,10 @@ const Jelajahprofil = () => {
         </div>
       </div>
       {/* SWITCH */}
-      <div className="flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px]">
-        <p>PEMDA</p>
-        <Switchbtn />
-        <p>DPRD</p>
+      <div className="flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px] text-[20px]">
+        <p className={activeTab === "dprd" ? "inactive-text" : ""}>Pemda</p>
+        <SwitchBtn selected={activeTab} onSelect={toggleTab} />
+        <p className={activeTab === "pemda" ? "inactive-text" : ""}>DPRD</p>
       </div>
       {/* TEXT */}
       <div className="text-secondary text-center mt-[48px]">
@@ -204,28 +232,154 @@ const Jelajahprofil = () => {
       </div>
 
       {/* DATA */}
-      <div className="flex mt-[50px] gap-[100px]">
-        <div className="flex flex-col">
-        <Circleimage
-          src={pejabat}
-          alt="User Profile"
-          size="400px"
-        />
-        <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">Walikota</p>
-        <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">H. Tedy Rusmawan</p>
-        <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">(2019-2024)</p>
+      {activeTab === "pemda" && (
+        <div className="flex mt-[50px] gap-[100px]">
+          <div className="flex flex-col">
+            <Circleimage src={pejabat} alt="User Profile" size="400px" />
+            <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">
+              Walikota
+            </p>
+            <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">
+              H. Tedy Rusmawan
+            </p>
+            <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
+              (2019-2024)
+            </p>
+          </div>
+          <div className="flex flex-col">
+            <Circleimage src={pejabat} alt="User Profile" size="400px" />
+            <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">
+              Walikota
+            </p>
+            <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">
+              H. Tedy Rusmawan
+            </p>
+            <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
+              (2019-2024)
+            </p>
+          </div>
         </div>
-        <div className="flex flex-col">
-        <Circleimage
-          src={pejabat}
-          alt="User Profile"
-          size="400px"
-        />
-        <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">Walikota</p>
-        <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">H. Tedy Rusmawan</p>
-        <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">(2019-2024)</p>
+      )}
+
+      {activeTab === "dprd" && (
+        <div className="mb-[100px]">
+          <div className="flex mt-[50px] gap-[100px]">
+            <div className="flex flex-col">
+              <div className="overlay-container">
+                <Circleimage
+                  src={dprd}
+                  alt="User Profile"
+                  size="400px"
+                  className="base-image"
+                />
+                <img
+                  src={partai}
+                  alt=""
+                  className="flex items-center overlay-image"
+                />
+              </div>
+              <p className="text-center mt-[50px] text-[25px] text-[#064878] font-semibold">
+                H. Tedy Rusmawan
+              </p>
+              <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
+                (2019-2024)
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <div className="overlay-container">
+                <Circleimage
+                  src={dprd}
+                  alt="User Profile"
+                  size="400px"
+                  className="base-image"
+                />
+                <img
+                  src={partai}
+                  alt=""
+                  className="flex items-center overlay-image"
+                />
+              </div>
+              <p className="text-center mt-[50px] text-[25px] text-[#064878] font-semibold">
+                H. Tedy Rusmawan
+              </p>
+              <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
+                (2019-2024)
+              </p>
+            </div>
+          </div>
+          <div className="text-secondary text-center mt-[80px]">
+            <p className="text-[30px] font-bold">Alamat Kantor Pemerintah: </p>
+            <p className="text-[30px] font-medium">Jl. alalallalaalalalal </p>
+          </div>
+          <div className="text-secondary text-center mt-[100px]">
+            <p className="text-[30px] font-bold">KOMISI A </p>
+          </div>
+          <div className="flex gap-[60px] text-center mt-[40px] justify-center">
+            <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
+              <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
+                (Jabatan)
+              </p>
+              <div className="flex justify-center mt-[15px]">
+                <Circleimage src={dprd} alt="User Profile" size="150px" />
+              </div>
+              <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
+                Yana Mulyana
+              </p>
+              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                (NIP)
+              </p>
+              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                (CONTACT)
+              </p>
+              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                (E-MAIL)
+              </p>
+            </div>
+
+            <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
+              <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
+                (Jabatan)
+              </p>
+              <div className="flex justify-center mt-[15px]">
+                <Circleimage src={dprd} alt="User Profile" size="150px" />
+              </div>
+              <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
+                Yana Mulyana
+              </p>
+              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                (NIP)
+              </p>
+              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                (CONTACT)
+              </p>
+              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                (E-MAIL)
+              </p>
+            </div>
+
+            <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
+              <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
+                (Jabatan)
+              </p>
+              <div className="flex justify-center mt-[15px]">
+                <Circleimage src={dprd} alt="User Profile" size="150px" />
+              </div>
+              <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
+                Yana Mulyana
+              </p>
+              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                (NIP)
+              </p>
+              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                (CONTACT)
+              </p>
+              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                (E-MAIL)
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
