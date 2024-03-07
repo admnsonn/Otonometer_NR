@@ -200,16 +200,16 @@ const Jelajahprofil = () => {
       </div>
       {/* TEXT */}
       <div className="text-secondary text-center mt-[48px]">
-        <p className="text-[32px] font-extrabold">PERINGKAT KOTA BANDUNG</p>
+        <p className="text-[32px] font-extrabold">PEMERINTAH KOTA BANDUNG</p>
       </div>
 
       {/* DATA */}
       <div className="flex mt-[50px] gap-[100px]">
         <div className="flex flex-col">
         <Circleimage
-          src={pejabat} // Update with the actual path
+          src={pejabat}
           alt="User Profile"
-          size="400px" // Set the desired size
+          size="400px"
         />
         <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">Walikota</p>
         <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">H. Tedy Rusmawan</p>
@@ -217,9 +217,9 @@ const Jelajahprofil = () => {
         </div>
         <div className="flex flex-col">
         <Circleimage
-          src={pejabat} // Update with the actual path
+          src={pejabat}
           alt="User Profile"
-          size="400px" // Set the desired size
+          size="400px"
         />
         <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">Walikota</p>
         <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">H. Tedy Rusmawan</p>

@@ -1,5 +1,5 @@
 import React from 'react'
-import './Switchbtn.css';
+import '../style/Switchbtn.css';
 
 const Switchbtn = () => {
   return (
