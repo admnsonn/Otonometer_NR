@@ -249,7 +249,7 @@ const Jelajahprofil = () => {
           <div className="flex flex-col">
             <Circleimage src={pejabat} alt="User Profile" size="400px" />
             <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">
-              Walikota
+              Wakil Walikota
             </p>
             <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">
               H. Tedy Rusmawan
