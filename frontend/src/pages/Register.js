@@ -322,7 +322,7 @@ class Register extends React.Component {
               />
             </div>
           </div>
-          {/* <div className="w-full mb-4">
+          <div className="w-full mb-4">
                 <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="birthDate">
                   Tanggal Lahir
                 </label>
@@ -340,7 +340,7 @@ class Register extends React.Component {
                     <FontAwesomeIcon icon={faCalendar} className="text-gray-400" />
                   </div>
                 </div>
-              </div>   */}
+            </div>  
           {/* Dropdown untuk memilih provinsi */}
           <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
             <label

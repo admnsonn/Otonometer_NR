@@ -17,6 +17,12 @@ body {
     animation-delay: 4s;
   }
 }
+
+@layer components{
+  .infield{
+    @apply flex w-[313px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] items-center
+  }
+}   
 /* * {
   transition: all 300ms ease-in-out;
 }
