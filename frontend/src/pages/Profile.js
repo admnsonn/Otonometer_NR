@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import ProfileImage from "../assets/profile-image.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,21 +14,49 @@ import imgcard from "../assets/JELAJAH2.png";
 import deleteicon from "../assets/Delete.png"
 import editicon from "../assets/Edit.png"
 import DatePicker from "react-datepicker"; // Import komponen datepicker
+import PerbaharuiProfile from "../components/EditProfile"
 
   const Profile = () => {
   const [activeTab, setActiveTab] = useState("activity");
   const [selectedTab, setSelectedTab] = useState("all");
-  const [showPopup, setShowPopup] = useState(false);
 
+  const [showPopup, setShowPopup] = useState(false);
   const toggleTab = () => {
     setActiveTab(activeTab === "activity" ? "save" : "activity")  ;
     setSelectedTab("all")
   };
-  
+
   const togglePopup = () => {
     setShowPopup(!showPopup); // Mengubah nilai state showPopup menjadi sebaliknya
   };
 
+
+  // FORM PERBAHARUI DATA
+  // const formArray =[1,2,3];
+  // const [formNo, setFormNo] = useState(formArray[0])
+
+  // const next = () => {
+  //   if (formNo === 1 && state.name && state.dept && state.batch) {
+  //     setFormNo(formNo + 1)
+  //   }
+  //   else if (formNo === 2 && state.varsity && state.session && state.address) {
+  //     setFormNo(formNo + 1)
+  //   } else {
+  //     toast.error('Please fillup all input field')
+  //   }
+  // }
+  // const pre = () => {
+  //   setFormNo(formNo - 1)
+  // }
+  // const finalSubmit = () => {
+  //   if (state.district && state.thana && state.post) {
+  //     toast.success('form submit success')
+  //   } else {
+  //     toast.error('Please fillup all input field')
+  //   }
+  // }
+
+  // DROPDOWN Title
   const [selectedOption, setSelectedOption] = useState("Pilih");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -59,11 +85,77 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
       <div
         key={index}
         onClick={() => handleOptionClick(option)}
-        className="flex w-[74px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] text-center font-regular items-center justify-left"
+        className="flex w-[74px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] text-center font-regular items-center justify-left hover:bg-[#E4E5F0]"
       >
         <p>{option}</p>
       </div>
     ));
+  };
+
+  //DROPDOWN PROVINSI
+  const [selectedProvinsi, setSelectedProvinsi] = useState("Pilih");
+  const [dropdownProvinsi, setDropdownProvinsi] = useState(false);
+
+  const handleDropdownProvinsi = () => {
+    setDropdownProvinsi(!dropdownProvinsi);
+  };
+
+  const handleOptionProvinsi = (option) => {
+    setSelectedProvinsi(option);
+    setDropdownProvinsi(false);
+  };
+
+  const renderDropdownProvinsi = () => {
+    const options = ["Aceh", "Aceh Lagi", "Aceh Lagi dan Lagi"];
+    return (
+      <div
+        className="flex flex-col mt-[5px] cursor-pointer items-center"
+        style={{ maxHeight: "100px", overflowY: "auto" }}
+      >
+        {options.map((option, index) => (
+          <div
+            key={index}
+            onClick={() => handleOptionProvinsi(option)}
+            className="flex w-[300px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] text-center font-regular items-center justify-left cursor-pointer mt-[5px] hover:bg-[#E4E5F0]"
+          >
+            <p>{option}</p>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  //DROPDOWN KOTA
+  const [selectedKota, setSelectedKota] = useState("Pilih");
+  const [dropdownKota, setDropdownKota] = useState(false);
+
+  const handleDropdownKota = () => {
+    setDropdownKota(!dropdownKota);
+  };
+
+  const handleOptionKota = (option) => {
+    setSelectedKota(option);
+    setDropdownKota(false);
+  };
+
+  const renderDropdownKota = () => {
+    const options = ["Ambon Misalnya", "Anggap Ambon Lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi", "Kali ini ambon lagi"];
+    return (
+      <div
+        className="flex flex-col mt-[5px] cursor-pointer items-center"
+        style={{ maxHeight: "100px", overflowY: "auto" }}
+      >
+        {options.map((option, index) => (
+          <div
+            key={index}
+            onClick={() => handleOptionKota(option)}
+            className="flex w-[300px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] text-center font-regular items-center justify-left cursor-pointer mt-[5px] hover:bg-[#E4E5F0]"
+          >
+            <p>{option}</p>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -101,109 +193,169 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
             </button>
              {/* Popup Form Update data diri*/}
              {showPopup && (
-                <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-                  <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
-                    <h1 className="text-[34px] font-bold text-secondary mt-[50px] ">Perbaharui Data Profile</h1>
-                    <div className="relative mb-4">
-                      <img
-                        src={ProfileImage}
-                        alt="Profile"
-                        className="mt-[20px] mx-auto"
-                        style={{ width: "100px", height: "100px" }}
-                      />
-                      {/* <button className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2" onClick={togglePopup}>
-                        <img src={editicon} alt="Edit" style={{ width: "20px", height: "20px" }} />
-                      </button> */}
-                    </div>
-                    <form className="mb-4">
-                    {/* EMAIL */}
-                    <div className="mb-4">
-                      <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="email">Email</label>
-                      <input
-                        className="infield focus:outline-none focus:shadow-outline font-regular"
-                        id="email"
-                        type="email"
-                        placeholder="emailuser@gmail.com"
-                        name="email"
-                        // placeholder={userEmail}
-                        // value={userEmail} // Jika Anda ingin menampilkan nilai email
-                        // onChange={this.handleChange}
-                        disabled
-                      />
-                    </div>
-                    <div className="flex gap-[10px]">
-                      <div className="mb-4">
-                        <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="email">Title</label>
-                        <div
-                        onClick={handleDropdownClick}
-                        className="flex w-[78px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] font-regular cursor-pointer items-center"
-                        >
-                          <p>{selectedOption}</p>
-                          <FontAwesomeIcon
-                            icon={dropdownOpen ? faChevronUp : faChevronDown}
-                            color="#24445A"
-                            className="fixed ml-[40px] w-[12px] h-[15px]"
-                          />
-                        </div>
-                        {dropdownOpen && (
-                          <div className="flex mt-[10px] gap-[10px] cursor-pointer">
-                            {renderDropdownOptions()}
-                          </div>
-                        )}
-                      </div>
+              <PerbaharuiProfile/>
+                // <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                //   <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
+                //     <h1 className="text-[34px] font-bold text-secondary mt-[50px] ">Perbaharui Data Profile</h1>
+                //     <div className="relative mb-4">
+                //       <img
+                //         src={ProfileImage}
+                //         alt="Profile"
+                //         className="mt-[20px] mx-auto"
+                //         style={{ width: "100px", height: "100px" }}
+                //       />
+                //       {/* <button className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2" onClick={togglePopup}>
+                //         <img src={editicon} alt="Edit" style={{ width: "20px", height: "20px" }} />
+                //       </button> */}
+                //       </div>
+                //       <form className="mb-[10px]">
+                //       {/* EMAIL */}
+                //       {/* EMAIL TIDAK DAPAT DIUBAH ALIAS DISABLE */}
+                //       <div className="mb-[10px]">
+                //         <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="email">Email</label>
+                //         <input
+                //           className="infield focus:outline-none focus:shadow-outline font-regular placeholder-secondary"
+                //           id="email"
+                //           type="email"
+                //           placeholder="emailuser@gmail.com"
+                //           name="email"
+                //           style={{ fontStyle: 'italic' }}
+                //           // placeholder={userEmail}
+                //           // value={userEmail} // Jika Anda ingin menampilkan nilai email
+                //           disabled
+                //         />
+                //       </div>
+                //       {/* TITLE DAN NAMA */}
+                //       <div className="flex gap-[10px] mb-[10px]">
+                //         <div>
+                //           <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Title</label>
+                //           <div
+                //           onClick={handleDropdownClick}
+                //           className="flex w-[78px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] font-regular cursor-pointer items-center"
+                //           >
+                //             <p>{selectedOption}</p>
+                //             <FontAwesomeIcon
+                //               icon={dropdownOpen ? faChevronUp : faChevronDown}
+                //               color="#24445A"
+                //               className="fixed ml-[40px] w-[12px] h-[15px]"
+                //             />
+                //           </div>
+                //           {dropdownOpen && (
+                //             <div className="flex mt-[10px] gap-[10px] cursor-pointer">
+                //               {renderDropdownOptions()}
+                //             </div>
+                //           )}
+                //         </div>
+                //         <div className="absolute ml-[87px]">
+                //         <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Nama Lengkap</label>
+                //         <input
+                //           className="w-[225px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] focus:outline-none focus:shadow-outline font-regular"
+                //           id="namalengkap"
+                //           type="namalengkap"
+                //           placeholder="Nama Lengkap"
+                //           name="namalengkap"
+                //           required
+                //         />
+                //         </div>
+                //       </div>
+                //       {/* TANGGAL LAHIR */}
+                //       <div className="mb-[10px]">
+                //         <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="birthDate">Tanggal Lahir</label>
+                //         <div className="infield focus:outline-none focus:shadow-outline font-regular">
+                //           <DatePicker
+                //             id="birthDate"
+                //             // selected={this.state.birthDate}
+                //             // onChange={this.handleDateChange}
+                //             dateFormat="dd/MM/yy" // Format tanggal
+                //             placeholderText="Pilih Tanggal" // Placeholder
+                //             />
+                //           <FontAwesomeIcon icon={faCalendar} className="text-gray-400 ml-[100px]" />
+                //         </div>
+                //       </div>
+                //       {/* PROVINSI */}
+                //       <div className="mb-[10px]">
+                //         <div>
+                //             <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Provinsi</label>
+                //             <div
+                //             onClick={handleDropdownProvinsi}
+                //             className="infield font-regular cursor-pointer"
+                //             >
+                //               <p>{selectedProvinsi}</p>
+                //               <FontAwesomeIcon
+                //                 icon={dropdownProvinsi ? faChevronUp : faChevronDown}
+                //                 color="#24445A"
+                //                 className="fixed ml-[275px] w-[12px] h-[15px]"
+                //               />
+                //             </div>
+                //             {dropdownProvinsi && (
+                //               <div className="flex flex-col mt-[5px] cursor-pointer justify-center items-center">
+                //                 {renderDropdownProvinsi()}
+                //               </div>
+                //             )}
+                //         </div>
+                //       </div>
+                //       {/* KOTA */}
+                //       <div className="mb-[10px]">
+                //         <div>
+                //             <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Kabupaten/Kota</label>
+                //             <div
+                //             onClick={handleDropdownKota}
+                //             className="infield font-regular cursor-pointer"
+                //             >
+                //               <p>{selectedKota}</p>
+                //               <FontAwesomeIcon
+                //                 icon={dropdownKota ? faChevronUp : faChevronDown}
+                //                 color="#24445A"
+                //                 className="fixed ml-[275px] w-[12px] h-[15px]"
+                //               />
+                //             </div>
+                //             {dropdownKota && (
+                //               <div className="flex flex-col mt-[5px] cursor-pointer justify-center items-center">
+                //                 {renderDropdownKota()}
+                //               </div>
+                //             )}
+                //         </div>
+                //       </div>
+                //       {/* KODEPOS */}
+                //       <div className="mb-[10px]">
+                //         <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Kode POS</label>
+                //         <input
+                //           className="infield focus:outline-none focus:shadow-outline font-regular"
+                //           id="kodepos"
+                //           type="numeric"
+                //           minLength="5"
+                //           maxLength="5"
+                //           placeholder="Kode POS"
+                //           name="kodepos"
+                //           required
+                //         />
+                //       </div>
+                //       <button
+                //         className="button focus:outline-none  focus:shadow-outline w-full bg-secondary hover:bg-third font-medium mt-[10px]"
+                //         type="button"
+                //         onClick={togglePopup}
+                //       >
+                //         Selanjutnya
+                //       </button>
 
-                      <div className="absolute ml-[87px]">
-                      <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Nama Lengkap</label>
-                      <input
-                        className="w-[225px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] focus:outline-none focus:shadow-outline font-regular"
-                        id="email"
-                        type="email"
-                        placeholder="Nama Lengkap"
-                        name="email"
-                        // placeholder={userEmail}
-                        // value={userEmail} // Jika Anda ingin menampilkan nilai email
-                        // onChange={this.handleChange}
-                        required
-                      />
-                      </div>
-                    </div>
-                    
-                    <div className="mb-4">
-                      <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="birthDate">Tanggal Lahir</label>
-                      <div className="infield focus:outline-none focus:shadow-outline font-regular">
-                        <DatePicker
-                          id="birthDate"
-                          // selected={this.state.birthDate}
-                          // onChange={this.handleDateChange}
-                          dateFormat="dd/MM/yy" // Format tanggal
-                          placeholderText="Pilih Tanggal" // Placeholder
-                          required
-                          />
-                        <FontAwesomeIcon icon={faCalendar} className="text-gray-400 ml-[100px]" />
-                      </div>
-                    </div>
-                      <div className="flex items-center justify-between">
-                        <button
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                          type="button"
-                          onClick={togglePopup}
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                          type="submit"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+                //       <button
+                //         className="button focus:outline-none  focus:shadow-outline w-full bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px]"
+                //         type="submit"
+                //       >
+                //         Batalkan
+                //       </button>
+                //     </form>
+                //   </div>
+                // </div>
               )}
 
 
             {/* End of Popup Form */}
+            
+
+
+
+
             <button
               className="text-white py-2 px-4 rounded mt-4 w-[313px]"
               style={{ backgroundColor: "#86BBD8" }}

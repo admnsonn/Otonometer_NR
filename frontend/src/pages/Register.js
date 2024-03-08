@@ -148,7 +148,7 @@ class Register extends React.Component {
               Email
             </label>
             <input
-              className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+              className="infield focus:outline-none focus:shadow-outline text-[14px] font-regular"
               id="email"
               type="email"
               placeholder="Email"
@@ -160,7 +160,7 @@ class Register extends React.Component {
           </div>
           <div className="flex items-center justify-center">
             <button
-              className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-third hover:bg-secondary"
+              className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-secondary hover:bg-third"
               type="submit"
             >
               Daftar
@@ -208,44 +208,6 @@ class Register extends React.Component {
               </div>
             </button>
           </div>
-          {/* <div className="flex flex-col items-center mt-4 space-y-4">
-              <button 
-                className="bg-white border-2 border-A7A7A7 py-2 px-4 rounded flex items-center focus:outline-none focus:shadow-outline w-full" 
-                onClick={() => {}}
-                onMouseEnter={(e) => { e.target.style.backgroundColor = '#86BBD8'; e.target.style.color = '#fff' }} 
-                onMouseLeave={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.color = '#A7A7A7' }} 
-              >
-                <NeracaIcon className="w-5 h-5 mr-2" />
-                <span style={{ fontSize: '16px' }} className="font-normal">Masuk dengan Neraca Ruang</span>
-              </button>
-              <button 
-                className="bg-white border-2 border-A7A7A7 py-2 px-4 rounded flex items-center focus:outline-none focus:shadow-outline w-full" 
-                onClick={() => {}}
-                onMouseEnter={(e) => { e.target.style.backgroundColor = '#86BBD8'; e.target.style.color = '#fff' }} 
-                onMouseLeave={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.color = '#A7A7A7' }} 
-              >
-                <AppleIcon className="w-5 h-5 mr-2" />
-                <span style={{ fontSize: '16px' }} className="font-normal">Masuk dengan Apple</span>
-              </button>
-              <button 
-                className="bg-white border-2 border-A7A7A7 py-2 px-4 rounded flex items-center focus:outline-none focus:shadow-outline w-full" 
-                onClick={() => {}}
-                onMouseEnter={(e) => { e.target.style.backgroundColor = '#86BBD8'; e.target.style.color = '#fff' }} 
-                onMouseLeave={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.color = '#A7A7A7' }} 
-              >
-                <GoogleIcon className="w-5 h-5 mr-2" />
-                <span style={{ fontSize: '16px' }} className="font-normal">Masuk dengan Google</span>
-              </button>
-              <button 
-                className="bg-white border-2 border-A7A7A7 py-2 px-4 rounded flex items-center focus:outline-none focus:shadow-outline w-full" 
-                onClick={() => {}}
-                onMouseEnter={(e) => { e.target.style.backgroundColor = '#86BBD8'; e.target.style.color = '#fff' }} 
-                onMouseLeave={(e) => { e.target.style.backgroundColor = 'white'; e.target.style.color = '#A7A7A7' }} 
-              >
-                <MicrosoftIcon className="w-5 h-5 mr-2" />
-                <span style={{ fontSize: '16px' }} className="font-normal">Masuk dengan Microsoft</span>
-              </button>
-            </div> */}
 
           <div className="flex items-center justify-center mt-4 font-regular text-[14px] text-secondary">
             <span>Sudah memiliki akun?</span>
