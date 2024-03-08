@@ -215,25 +215,25 @@ class Register extends React.Component {
               </div>
             </button> */}
             <button className="AnimateBTN">
-              <span className="text">Masuk Dengan Neraca Ruang</span><span class="icon">
+              <span className="text">Daftar Dengan Neraca Ruang</span><span class="icon">
               <img src={NeracaIcon} alt="loading" className="hover:" />
               </span>
             </button>
 
             <button className="AnimateBTN">
-              <span className="text">Masuk Dengan Apple</span><span class="icon">
+              <span className="text">Daftar Dengan Apple</span><span class="icon">
               <img src={AppleIcon} alt="loading" className="hover:" />
               </span>
             </button>
 
             <button className="AnimateBTN">
-              <span className="text">Masuk Dengan Google</span><span class="icon">
+              <span className="text">Daftar Dengan Google</span><span class="icon">
               <img src={GoogleIcon} alt="loading" className="hover:" />
               </span>
             </button>
 
             <button className="AnimateBTN">
-              <span className="text">Masuk Dengan Microsoft</span><span class="icon">
+              <span className="text">Daftar Dengan Microsoft</span><span class="icon">
               <img src={MicrosoftIcon} alt="loading" className="hover:" />
               </span>
             </button>

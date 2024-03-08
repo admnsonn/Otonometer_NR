@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import Swal from "sweetalert2";
 import 'react-toastify/dist/ReactToastify.css';
 import ProfileImage from "../assets/profile-image.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -245,6 +246,66 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
     );
   }
 
+  const submitBerhasil = async () => {
+    const { value: otp } = await Swal.fire({
+      title: "Verifikasi Email Anda!",
+      html: `
+      <div style="text-align: center; margin-bottom: 10px; font-size: 15px">Kode OTP</div>
+        <input id="otp1" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
+        <input id="otp2" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
+        <input id="otp3" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
+        <input id="otp4" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
+        <br>
+        <br>
+        <br>
+        <br>
+      `,
+      focusConfirm: false,
+      preConfirm: () => {
+        const otp1 = document.getElementById("otp1").value;
+        const otp2 = document.getElementById("otp2").value;
+        const otp3 = document.getElementById("otp3").value;
+        const otp4 = document.getElementById("otp4").value;
+
+        if (!otp1 || !otp2 || !otp3 || !otp4) {
+          Swal.showValidationMessage("Semua field harus diisi");
+          return false;
+        }
+        const enteredOtp = otp1 + otp2 + otp3 + otp4;
+        return enteredOtp;
+      },
+      confirmButtonText: "Simpan",
+      confirmButtonColor: "#86BBD8",
+      cancelButtonText: "Batalkan",
+      cancelButtonColor: "#CD3838",
+      showCancelButton: true,
+      customClass: {
+        text: "text-icon",
+        confirmButton: "otp-button simpan-button",
+        cancelButton: "otp-button batalkan-button",
+      },
+    });
+
+    if (otp) {
+      Swal.fire({
+        iconHtml:'<img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" class="custom-icon" />',
+        title: "SUCCESS!",
+        text: "Berhasil Login!",
+        confirmButtonText: "Berhasil",
+        confirmButtonColor: "#27AE60",
+        customClass: {
+          icon: "no-border",
+          title: "title-icon",
+          text: "text-icon",
+          confirmButton: "confirm-icon",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/Login";
+        }
+      });
+    }
+  };
   return (
     <div className="flex justify-center">
       <div className="container mx-auto px-20">
@@ -569,7 +630,7 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
                                 <button
                                   className="button bg-secondary hover:bg-third font-medium mt-[10px]"
                                   type="button"
-                                  onClick={finalSubmit}
+                                  onClick={this.submitBerhasil}
                                 >
                                   Simpan
                                 </button>
@@ -676,7 +737,7 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
                                   <button
                                     className="button focus:outline-none  focus:shadow-outline w-full bg-secondary hover:bg-third font-medium mt-[10px]"
                                     type="button"
-                                    onClick={finalSubmitkata}
+                                    onClick={submitBerhasil}
                                   >
                                     Selanjutnya
                                   </button>
@@ -723,7 +784,7 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
                                 <button
                                   className="button bg-secondary hover:bg-third font-medium mt-[10px]"
                                   type="button"
-                                  onClick={finalSubmit}
+                                  onClick={submitBerhasil}
                                 >
                                   Simpan
                                 </button>
