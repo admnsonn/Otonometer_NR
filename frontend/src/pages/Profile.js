@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ProfileImage from "../assets/profile-image.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
   faCalendar,
   faChevronDown,
-  faChevronUp
+  faChevronUp,
+  faEye,
+  faEyeSlash
 } from "@fortawesome/free-solid-svg-icons";
 import ketinggian from "../assets/ketinggian.png";
 import polusi from "../assets/polusi.png";
@@ -19,41 +23,91 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
   const [activeTab, setActiveTab] = useState("activity");
   const [selectedTab, setSelectedTab] = useState("all");
 
-  const [showPopup, setShowPopup] = useState(false);
+  
   const toggleTab = () => {
     setActiveTab(activeTab === "activity" ? "save" : "activity")  ;
     setSelectedTab("all")
   };
-
+  const [showPopup, setShowPopup] = useState(false);
   const togglePopup = () => {
     setShowPopup(!showPopup); // Mengubah nilai state showPopup menjadi sebaliknya
   };
 
-
+  const [showPopupPass, setShowPopupPass] = useState(false);
+  const togglePopupPass = () => {
+    setShowPopupPass(!showPopupPass); // Mengubah nilai state showPopup menjadi sebaliknya
+  };
+  
   // FORM PERBAHARUI DATA
-  // const formArray =[1,2,3];
-  // const [formNo, setFormNo] = useState(formArray[0])
+  const formArray = [1, 2, 3];
+  const [formNo, setFormNo] = useState(formArray[0])
+  const [state, setState] = useState({
+    namalengkap: '',
+    kodepos: '',
+    nik: '',
+    telepon: '',
+    web: '',
+    district: '',
+    thana: '',
+    post: ''
+  })
+  const inputHandle = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value
+    })
+  }
+  const next = () => {
+    if (formNo === 1 && state.namalengkap && state.kodepos) {
+      setFormNo(formNo + 1)
+    }
+    else if (formNo === 2 && state.nik && state.telepon && state.web) {
+      setFormNo(formNo + 1)
+    } else {
+      toast.error('Please fillup all input field')
+    }
+  }
+  const pre = () => {
+    setFormNo(formNo - 1)
+  }
+  const finalSubmit = () => {
+    if (state.district && state.thana && state.post) {
+      toast.success('form submit success')
+    } else {
+      toast.error('Please fillup all input field')
+    }
+  }
 
-  // const next = () => {
-  //   if (formNo === 1 && state.name && state.dept && state.batch) {
-  //     setFormNo(formNo + 1)
-  //   }
-  //   else if (formNo === 2 && state.varsity && state.session && state.address) {
-  //     setFormNo(formNo + 1)
-  //   } else {
-  //     toast.error('Please fillup all input field')
-  //   }
-  // }
-  // const pre = () => {
-  //   setFormNo(formNo - 1)
-  // }
-  // const finalSubmit = () => {
-  //   if (state.district && state.thana && state.post) {
-  //     toast.success('form submit success')
-  //   } else {
-  //     toast.error('Please fillup all input field')
-  //   }
-  // }
+  // FORM UBAH KATA SANDI
+  const formArraykata = [1, 2, 3];
+  const [formNokata, setFormNokata] = useState(formArraykata[0])
+  const [statekata, setStatekata] = useState({
+    pass: '',
+    pass2: '',
+    nyupass: '',
+  })
+  const inputHandlekata = (e) => {
+    setStatekata({
+      ...statekata,
+      [e.target.name]: e.target.value
+    })
+  }
+  const nextkata = () => {
+    if (formNokata === 1 && statekata.pass && statekata.pass2 && statekata.nyupass) {
+      setFormNokata(formNokata + 1)
+    }
+    else if (formNokata === 2 ) {
+      setFormNokata(formNokata + 1)
+    } else {
+      toast.error('Please fillup all input field')
+    }
+  }
+  const prekata = () => {
+    setFormNokata(formNokata - 1)
+  }
+  const finalSubmitkata = () => {
+    toast.success('form submit success')
+  }
 
   // DROPDOWN Title
   const [selectedOption, setSelectedOption] = useState("Pilih");
@@ -157,6 +211,39 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
     );
   };
 
+  //DROPDOWN AKTIVITAS
+  const [selectedAktivitas, setSelectedAktivitas] = useState("Pilih");
+  const [dropdownAktivitas, setDropdownAktivitas] = useState(false);
+
+  const handleDropdownAktivitas = () => {
+    setDropdownAktivitas(!dropdownAktivitas);
+  };
+
+  const handleOptionAktivitas = (option) => {
+    setSelectedAktivitas(option);
+    setDropdownAktivitas(false);
+  };
+
+  const renderDropdownAktivitas = () => {
+    const options = ["Hidup","Mahasiswa","Hidup","Mahasiswa"];
+    return (
+      <div
+        className="flex flex-col mt-[5px] cursor-pointer items-center"
+        style={{ maxHeight: "100px", overflowY: "auto" }}
+      >
+        {options.map((option, index) => (
+          <div
+            key={index}
+            onClick={() => handleOptionAktivitas(option)}
+            className="flex w-[300px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] text-center font-regular items-center justify-left cursor-pointer mt-[5px] hover:bg-[#E4E5F0]"
+          >
+            <p>{option}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="flex justify-center">
       <div className="container mx-auto px-20">
@@ -184,8 +271,7 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
               anita.basudara@gmail.com.
             </p>
             <button
-              className="text-white py-2 px-4 rounded mt-4 w-[313px]"
-              style={{ backgroundColor: "#86BBD8" }}
+              className="button bg-secondary hover:bg-third font-medium mt-[10px]"
               onClick={togglePopup} // Add onClick event handler here
             >
               Perbarui data diri
@@ -193,182 +279,504 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
              {/* Popup Form Update data diri*/}
              {showPopup && (
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-                  <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
-                    <h1 className="text-[34px] font-bold text-secondary mt-[50px] ">Perbaharui Data Profile</h1>
-                    <div className="relative mb-4">
-                      <img
-                        src={ProfileImage}
-                        alt="Profile"
-                        className="mt-[20px] mx-auto"
-                        style={{ width: "100px", height: "100px" }}
-                      />
-                      {/* <button className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2" onClick={togglePopup}>
-                        <img src={editicon} alt="Edit" style={{ width: "20px", height: "20px" }} />
-                      </button> */}
-                      </div>
-                      <form className="mb-[10px]">
-                      {/* EMAIL */}
-                      {/* EMAIL TIDAK DAPAT DIUBAH ALIAS DISABLE */}
-                      <div className="mb-[10px]">
-                        <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="email">Email</label>
-                        <input
-                          className="infield focus:outline-none focus:shadow-outline font-regular placeholder-secondary"
-                          id="email"
-                          type="email"
-                          placeholder="emailuser@gmail.com"
-                          name="email"
-                          style={{ fontStyle: 'italic' }}
-                          // placeholder={userEmail}
-                          // value={userEmail} // Jika Anda ingin menampilkan nilai email
-                          disabled
-                        />
-                      </div>
-                      {/* TITLE DAN NAMA */}
-                      <div className="flex gap-[10px] mb-[10px]">
-                        <div>
-                          <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Title</label>
-                          <div
-                          onClick={handleDropdownClick}
-                          className="flex w-[78px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] font-regular cursor-pointer items-center"
-                          >
-                            <p>{selectedOption}</p>
-                            <FontAwesomeIcon
-                              icon={dropdownOpen ? faChevronUp : faChevronDown}
-                              color="#24445A"
-                              className="fixed ml-[40px] w-[12px] h-[15px]"
-                            />
-                          </div>
-                          {dropdownOpen && (
-                            <div className="flex mt-[10px] gap-[10px] cursor-pointer">
-                              {renderDropdownOptions()}
-                            </div>
-                          )}
-                        </div>
-                        <div className="absolute ml-[87px]">
-                        <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Nama Lengkap</label>
-                        <input
-                          className="w-[225px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] focus:outline-none focus:shadow-outline font-regular"
-                          id="namalengkap"
-                          type="namalengkap"
-                          placeholder="Nama Lengkap"
-                          name="namalengkap"
-                          required
-                        />
-                        </div>
-                      </div>
-                      {/* TANGGAL LAHIR */}
-                      <div className="mb-[10px]">
-                        <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="birthDate">Tanggal Lahir</label>
-                        <div className="infield focus:outline-none focus:shadow-outline font-regular">
-                          <DatePicker
-                            id="birthDate"
-                            // selected={this.state.birthDate}
-                            // onChange={this.handleDateChange}
-                            dateFormat="dd/MM/yy" // Format tanggal
-                            placeholderText="Pilih Tanggal" // Placeholder
-                            />
-                          <FontAwesomeIcon icon={faCalendar} className="text-gray-400 ml-[100px]" />
-                        </div>
-                      </div>
-                      {/* PROVINSI */}
-                      <div className="mb-[10px]">
-                        <div>
-                            <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Provinsi</label>
-                            <div
-                            onClick={handleDropdownProvinsi}
-                            className="infield font-regular cursor-pointer"
-                            >
-                              <p>{selectedProvinsi}</p>
-                              <FontAwesomeIcon
-                                icon={dropdownProvinsi ? faChevronUp : faChevronDown}
-                                color="#24445A"
-                                className="fixed ml-[275px] w-[12px] h-[15px]"
-                              />
-                            </div>
-                            {dropdownProvinsi && (
-                              <div className="flex flex-col mt-[5px] cursor-pointer justify-center items-center">
-                                {renderDropdownProvinsi()}
-                              </div>
-                            )}
-                        </div>
-                      </div>
-                      {/* KOTA */}
-                      <div className="mb-[10px]">
-                        <div>
-                            <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Kabupaten/Kota</label>
-                            <div
-                            onClick={handleDropdownKota}
-                            className="infield font-regular cursor-pointer"
-                            >
-                              <p>{selectedKota}</p>
-                              <FontAwesomeIcon
-                                icon={dropdownKota ? faChevronUp : faChevronDown}
-                                color="#24445A"
-                                className="fixed ml-[275px] w-[12px] h-[15px]"
-                              />
-                            </div>
-                            {dropdownKota && (
-                              <div className="flex flex-col mt-[5px] cursor-pointer justify-center items-center">
-                                {renderDropdownKota()}
-                              </div>
-                            )}
-                        </div>
-                      </div>
-                      {/* KODEPOS */}
-                      <div className="mb-[10px]">
-                        <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Kode POS</label>
-                        <input
-                          className="infield focus:outline-none focus:shadow-outline font-regular"
-                          id="kodepos"
-                          type="numeric"
-                          minLength="5"
-                          maxLength="5"
-                          placeholder="Kode POS"
-                          name="kodepos"
-                          required
-                        />
-                      </div>
-                      <button
-                        className="button focus:outline-none  focus:shadow-outline w-full bg-secondary hover:bg-third font-medium mt-[10px]"
-                        type="button"
-                        onClick={togglePopup}
-                      >
-                        Selanjutnya
-                      </button>
+                  <ToastContainer />
+                      {
+                        formNo === 1 && 
+                                  <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
+                              <h1 className="text-[34px] font-bold text-secondary mt-[20px] ">Perbaharui Data Profile</h1>
+                              <div className="relative mb-4">
+                                <img
+                                  src={ProfileImage}
+                                  alt="Profile"
+                                  className="mt-[20px] mx-auto"
+                                  style={{ width: "100px", height: "100px" }}
+                                />
+                                <button className="absolute top-[85px] right-[5px] bg-white w-[30px] h-[30px] rounded-full opacity-90 hover:opacity-100" onClick={togglePopup}>
+                                  <img src={editicon} alt="Edit" className="py-[2px] px-[6px]"/>
+                                </button>
+                                </div>
+                                <form className="mb-[10px]">
+                                {/* EMAIL */}
+                                {/* EMAIL TIDAK DAPAT DIUBAH ALIAS DISABLE */}
+                                <div className="mb-[10px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="email">Email</label>
+                                  <input
+                                    className="infield focus:outline-none focus:shadow-outline font-regular placeholder-secondary"
+                                    placeholder="emailuser@gmail.com"
+                                    // placeholder={userEmail}
+                                    // value={userEmail} // Jika Anda ingin menampilkan nilai email
+                                    style={{ fontStyle: 'italic' }}
+                                    disabled
+                                  />
+                                </div>
+                                {/* TITLE DAN NAMA */}
+                                <div className="flex gap-[10px] mb-[10px]">
+                                  <div>
+                                    <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Title</label>
+                                    <div
+                                    onClick={handleDropdownClick}
+                                    className="flex w-[78px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] font-regular cursor-pointer items-center"
+                                    >
+                                      <p>{selectedOption}</p>
+                                      <FontAwesomeIcon
+                                        icon={dropdownOpen ? faChevronUp : faChevronDown}
+                                        color="#24445A"
+                                        className="fixed ml-[40px] w-[12px] h-[15px]"
+                                      />
+                                    </div>
+                                    {dropdownOpen && (
+                                      <div className="flex mt-[10px] gap-[10px] cursor-pointer">
+                                        {renderDropdownOptions()}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="absolute ml-[87px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Nama Lengkap</label>
+                                  <input
+                                    className="w-[225px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] focus:outline-none focus:shadow-outline font-regular"
+                                    id="namalengkap"
+                                    type="namalengkap"
+                                    placeholder="Nama Lengkap"
+                                    name="namalengkap"
+                                    required
+                                    value={state.namalengkap} onChange={inputHandle}
+                                  />
+                                  </div>
+                                </div>
+                                {/* TANGGAL LAHIR */}
+                                <div className="mb-[10px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="birthDate">Tanggal Lahir</label>
+                                  <div className="infield focus:outline-none focus:shadow-outline font-regular">
+                                    <DatePicker
+                                      id="birthDate"
+                                      // selected={this.state.birthDate}
+                                      // onChange={this.handleDateChange}
+                                      dateFormat="dd/MM/yy" // Format tanggal
+                                      placeholderText="Pilih Tanggal" // Placeholder
+                                      />
+                                    <FontAwesomeIcon icon={faCalendar} className="text-gray-400 ml-[100px]" />
+                                  </div>
+                                </div>
+                                {/* PROVINSI */}
+                                <div className="mb-[10px]">
+                                  <div>
+                                      <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Provinsi</label>
+                                      <div
+                                      onClick={handleDropdownProvinsi}
+                                      className="infield font-regular cursor-pointer"
+                                      >
+                                        <p>{selectedProvinsi}</p>
+                                        <FontAwesomeIcon
+                                          icon={dropdownProvinsi ? faChevronUp : faChevronDown}
+                                          color="#24445A"
+                                          className="fixed ml-[275px] w-[12px] h-[15px]"
+                                        />
+                                      </div>
+                                      {dropdownProvinsi && (
+                                        <div className="flex flex-col mt-[5px] cursor-pointer justify-center items-center">
+                                          {renderDropdownProvinsi()}
+                                        </div>
+                                      )}
+                                  </div>
+                                </div>
+                                {/* KOTA */}
+                                <div className="mb-[10px]">
+                                  <div>
+                                      <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Kabupaten/Kota</label>
+                                      <div
+                                      onClick={handleDropdownKota}
+                                      className="infield font-regular cursor-pointer"
+                                      >
+                                        <p>{selectedKota}</p>
+                                        <FontAwesomeIcon
+                                          icon={dropdownKota ? faChevronUp : faChevronDown}
+                                          color="#24445A"
+                                          className="fixed ml-[275px] w-[12px] h-[15px]"
+                                        />
+                                      </div>
+                                      {dropdownKota && (
+                                        <div className="flex flex-col mt-[5px] cursor-pointer justify-center items-center">
+                                          {renderDropdownKota()}
+                                        </div>
+                                      )}
+                                  </div>
+                                </div>
+                                {/* KODEPOS */}
+                                <div className="mb-[10px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Kode POS</label>
+                                  <input
+                                    className="infield focus:outline-none focus:shadow-outline font-regular"
+                                    id="kodepos"
+                                    type="numeric"
+                                    minLength="5"
+                                    maxLength="5"
+                                    placeholder="Kode POS"
+                                    name="kodepos"
+                                    value={state.kodepos} onChange={inputHandle}
+                                    required
+                                  />
+                                </div>
+                                <div className="flex flex-col">
+                                  <button
+                                    className="button focus:outline-none  focus:shadow-outline w-full bg-secondary hover:bg-third font-medium mt-[10px]"
+                                    type="button"
+                                    onClick={next}
+                                  >
+                                    Selanjutnya
+                                  </button>
 
-                      <button
-                        className="button focus:outline-none  focus:shadow-outline w-full bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px]"
-                        type="submit"
-                      >
-                        Batalkan
-                      </button>
-                    </form>
-                  </div>
-                </div>
+                                  <button
+                                    className="button focus:outline-none  focus:shadow-outline w-full bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px]"
+                                    type="button"
+                                    onClick={togglePopup}
+                                  >
+                                    Batalkan
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                      }
+                      {
+                        formNo === 2 &&
+                          <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
+                              <h1 className="text-[34px] font-bold text-secondary mt-[20px] ">Perbaharui Data Profile</h1>
+                              <div className="relative mb-4">
+                                </div>
+                                <form className="mb-[10px]">
+                                {/* KTP */}
+                                <div className="mb-[10px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">ID/NIK</label>
+                                  <input
+                                    className="infield focus:outline-none focus:shadow-outline font-regular"
+                                    id="nik"
+                                    type="numeric"
+                                    minLength="16"
+                                    maxLength="16"
+                                    placeholder="ID/NIK"
+                                    name="nik"
+                                    value={state.nik} onChange={inputHandle}
+                                    required
+                                  />
+                                </div>
+
+                                <button
+                                    className="button bg-secondary hover:bg-third font-medium mb-[10px]"
+                                    type="button"
+                                    // onClick=
+                                >UPLOAD KTPNYA DONG MAS</button>
+
+                                {/* Nomor Telepon */}
+                                <div className="mb-[10px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Nomor Telepon</label>
+                                  <input
+                                    className="infield focus:outline-none focus:shadow-outline font-regular"
+                                    id="telepon"
+                                    type="numeric"
+                                    placeholder="Nomor Telepon"
+                                    name="telepon"
+                                    value={state.telepon} onChange={inputHandle}
+                                    required
+                                  />
+                                </div>
+
+                                {/* Website */}
+                                <div className="mb-[10px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Website</label>
+                                  <input
+                                    className="infield focus:outline-none focus:shadow-outline font-regular"
+                                    id="web"
+                                    type="numeric"
+                                    minLength="16"
+                                    maxLength="16"
+                                    placeholder="Website"
+                                    name="web"
+                                    value={state.web} onChange={inputHandle}
+                                  />
+                                </div>
+                                {/* Aktivitas */}
+                                <div className="mb-[10px]">
+                                  <div>
+                                      <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Aktivitas</label>
+                                      <div
+                                      onClick={handleDropdownAktivitas}
+                                      className="infield font-regular cursor-pointer"
+                                      >
+                                        <p>{selectedAktivitas}</p>
+                                        <FontAwesomeIcon
+                                          icon={dropdownAktivitas ? faChevronUp : faChevronDown}
+                                          color="#24445A"
+                                          className="fixed ml-[275px] w-[12px] h-[15px]"
+                                        />
+                                      </div>
+                                      {dropdownAktivitas && (
+                                        <div className="flex flex-col mt-[5px] cursor-pointer justify-center items-center">
+                                          {renderDropdownAktivitas()}
+                                        </div>
+                                      )}
+                                  </div>
+                                </div>
+                                <div className="flex flex-col">
+                                  <button
+                                    className="button bg-secondary hover:bg-third font-medium mt-[10px]"
+                                    type="button"
+                                    onClick={next}
+                                  >
+                                    Selanjutnya
+                                  </button>
+                                  <button
+                                    className="button bg-secondary hover:bg-third font-medium mt-[10px]"
+                                    type="button"
+                                    onClick={pre}
+                                  >
+                                    Sebelumnya
+                                  </button>
+
+                                  <button
+                                    className="button bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px]"
+                                    type="button"
+                                    onClick={togglePopup}
+                                  >
+                                    Batalkan
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                      }
+
+                      {
+                        formNo === 3 && 
+                        <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
+                              <h1 className="text-[34px] font-bold text-secondary mt-[20px] ">Perbaharui Data Profile</h1>
+                              <div className="relative mb-4">
+                                </div>
+                                <form className="mb-[10px] flex flex-col">
+                                <button
+                                  className="button bg-secondary hover:bg-third font-medium mt-[10px]"
+                                  type="button"
+                                  onClick={finalSubmit}
+                                >
+                                  Tambah Alamat Baru
+                                </button>
+
+                                <button
+                                  className="button bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px] mb-[200px]"
+                                  type="button"
+                                  onClick={finalSubmit}
+                                >
+                                  Hapus Alamat
+                                </button>
+                                <button
+                                  className="button bg-secondary hover:bg-third font-medium mt-[10px]"
+                                  type="button"
+                                  onClick={finalSubmit}
+                                >
+                                  Simpan
+                                </button>
+                                <button
+                                  className="button bg-secondary hover:bg-third font-medium mt-[10px]"
+                                  type="button"
+                                  onClick={pre}
+                                >
+                                  Sebelumnya
+                                </button>
+
+                                <button
+                                  className="button bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px]"
+                                  type="button"
+                                  onClick={togglePopup}
+                                >
+                                  Batalkan
+                                </button>
+                              </form>
+                            </div>
+
+                        //TOLONG JANGAN HAPUSSS YANG DIBAWAH INI
+
+                        // <div>
+                        //   <div className='flex flex-col mb-2'>
+                        //     <label htmlFor="district">District</label>
+                        //     <input value={state.district} onChange={inputHandle} className='p-2 border border-slate-400 mt-1 outline-0 focus:border-blue-500 rounded-md' type="text" name='district' placeholder='district name' id='district' />
+                        //   </div>
+                        //   <div className='flex flex-col mb-2'>
+                        //     <label htmlFor="thana">Thana</label>
+                        //     <input value={state.thana} onChange={inputHandle} className='p-2 border border-slate-400 mt-1 outline-0 focus:border-blue-500 rounded-md' type="text" name='thana' placeholder='thana' id='thana' />
+                        //   </div>
+                        //   <div className='flex flex-col mb-2'>
+                        //     <label htmlFor="post">Post</label>
+                        //     <input value={state.post} onChange={inputHandle} className='p-2 border border-slate-400 mt-1 outline-0 focus:border-blue-500 rounded-md' type="text" name='post' placeholder='post' id='post' />
+                        //   </div>
+                        //   <div className='mt-4 gap-3 flex justify-center items-center'>
+                        //     <button onClick={pre} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Previous</button>
+                        //     <button onClick={finalSubmit} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Submit</button>
+                        //   </div>
+                        // </div>
+                      }
+
+                  
+                 </div>
               )}
-
-
             {/* End of Popup Form */}
-            
-
-
-
-
             <button
-              className="text-white py-2 px-4 rounded mt-4 w-[313px]"
-              style={{ backgroundColor: "#86BBD8" }}
+              className="button bg-secondary hover:bg-third font-medium mt-[10px]"
+              onClick={togglePopupPass}
             >
               Ubah Kata Sandi
             </button>
+            {showPopupPass && (
+                <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                <ToastContainer />
+                {
+                formNo === 1 && 
+                    <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center w-[606px]">
+                      <h1 className="text-[34px] font-bold text-secondary mt-[20px] ">Ubah Kata Sandi</h1>
+                         <div className="relative mb-10">
+                    </div>
+                    <form className="mb-[10px]">
+                                {/* Kata Sandi */}
+                                <div className="mb-[10px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Kata Sandi</label>
+                                  <input
+                                    className="infield focus:outline-none focus:shadow-outline font-regular"
+                                    id="pass"
+                                    type="Password"
+                                    placeholder="Masukkan Kata Sandi"
+                                    name="pass"
+                                    value={statekata.pass} onChange={inputHandlekata}
+                                    required
+                                  />
+                                </div>
+                                {/* Konfirm */}
+                                <div className="mb-[10px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Konfirmasi Kata Sandi</label>
+                                  <input
+                                    className="infield focus:outline-none focus:shadow-outline font-regular"
+                                    id="pass2"
+                                    type="Password"
+                                    placeholder="Konfirmasikan Kata Sandi"
+                                    name="pass2"
+                                    value={statekata.pass2} onChange={inputHandlekata}
+                                    required
+                                  />
+                                </div>
+                                {/* Pass2 */}
+                                <div className="mb-[10px]">
+                                  <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]">Kata Sandi Baru</label>
+                                  <input
+                                    className="infield focus:outline-none focus:shadow-outline font-regular"
+                                    id="nyupass"
+                                    type="Password"
+                                    placeholder="Buat Kata Sandi"
+                                    name="nyupass"
+                                    value={statekata.nyupass} onChange={inputHandlekata}
+                                    required
+                                  />
+                                </div>
+                                <div className="flex flex-col">
+                                  <button
+                                    className="button focus:outline-none  focus:shadow-outline w-full bg-secondary hover:bg-third font-medium mt-[10px]"
+                                    type="button"
+                                    onClick={nextkata}
+                                  >
+                                    Selanjutnya
+                                  </button>
+
+                                  <button
+                                    className="button focus:outline-none  focus:shadow-outline w-full bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px]"
+                                    type="button"
+                                    onClick={togglePopupPass}
+                                  >
+                                    Batalkan
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                      }
+                      {
+                        formNo === 2 &&
+                          <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
+                          </div>
+                      }
+
+                      {
+                        formNo === 3 && 
+                        <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
+                              <h1 className="text-[34px] font-bold text-secondary mt-[20px] ">Perbaharui Data Profile</h1>
+                              <div className="relative mb-4">
+                                </div>
+                                <form className="mb-[10px] flex flex-col">
+                                <button
+                                  className="button bg-secondary hover:bg-third font-medium mt-[10px]"
+                                  type="button"
+                                  onClick={finalSubmit}
+                                >
+                                  Tambah Alamat Baru
+                                </button>
+
+                                <button
+                                  className="button bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px] mb-[200px]"
+                                  type="button"
+                                  onClick={finalSubmit}
+                                >
+                                  Hapus Alamat
+                                </button>
+                                <button
+                                  className="button bg-secondary hover:bg-third font-medium mt-[10px]"
+                                  type="button"
+                                  onClick={finalSubmit}
+                                >
+                                  Simpan
+                                </button>
+                                <button
+                                  className="button bg-secondary hover:bg-third font-medium mt-[10px]"
+                                  type="button"
+                                  onClick={pre}
+                                >
+                                  Sebelumnya
+                                </button>
+
+                                <button
+                                  className="button bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px]"
+                                  type="button"
+                                  onClick={togglePopup}
+                                >
+                                  Batalkan
+                                </button>
+                              </form>
+                            </div>
+
+                        //TOLONG JANGAN HAPUSSS YANG DIBAWAH INI
+
+                        // <div>
+                        //   <div className='flex flex-col mb-2'>
+                        //     <label htmlFor="district">District</label>
+                        //     <input value={state.district} onChange={inputHandle} className='p-2 border border-slate-400 mt-1 outline-0 focus:border-blue-500 rounded-md' type="text" name='district' placeholder='district name' id='district' />
+                        //   </div>
+                        //   <div className='flex flex-col mb-2'>
+                        //     <label htmlFor="thana">Thana</label>
+                        //     <input value={state.thana} onChange={inputHandle} className='p-2 border border-slate-400 mt-1 outline-0 focus:border-blue-500 rounded-md' type="text" name='thana' placeholder='thana' id='thana' />
+                        //   </div>
+                        //   <div className='flex flex-col mb-2'>
+                        //     <label htmlFor="post">Post</label>
+                        //     <input value={state.post} onChange={inputHandle} className='p-2 border border-slate-400 mt-1 outline-0 focus:border-blue-500 rounded-md' type="text" name='post' placeholder='post' id='post' />
+                        //   </div>
+                        //   <div className='mt-4 gap-3 flex justify-center items-center'>
+                        //     <button onClick={pre} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Previous</button>
+                        //     <button onClick={finalSubmit} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Submit</button>
+                        //   </div>
+                        // </div>
+                      }
+
+                  
+                 </div>
+              )}
+              
             <button
-              className="text-white py-2 px-4 rounded mt-4 w-[313px]"
-              style={{ backgroundColor: "#86BBD8" }}
+              className="button bg-secondary hover:bg-third font-medium mt-[10px]"
             >
               Pilih Paket Berlangganan
             </button>
             <button
-              className="text-white py-2 px-4 rounded mt-4 w-[313px]"
-              style={{ backgroundColor: "#CD3838" }}
+              className="button bg-[#CD3838] hover:bg-[#E54747] font-medium mt-[10px]"
             >
               Keluar Dari Akun
             </button>

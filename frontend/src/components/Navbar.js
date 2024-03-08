@@ -26,8 +26,8 @@ function Navbar() {
             onClick={() => navgate('Login')}
             className='
             flex 
-            bg-third 
-            hover:bg-secondary 
+            bg-secondary 
+            hover:bg-third 
             w-[105px] h-[39px] 
             rounded-[10px] 
             text-white 
@@ -39,7 +39,8 @@ function Navbar() {
             className='
             flex 
             bg-none 
-            hover:bg-secondary 
+            hover:bg-third 
+            hover:border-third
             w-[105px] h-[39px] 
             rounded-[10px]  
             text-secondary 
