@@ -71,11 +71,12 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
     setFormNo(formNo - 1)
   }
   const finalSubmit = () => {
-    if (state.district && state.thana && state.post) {
-      toast.success('form submit success')
-    } else {
-      toast.error('Please fillup all input field')
-    }
+    toast.success('form submit success')
+    // if (state.district && state.thana && state.post) {
+    //   toast.success('form submit success')
+    // } else {
+    //   toast.error('Please fillup all input field')
+    // }
   }
 
   // FORM UBAH KATA SANDI
@@ -675,7 +676,7 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
                                   <button
                                     className="button focus:outline-none  focus:shadow-outline w-full bg-secondary hover:bg-third font-medium mt-[10px]"
                                     type="button"
-                                    onClick={nextkata}
+                                    onClick={finalSubmitkata}
                                   >
                                     Selanjutnya
                                   </button>
