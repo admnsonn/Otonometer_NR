@@ -6,10 +6,10 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import { ReactComponent as AppleIcon } from "../assets/icons/apel.svg";
-import { ReactComponent as GoogleIcon } from "../assets/icons/gugol.svg";
-import { ReactComponent as MicrosoftIcon } from "../assets/icons/microsoft.svg";
-import { ReactComponent as NeracaIcon } from "../assets/icons/neracaruangqu.svg";
+import AppleIcon from "../assets/icons/apel.svg";
+import GoogleIcon from "../assets/icons/gugol.svg";
+import MicrosoftIcon from "../assets/icons/microsoft.svg";
+import NeracaIcon from "../assets/icons/neracaruangqu.svg";
 
 class Login extends React.Component {
   constructor(props) {
@@ -169,34 +169,34 @@ class Login extends React.Component {
                 style={{ borderWidth: "1px" }}
               />
             </div>
-            <div className="flex flex-col items-center mt-4 space-y-4">
-              <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
-                <div className="flex items-center justify-center gap-4">
-                  <NeracaIcon />
-                  <span className="">Masuk dengan Neraca Ruang</span>
-                </div>
-              </button>
+            <div className="flex flex-col items-center mt-4 gap-y-[10px]">
+            <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
+              <div className="flex items-center justify-center gap-4">
+                <img src={NeracaIcon} alt="loading" className="hover:" />
+                <span className="">Masuk dengan Neraca Ruang</span>
+              </div>
+            </button>
+            
+            <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
+              <div className="flex items-center justify-center gap-4">
+                <img src={AppleIcon} alt="loading" className="hover:" />
+                <span className="">Masuk dengan Apple</span>
+              </div>
+            </button>
 
-              <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
-                <div className="flex items-center justify-center gap-4">
-                  <AppleIcon />
-                  <span className="">Masuk dengan Apple</span>
-                </div>
-              </button>
+            <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
+              <div className="flex items-center justify-center gap-4">
+                <img src={GoogleIcon} alt="loading" className="hover:" />
+                <span className="">Masuk dengan Google</span>
+              </div>
+            </button>
 
-              <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
-                <div className="flex items-center justify-center gap-4">
-                  <GoogleIcon />
-                  <span className="">Masuk dengan Google</span>
-                </div>
-              </button>
-
-              <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
-                <div className="flex items-center justify-center gap-4">
-                  <MicrosoftIcon />
-                  <span className="">Masuk dengan Microsoft</span>
-                </div>
-              </button>
+            <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
+              <div className="flex items-center justify-center gap-4">
+                <img src={MicrosoftIcon} alt="loading" className="hover:" />
+                <span className="">Masuk dengan Microsoft</span>
+              </div>
+            </button>
             </div>
 
             <div className="flex items-center justify-center mt-4 font-regular text-[14px] text-secondary">

@@ -12,17 +12,18 @@ import {
   faArrowAltCircleLeft,
   faArrowCircleLeft,
 } from "@fortawesome/free-solid-svg-icons"; // Import ikon kalender
-import { ReactComponent as AppleIcon } from "../assets/icons/apple.svg";
-import { ReactComponent as GoogleIcon } from "../assets/icons/google.svg";
-import { ReactComponent as MicrosoftIcon } from "../assets/icons/microsoft.svg";
-import { ReactComponent as NeracaIcon } from "../assets/icons/neracaruang.svg";
+import AppleIcon from "../assets/icons/apple.svg";
+import GoogleIcon from "../assets/icons/google.svg";
+import MicrosoftIcon from "../assets/icons/microsoft.svg";
+import NeracaIcon from "../assets/icons/neracaruang.svg";
 import { Link } from "react-router-dom";
+import '../style/BtnLoginRegist.css';
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      nama: "",
       password: "",
       konfirm: "",
       showPassword: false, // State untuk mengontrol visibilitas password
@@ -130,82 +131,111 @@ class Register extends React.Component {
       form = (
         <form
           onSubmit={this.handleSubmit}
-          className="max-w-md bg-white rounded px-8 pt-6 pb-8"
+          className="flex flex-col max-w-[400px] rounded px-8 pt-6 pb-8"
         >
-          <h1 className="text-6xl font-bold mb-4 text-left text-secondary">
-            Daftar
-          </h1>
-          {/* Tulisan di bawah judul */}
-          <p className="text-sm mb-8 text-secondary">
-            Daftarkan diri Anda untuk mengakses{" "}
-            <span className="font-bold">fitur lainnya</span> Otonometer
-          </p>
-          <div className="mb-4">
-            <label
-              className="block text-secondary text-sm font-medium mb-[4px] text-[14px]"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              className="infield focus:outline-none focus:shadow-outline text-[14px] font-regular"
-              id="email"
-              type="email"
-              placeholder="Email"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
+          <div className="ml-[11px] my-[20px]">
+            <h1 className="text-6xl font-bold mb-4 text-left text-secondary">
+              Daftar
+            </h1>
+            {/* Tulisan di bawah judul */}
+            <p className="text-sm mb-8 text-secondary">
+              Daftarkan diri Anda untuk mengakses{" "}
+              <span className="font-bold">fitur lainnya</span> Otonometer
+            </p>
           </div>
+          <div className="flex flex-col items-center justify-center">
+          <div className="flex items-center justify-center">
+            <div className="mb-4">
+              <label
+                className="block text-secondary text-sm font-medium mb-[4px] text-[14px]"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                className="infield focus:outline-none focus:shadow-outline text-[14px] font-regular"
+                id="email"
+                type="email"
+                placeholder="Email"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+                required
+              />
+            </div>
+          </div>
+          
           <div className="flex items-center justify-center">
             <button
-              className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-secondary hover:bg-third"
+              className="button"
               type="submit"
             >
               Daftar
             </button>
           </div>
           {/* Garis Atau */}
-          <div className="flex items-center mt-4">
+          <div className="flex mt-4 w-[300px] justify-center items-center ">
             <hr
-              className="flex-1 border-t-2 border-gray-500 mr-3"
+              className="flex-1 border-t-1 bg-infield mr-5"
               style={{ borderWidth: "1px" }}
             />
-            <span className="text-24445A text-sm font-medium">atau</span>
+            <span className="text-24445A text-sm font-regular text-secondary">atau</span>
             <hr
-              className="flex-1 border-t-2 border-gray-500 ml-3"
+              className="flex-1 border-t-1 bg-infield ml-5"
               style={{ borderWidth: "1px" }}
             />
           </div>
           {/* Button Login dengan cara lain */}
-          <div className="flex flex-col items-center mt-4 space-y-4">
-            <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
+          <div className="flex flex-col items-center mt-4 gap-y-[10px]">
+            {/* <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
               <div className="flex items-center justify-center gap-4">
-                <NeracaIcon />
+                <img src={NeracaIcon} alt="loading" className="hover:" />
                 <span className="">Masuk dengan Neraca Ruang</span>
               </div>
             </button>
-
+            
             <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
               <div className="flex items-center justify-center gap-4">
-                <AppleIcon />
+                <img src={AppleIcon} alt="loading" className="hover:" />
                 <span className="">Masuk dengan Apple</span>
               </div>
             </button>
 
             <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
               <div className="flex items-center justify-center gap-4">
-                <GoogleIcon />
+                <img src={GoogleIcon} alt="loading" className="hover:" />
                 <span className="">Masuk dengan Google</span>
               </div>
             </button>
 
             <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
               <div className="flex items-center justify-center gap-4">
-                <MicrosoftIcon />
+                <img src={MicrosoftIcon} alt="loading" className="hover:" />
                 <span className="">Masuk dengan Microsoft</span>
               </div>
+            </button> */}
+            <button className="AnimateBTN">
+              <span className="text">Masuk Dengan Neraca Ruang</span><span class="icon">
+              <img src={NeracaIcon} alt="loading" className="hover:" />
+              </span>
+            </button>
+
+            <button className="AnimateBTN">
+              <span className="text">Masuk Dengan Apple</span><span class="icon">
+              <img src={AppleIcon} alt="loading" className="hover:" />
+              </span>
+            </button>
+
+            <button className="AnimateBTN">
+              <span className="text">Masuk Dengan Google</span><span class="icon">
+              <img src={GoogleIcon} alt="loading" className="hover:" />
+              </span>
+            </button>
+
+            <button className="AnimateBTN">
+              <span className="text">Masuk Dengan Microsoft</span><span class="icon">
+              <img src={MicrosoftIcon} alt="loading" className="hover:" />
+              </span>
             </button>
           </div>
 
@@ -221,30 +251,28 @@ class Register extends React.Component {
               </Link>
             </span>
           </div>
+          </div>
         </form>
       );
     } else if (step === 2) {
       form = (
         <form
           onSubmit={this.handleSubmit}
-          className="max-w-md bg-white rounded px-8 pt-6 pb-8"
+          className="flex flex-col max-w-[400px] rounded px-8 pt-6 pb-8"
         >
-          <h1
-            className="text-6xl font-bold mb-4 text-left"
-            style={{ color: "#24445A" }}
-          >
-            Daftar
-          </h1>
-          {/* Tulisan di bawah judul */}
-          <p className="text-sm mb-8 " style={{ color: "#064878" }}>
-            Daftarkan diri Anda untuk mengakses{" "}
-            <span className="font-bold" style={{ color: "#24445A" }}>
-              fitur lainnya
-            </span>{" "}
-            Otonometer
-          </p>
-          <div className="mb-4 flex w-[384px]">
-            <div className="w-full sm:w-1/2 md:w-auto pr-2">
+          <div className="ml-[11px] my-[20px]">
+            <h1 className="text-6xl font-bold mb-4 text-left text-secondary">
+              Daftar
+            </h1>
+            {/* Tulisan di bawah judul */}
+            <p className="text-sm mb-8 text-secondary">
+              Daftarkan diri Anda untuk mengakses{" "}
+              <span className="font-bold">fitur lainnya</span> Otonometer
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+          <div className="mb-4 flex">
+            <div className="gap-[10px]">
               <label
                 className="block text-secondary text-sm font-medium mb-[4px] text-[14px]"
                 htmlFor="title"
@@ -262,29 +290,42 @@ class Register extends React.Component {
                 <option value="">Pilih</option>
                 <option value="Tuan">Tuan</option>
                 <option value="Nyonya">Nyonya</option>
-                <option value="Nona">Nyonya</option>
+                <option value="Nona">Nona</option>
               </select>
             </div>
             <div className="w-[376px] sm:w-1/2 md:w-auto pl-2">
               <label
                 className="block text-secondary text-sm font-medium mb-[4px] text-[14px] "
-                htmlFor="email"
+                htmlFor="nama"
               >
                 Nama Lengkap
               </label>
               <input
-                className="border rounded-[8px] h-[40px] w-[280px] py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
-                id="email"
-                type="email"
-                placeholder="Email"
-                name="email"
-                value={this.state.email}
+                className="w-[225px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] focus:outline-none focus:shadow-outline font-regular"
+                id="nama"
+                type="nama"
+                placeholder="Nama Lengkap"
+                name="nama"
+                value={this.state.nama}
                 onChange={this.handleChange}
                 required
               />
             </div>
           </div>
-          <div className="w-full mb-4">
+          <div className="mb-[10px]">
+            <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="birthDate">Tanggal Lahir</label>
+              <div className="infield leading-tight focus:outline-none focus:shadow-outline font-regular">
+                <DatePicker
+                  id="birthDate"
+                  // selected={this.state.birthDate}
+                  // onChange={this.handleDateChange}
+                  dateFormat="dd/MM/yy" // Format tanggal
+                  placeholderText="Pilih Tanggal" // Placeholder
+                />
+                <FontAwesomeIcon icon={faCalendar} className="text-gray-400 ml-[100px]" />
+              </div>
+          </div>
+          {/* <div className="mb-4">
                 <label className="block text-secondary text-sm font-medium mb-[4px] text-[14px]" htmlFor="birthDate">
                   Tanggal Lahir
                 </label>
@@ -295,14 +336,13 @@ class Register extends React.Component {
                     selected={this.state.birthDate}
                     onChange={this.handleDateChange}
                     dateFormat="dd/MM/yy" // Format tanggal
-                    placeholderText="Pilih Tanggal" // Placeholder
-                    required
+                    placeholderText="DD/MM/YY" // Placeholder
                   />
                   <div className="absolute top-0 right-0 px-[30px] py-2 pointer-events-none">
                     <FontAwesomeIcon icon={faCalendar} className="text-gray-400" />
                   </div>
                 </div>
-            </div>  
+            </div>   */}
           {/* Dropdown untuk memilih provinsi */}
           <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
             <label
@@ -312,7 +352,7 @@ class Register extends React.Component {
               Provinsi
             </label>
             <select
-              className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+              className="infield font-regular cursor-pointer"
               id="province"
               name="province"
               value={this.state.province}
@@ -333,7 +373,7 @@ class Register extends React.Component {
               Kabupaten/Kota
             </label>
             <select
-              className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+              className="infield font-regular cursor-pointer"
               id="district"
               name="district"
               value={this.state.district}
@@ -354,7 +394,7 @@ class Register extends React.Component {
               Kode pos
             </label>
             <input
-              className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+              className="infield focus:outline-none focus:shadow-outline font-regular"
               id="postalCode"
               type="text"
               placeholder="Kode pos"
@@ -366,13 +406,15 @@ class Register extends React.Component {
           </div>
           <div className="flex items-center justify-center w-full sm:w-1/2 md:w-auto pr-2 h-[40px]">
             <button
-              className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-third hover:bg-secondary"
+              className="button"
               // style={{ backgroundColor: '#86BBD8' }}
               type="submit"
             >
               Daftar
             </button>
           </div>
+          </div>
+          
 
           <div className="flex items-center justify-center mt-4 font-regular text-[14px] text-secondary">
             <span>Sudah memiliki akun?</span>
@@ -394,33 +436,29 @@ class Register extends React.Component {
       form = (
         <form
           onSubmit={this.handleSubmit}
-          className="max-w-md bg-white rounded px-8 pt-6 pb-8"
+          className="flex flex-col max-w-[400px] rounded px-8 pt-6 pb-8"
         >
-          <h1
-            className="text-6xl font-bold mb-4 text-left"
-            style={{ color: "#24445A" }}
-          >
-            Daftar
-          </h1>
-          {/* Tulisan di bawah judul */}
-          <p className="text-sm mb-8 " style={{ color: "#064878" }}>
-            Daftarkan diri Anda untuk mengakses{" "}
-            <span className="font-bold" style={{ color: "#24445A" }}>
-              fitur lainnya
-            </span>{" "}
-            Otonometer
-          </p>
-          <div className="mb-4 w-[384px]">
-            <div className="relative mb-4 pr-2">
+          <div className="ml-[11px] my-[20px]">
+            <h1 className="text-6xl font-bold mb-4 text-left text-secondary">
+              Daftar
+            </h1>
+            {/* Tulisan di bawah judul */}
+            <p className="text-sm mb-8 text-secondary">
+              Daftarkan diri Anda untuk mengakses{" "}
+              <span className="font-bold">fitur lainnya</span> Otonometer
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+          <div className="mb-[8px]">
+            <div className="mb-[4px]">
               <label
                 className="block text-secondary text-sm font-medium mb-[4px] text-[14px]"
                 htmlFor="password"
               >
                 Kata Sandi
               </label>
-              <div className="flex justify-between"></div>
               <input
-                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+                className="infield focus:outline-none focus:shadow-outline font-regular"
                 id="password"
                 type={this.state.showPassword ? "text" : "password"}
                 placeholder="Masukkan Kata Sandi"
@@ -432,8 +470,7 @@ class Register extends React.Component {
               <button
                 type="button"
                 onClick={this.togglePasswordVisibility}
-                className="absolute inset-y-0 right-0 px-4"
-                style={{ top: "45%", color: "#24445A" }}
+                className="absolute translate-x-[285px] translate-y-[-30px]"
               >
                 <FontAwesomeIcon
                   icon={this.state.showPassword ? faEye : faEyeSlash}
@@ -442,7 +479,7 @@ class Register extends React.Component {
               </button>
             </div>
 
-            <div className="relative pr-2">
+            <div className="">
               <label
                 className="block text-secondary text-sm font-medium mb-[4px] text-[14px]"
                 htmlFor="password"
@@ -451,7 +488,7 @@ class Register extends React.Component {
               </label>
               <div className="flex justify-between"></div>
               <input
-                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+                className="infield focus:outline-none focus:shadow-outline font-regular"
                 id="konfirm"
                 type={this.state.showPassword ? "text" : "password"}
                 placeholder="Konfirmasi Kata Sandi"
@@ -463,8 +500,7 @@ class Register extends React.Component {
               <button
                 type="button"
                 onClick={this.togglePasswordVisibility}
-                className="absolute inset-y-0 right-0 px-4"
-                style={{ top: "45%", color: "#24445A" }}
+                className="absolute translate-x-[285px] translate-y-[-30px]"
               >
                 <FontAwesomeIcon
                   icon={this.state.showPassword ? faEye : faEyeSlash}
@@ -475,7 +511,7 @@ class Register extends React.Component {
           </div>
 
           {/* Dropdown untuk memilih */}
-          <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
+          <div className="mb-4">
             <label
               className="block text-secondary text-sm font-medium mb-[4px] text-[14px]"
               htmlFor="province"
@@ -483,7 +519,7 @@ class Register extends React.Component {
               Dimana anda mendengar Otonometer?
             </label>
             <select
-              className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
+              className="infield focus:outline-none focus:shadow-outline font-regular"
               id="province"
               name="province"
               value={this.state.province}
@@ -498,7 +534,7 @@ class Register extends React.Component {
 
           <div className="flex items-center justify-center w-full sm:w-1/2 md:w-auto pr-2 h-[40px]">
             <button
-              className="text-white py-2 px-4 rounded-[8px] focus:outline-none text-[14px] font-medium focus:shadow-outline w-full bg-third hover:bg-secondary"
+              className="button"
               // style={{ backgroundColor: '#86BBD8' }}
               type="submit"
               onClick={this.submitBerhasil}
@@ -506,6 +542,8 @@ class Register extends React.Component {
               Daftar
             </button>
           </div>
+          </div>
+          
 
           <div className="flex items-center justify-center mt-4 font-regular text-[14px] text-secondary">
             <span>Sudah memiliki akun?</span>

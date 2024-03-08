@@ -283,7 +283,7 @@ import DatePicker from "react-datepicker"; // Import komponen datepicker
                   <ToastContainer />
                       {
                         formNo === 1 && 
-                                  <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
+                              <div className="flex flex-col bg-white p-8 rounded-[50px] px-[100px] justify-center items-center">
                               <h1 className="text-[34px] font-bold text-secondary mt-[20px] ">Perbaharui Data Profile</h1>
                               <div className="relative mb-4">
                                 <img
