@@ -12,7 +12,6 @@ import bulat from "../assets/circ.svg";
 import "../style/Switchbtn.css";
 import "../style/Components.css";
 
-
 const Jelajahmain = () => {
   const [selectedOption, setSelectedOption] = useState("Provinsi");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -195,11 +194,17 @@ const Jelajahmain = () => {
           <p>km²</p>
         </div>
         <div className="flex gap-[10px]">
-          <img src={geo} alt="" className="" />
+          <div className="hover-container">
+            <img src={geo} alt="" className="hover-image" />
+            <span className="hover-text w-[150%] mb-[10px]">1,518 km² 489 mdpl Dataran Tinggi</span>
+          </div>
           <a href="/Jelajah-Profil">
             <img src={people} alt="" className="" />
           </a>
-          <img src={industri} alt="" className="" />
+          <div className="hover-container">
+            <img src={industri} alt="" className="hover-image" />
+            <span className="hover-text w-[150%] mb-[10px]">N/A</span>
+          </div>
         </div>
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
           <p>2.453</p>
