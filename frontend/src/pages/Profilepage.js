@@ -1,11 +1,11 @@
 import Profile from "../pages/Profile"
-import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
+import Header from "../components/Header/Header"
 
 const Profilepage = () => {
   return (
     <div>
-      <Navbar />
+      <Header />
       <Profile />
       <Footer />
     </div>

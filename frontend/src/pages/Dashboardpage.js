@@ -1,11 +1,11 @@
 import Dashboard from "../pages/Dashboard"
-import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
+import Header from "../components/Header/Header"
 
 const Dashboardpage = () => {
   return (
     <div>
-      <Navbar />
+      <Header />
       <Dashboard />
       <Footer />
     </div>
