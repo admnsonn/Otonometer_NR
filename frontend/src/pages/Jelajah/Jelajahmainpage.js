@@ -1,6 +1,6 @@
-import Footer from "../components/Footer"
+import Footer from "../../components/Footer"
 import Jelajahmain from "./Jelajahmain"
-import Header from "../components/Header/Header"
+import Header from "../../components/Header/Header"
 
 const Jelajahmainpage = () => {
   return (

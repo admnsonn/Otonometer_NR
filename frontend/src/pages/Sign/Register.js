@@ -1,8 +1,8 @@
 import React from "react";
-import Illustration from "../assets/Auth/ilustrasi.jpg";
+import Illustration from "../../assets/Auth/ilustrasi.jpg";
 import DatePicker from "react-datepicker"; // Import komponen datepicker
 import Swal from "sweetalert2";
-import "../style/Components.css";
+import "../../style/Components.css";
 import "react-datepicker/dist/react-datepicker.css"; // Import CSS untuk datepicker
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,12 +12,12 @@ import {
   faArrowAltCircleLeft,
   faArrowCircleLeft,
 } from "@fortawesome/free-solid-svg-icons"; // Import ikon kalender
-import AppleIcon from "../assets/icons/apple.svg";
-import GoogleIcon from "../assets/icons/google.svg";
-import MicrosoftIcon from "../assets/icons/microsoft.svg";
-import NeracaIcon from "../assets/icons/neracaruang.svg";
+import AppleIcon from "../../assets/icons/apple.svg";
+import GoogleIcon from "../../assets/icons/google.svg";
+import MicrosoftIcon from "../../assets/icons/microsoft.svg";
+import NeracaIcon from "../../assets/icons/neracaruang.svg";
 import { Link } from "react-router-dom";
-import '../style/BtnLoginRegist.css';
+import '../../style/BtnLoginRegist.css';
 
 class Register extends React.Component {
   constructor(props) {

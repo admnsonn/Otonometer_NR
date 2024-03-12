@@ -1,6 +1,6 @@
-import Profile from "../pages/Profile"
-import Footer from "../components/Footer"
-import Header from "../components/Header/Header"
+import Profile from "./Profile"
+import Footer from "../../components/Footer"
+import Header from "../../components/Header/Header"
 
 const Profilepage = () => {
   return (

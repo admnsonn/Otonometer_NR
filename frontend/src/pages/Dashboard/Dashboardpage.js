@@ -1,6 +1,6 @@
-import Dashboard from "../pages/Dashboard"
-import Footer from "../components/Footer"
-import Header from "../components/Header/Header"
+import Dashboard from "./Dashboard"
+import Footer from "../../components/Footer"
+import Header from "../../components/Header/Header"
 
 const Dashboardpage = () => {
   return (

@@ -1,16 +1,16 @@
 import React from "react";
-import HalamanLogin from "./pages/Loginpage"
-import HalamanRegister from "./pages/Registerpage"
+import HalamanLogin from "./pages/Sign/Loginpage"
+import HalamanRegister from "./pages/Sign/Registerpage"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Jelajahpage from "./pages/Jelajahpage";
-import Dashboardpage from "./pages/Dashboardpage";
-import Profilepage from "./pages/Profilepage";
-import Jelajahmainpage from "./pages/Jelajahmainpage";
-import Utakmainpage from "./pages/Utakmainpage";
-import Berkacamainpage from "./pages/Berkacamainpage";
-import Jelajahprofilpage from "./pages/Jelajahprofilpage";
-import Utakpage from "./pages/Utakpage";
-import Berkacapage from "./pages/Berkacapage";
+import Jelajahpage from "./pages/Jelajah/Jelajahpage";
+import Dashboardpage from "./pages/Dashboard/Dashboardpage";
+import Profilepage from "./pages/Profile/Profilepage";
+import Jelajahmainpage from "./pages/Jelajah/Jelajahmainpage";
+import Utakmainpage from "./pages/Utak-Atik/Utakmainpage";
+import Berkacamainpage from "./pages/Berkaca/Berkacamainpage";
+import Jelajahprofilpage from "./pages/Jelajah/Jelajahprofilpage";
+import Utakpage from "./pages/Utak-Atik/Utakpage";
+import Berkacapage from "./pages/Berkaca/Berkacapage";
 
 const App = () => {
   return (
@@ -20,12 +20,12 @@ const App = () => {
 		    <Route exact path="/Login" element={<HalamanLogin />}></Route>
         <Route exact path="/Register" element={<HalamanRegister />}></Route>
         <Route exact path="/Jelajah" element={<Jelajahpage />}></Route>
-        <Route exact path="/Utak" element={<Utakpage />}></Route>
+        <Route exact path="/Utak-Atik" element={<Utakpage />}></Route>
         <Route exact path="/Berkaca" element={<Berkacapage />}></Route>
         <Route exact path="/Profile" element={<Profilepage />}></Route>
-        <Route exact path="/Jelajahmainpage" element={<Jelajahmainpage />}></Route>
-        <Route exact path="/Utakmainpage" element={<Utakmainpage />}></Route>
-        <Route exact path="/Berkacamainpage" element={<Berkacamainpage />}></Route>
+        <Route exact path="/Jelajah-Main" element={<Jelajahmainpage />}></Route>
+        <Route exact path="/Utak-Atik-Main" element={<Utakmainpage />}></Route>
+        <Route exact path="/Berkaca-Main" element={<Berkacamainpage />}></Route>
         <Route exact path="/Jelajah-Profil" element={<Jelajahprofilpage />}></Route>
       </Routes>
     </Router>

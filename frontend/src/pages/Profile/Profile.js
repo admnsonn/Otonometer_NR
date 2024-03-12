@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import Swal from "sweetalert2";
 import 'react-toastify/dist/ReactToastify.css';
-import ProfileImage from "../assets/profile-image.png";
+import ProfileImage from "../../assets/profile-image.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
@@ -12,12 +12,12 @@ import {
   faEye,
   faEyeSlash
 } from "@fortawesome/free-solid-svg-icons";
-import ketinggian from "../assets/ketinggian.png";
-import polusi from "../assets/polusi.png";
-import petaprofile from "../assets/petaprofil.png";
-import imgcard from "../assets/JELAJAH2.png";
-import deleteicon from "../assets/Delete.png"
-import editicon from "../assets/Edit.png"
+import ketinggian from "../../assets/ketinggian.png";
+import polusi from "../../assets/polusi.png";
+import petaprofile from "../../assets/petaprofil.png";
+import imgcard from "../../assets/JELAJAH2.png";
+import deleteicon from "../../assets/Delete.png"
+import editicon from "../../assets/Edit.png"
 import DatePicker from "react-datepicker"; // Import komponen datepicker
 
   const Profile = () => {

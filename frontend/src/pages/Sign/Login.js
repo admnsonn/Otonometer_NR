@@ -1,15 +1,15 @@
 import React from "react";
-import Illustration from "../assets/Auth/ilustrasi.jpg";
+import Illustration from "../../assets/Auth/ilustrasi.jpg";
 import Swal from "sweetalert2";
-import "../style/Components.css";
+import "../../style/Components.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import AppleIcon from "../assets/icons/apel.svg";
-import GoogleIcon from "../assets/icons/gugol.svg";
-import MicrosoftIcon from "../assets/icons/microsoft.svg";
-import NeracaIcon from "../assets/icons/neracaruangqu.svg";
+import AppleIcon from "../../assets/icons/apel.svg";
+import GoogleIcon from "../../assets/icons/gugol.svg";
+import MicrosoftIcon from "../../assets/icons/microsoft.svg";
+import NeracaIcon from "../../assets/icons/neracaruangqu.svg";
 
 class Login extends React.Component {
   constructor(props) {

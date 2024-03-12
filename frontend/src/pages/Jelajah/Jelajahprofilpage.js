@@ -1,6 +1,6 @@
-import Jelajahprofil from "../pages/Jelajahprofil"
-import Footer from "../components/Footer"
-import Header from "../components/Header/Header"
+import Jelajahprofil from "./Jelajahprofil"
+import Footer from "../../components/Footer"
+import Header from "../../components/Header/Header"
 
 const Jelajahpage = () => {
   return (

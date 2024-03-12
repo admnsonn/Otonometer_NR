@@ -1,6 +1,6 @@
 import Utak from "./Utak"
-import Footer from "../components/Footer"
-import Header from "../components/Header/Header"
+import Footer from "../../components/Footer"
+import Header from "../../components/Header/Header"
 
 const Utakpage = () => {
   return (

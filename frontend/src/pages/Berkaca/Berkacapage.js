@@ -1,6 +1,6 @@
-import Footer from "../components/Footer"
+import Footer from "../../components/Footer"
 import Berkaca from "./Berkaca"
-import Header from "../components/Header/Header"
+import Header from "../../components/Header/Header"
 
 const Berkacapage = () => {
   return (

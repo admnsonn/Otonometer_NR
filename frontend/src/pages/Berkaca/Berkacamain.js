@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import bulat from "../assets/bg-elemen.svg";
+import bulat from "../../assets/bg-elemen.svg";
 
 const Berkacamain = () => {
   const [selectedOption, setSelectedOption] = useState("Provinsi");

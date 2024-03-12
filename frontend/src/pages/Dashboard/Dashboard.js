@@ -1,10 +1,10 @@
 import React from "react";
-import logo from "../assets/biglogo.svg";
-import playstore from "../assets/App Store Black Border.svg";
-import appstore from "../assets/Google Play Black Border.svg";
-import Carousel from "../components/Carousel";
-import logo3d from "../assets/About/logo3d.svg";
-import ombak from "../assets/About/ombak.png";
+import logo from "../../assets/biglogo.svg";
+import playstore from "../../assets/App Store Black Border.svg";
+import appstore from "../../assets/Google Play Black Border.svg";
+import Carousel from "../../components/Carousel";
+import logo3d from "../../assets/About/logo3d.svg";
+import ombak from "../../assets/About/ombak.png";
 
 const Dashboard = () => {
   return (

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import peta from "../assets/petajelajah.png";
-import map from "../assets/icons/peta.png";
-import geo from "../assets/icons/geodating.svg";
-import people from "../assets/icons/people.svg";
-import industri from "../assets/icons/industri.svg";
-import Switchbtn from "../components/Switchbtn";
+import peta from "../../assets/petajelajah.png";
+import map from "../../assets/icons/peta.png";
+import geo from "../../assets/icons/geodating.svg";
+import people from "../../assets/icons/people.svg";
+import industri from "../../assets/icons/industri.svg";
+import Switchbtn from "../../components/Switchbtn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
-import bulat from "../assets/circ.svg";
-import "../style/Switchbtn.css";
-import "../style/Components.css";
+import bulat from "../../assets/circ.svg";
+import "../../style/Switchbtn.css";
+import "../../style/Components.css";
 
 const Jelajahmain = () => {
   const [selectedOption, setSelectedOption] = useState("Provinsi");

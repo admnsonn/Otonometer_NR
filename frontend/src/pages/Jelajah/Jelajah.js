@@ -1,6 +1,6 @@
 import React from 'react'
-import LandingPage from '../assets/landingpageJelajah.svg'
-import bulat from "../assets/bulat.svg";
+import LandingPage from '../../assets/landingpageJelajah.svg'
+import bulat from "../../assets/bulat.svg";
 const Jelajah = () => {
   return (
     <div className='relative mt-[150px]'>

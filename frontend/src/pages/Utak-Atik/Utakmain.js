@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import peta from "../assets/petajelajah.png";
-import map from "../assets/icons/peta.png";
-import geo from "../assets/icons/geodating.svg";
-import people from "../assets/icons/people.svg";
-import industri from "../assets/icons/industri.svg";
+import peta from "../../assets/petajelajah.png";
+import map from "../../assets/icons/peta.png";
+import geo from "../../assets/icons/geodating.svg";
+import people from "../../assets/icons/people.svg";
+import industri from "../../assets/icons/industri.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import Timeseries from "../components/Grafik/Timeseries.js";
+import Timeseries from "../../components/Grafik/Timeseries.js";
 
 const Utakmain = () => {
   const [selectedOption, setSelectedOption] = useState("Provinsi");
