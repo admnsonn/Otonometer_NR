@@ -1,6 +1,7 @@
 import React from 'react'
 import LandingPage from '../../assets/landingpageBerkaca.svg'
 import bulat from "../../assets/bulat.svg";
+import { NavLink } from 'react-router-dom';
 const Berkaca = () => {
   return (
     <div className='relative mt-[150px]'>
@@ -10,8 +11,7 @@ const Berkaca = () => {
               <h1 className='font-bold text-[96px] '>Berkaca</h1>
               <p className='font-medium text-[34px] mt-[18px] '>Bandingkan daerah Anda dengan daerah lain!</p>
               <p className='font-regular text-[20px] mt-[18px]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eleifend sapien sit amet nibh consequat, in porttitor tortor vestibulum. Vestibulum consequat nibh vitae lorem sollicitudin, quis lobortis lacus pretium. Pellentesque sed mauris blandit enim aliquet pulvinar.</p>
-              <button 
-              // onClick={() => navgate('Login')}
+              <NavLink to={'/Berkaca-Main'}
               className='
               mt-[38px]
               flex 
@@ -21,7 +21,7 @@ const Berkaca = () => {
               rounded-[10px] 
               text-white 
               items-center justify-center'>
-                  Lanjut</button>
+                  Lanjut</NavLink>
           </div>
           <div>
             <img src={LandingPage} alt="loading" className="w-450" />
