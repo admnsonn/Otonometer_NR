@@ -11,7 +11,7 @@ const Utak = () => {
               <h1 className='font-bold text-[96px] '>Utak-Atik</h1>
               <p className='font-medium text-[34px] mt-[18px] '>Telisik lebih jauh data daerah Anda! </p>
               <p className='font-regular text-[20px] mt-[18px]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eleifend sapien sit amet nibh consequat, in porttitor tortor vestibulum. Vestibulum consequat nibh vitae lorem sollicitudin, quis lobortis lacus pretium. Pellentesque sed mauris blandit enim aliquet pulvinar.</p>
-              <NavLink to={'/Utakmainpage'}
+              <NavLink to={'/Utak-Atik-Main'}
               className='
               mt-[38px]
               flex 
