@@ -22,7 +22,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgb(182, 182, 182);
+  background-color: #efefef;
   transition: background-color 0.4s, box-shadow 0.4s;
   border-radius: 10px;
 }
@@ -41,7 +41,7 @@
 }
 
 .switch input:checked + .slider {
-  background-color: #24445A;
+  background-color: #efefef;
 }
 
 .switch input:focus + .slider {
@@ -50,6 +50,7 @@
 
 .switch input:checked + .slider:before {
   transform: translateX(1.5em);
+  background-color: #24445A;
 }
 
 .inactive-text {
@@ -59,4 +60,8 @@
 .flex .switch input:checked + .slider + p {
   color: #24445A;
   font-weight: 600;
+}
+
+.slider:before{
+  background-color: #24445A;
 }
