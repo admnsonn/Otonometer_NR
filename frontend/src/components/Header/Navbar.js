@@ -16,8 +16,8 @@ const NavLinks = () => {
             <NavLink style={navLinkStyles} to={'/Jelajah'} className={'text-secondary'}>
                 Jelajah
             </NavLink>
-            <NavLink style={navLinkStyles} to={'/Utak'} className={'text-secondary'}>
-                Utak
+            <NavLink style={navLinkStyles} to={'/Utak-Atik'} className={'text-secondary'}>
+                Utak-Atik
             </NavLink>
             <NavLink style={navLinkStyles} to={'/Berkaca'} className={'text-secondary'}>
                 Berkaca
