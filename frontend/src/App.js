@@ -11,6 +11,7 @@ import Berkacamainpage from "./pages/Berkaca/Berkacamainpage";
 import Jelajahprofilpage from "./pages/Jelajah/Jelajahprofilpage";
 import Utakpage from "./pages/Utak-Atik/Utakpage";
 import Berkacapage from "./pages/Berkaca/Berkacapage";
+import UtakGraphPage from "./pages/Utak-Atik/UtakGraphPage";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route exact path="/Utak-Atik-Main" element={<Utakmainpage />}></Route>
         <Route exact path="/Berkaca-Main" element={<Berkacamainpage />}></Route>
         <Route exact path="/Jelajah-Profil" element={<Jelajahprofilpage />}></Route>
+        <Route exact path="/UtakGraph" element={<UtakGraphPage />}></Route>
       </Routes>
     </Router>
   );
