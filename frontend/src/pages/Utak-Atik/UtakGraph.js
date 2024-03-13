@@ -4,6 +4,15 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import bulat from "../../assets/bulat.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
+import Chart from 'chart.js/auto';
+
+// Komponen card baru
+const Card = ({ title, description }) => (
+    <div className="flex flex-col bg-white w-[350px] h-[200px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer">
+        <p className="text-lg font-semibold">{title}</p>
+        <p>{description}</p>
+    </div>
+);
 
 const UtakGraph = () => {
     const [dropdownProvinsi, setDropdownProvinsi] = useState(false);
@@ -89,7 +98,7 @@ const UtakGraph = () => {
             onClick={() => handleOptionYear(year)}
             className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mr-4"
           >
-            <p>{year ? year : 'Pilih Tahun'}</p>
+            <p>{year ? year : '-'}</p>
           </div>
         ));
     };
@@ -196,7 +205,7 @@ const UtakGraph = () => {
                     onClick={handleDropdownTahunKiri}
                     className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer "
                 >
-                    <p>{selectedYear || 'Pilih Tahun'}</p>
+                    <p>{selectedYear || '-'}</p>
                     <FontAwesomeIcon
                         icon={faCaretDown}
                         color="#24445A"
@@ -226,6 +235,12 @@ const UtakGraph = () => {
                         {renderDropdownYears()}
                     </div>
                 )}
+            </div>
+
+            {/* Menambahkan dua card di bawah dropdown tahun */}
+            <div className="flex gap-[90px] mt-4">
+                <Card title="Card 1" description="Description for Card 1" />
+                <Card title="Card 2" description="Description for Card 2" />
             </div>
         </div>
     );
