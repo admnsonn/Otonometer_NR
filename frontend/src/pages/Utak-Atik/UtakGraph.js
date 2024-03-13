@@ -12,7 +12,8 @@ const UtakGraph = () => {
     const [dropdownTahunKanan, setDropdownTahunKanan] = useState(false);
     const [selectedOption, setSelectedOption] = useState('Jawa Barat');
     const [selectedKota, setSelectedKota] = useState('Kota Bandung');
-    const [selectedYear, setSelectedYear] = useState('2023');
+    const [selectedYear, setSelectedYear] = useState('');
+    const [selectedYears, setSelectedYears] = useState('');
 
     const handleDropdownProvinsi = () => {
         setDropdownProvinsi(!dropdownProvinsi);
@@ -42,6 +43,11 @@ const UtakGraph = () => {
 
     const handleOptionYear = (year) => {
         setSelectedYear(year);
+        setDropdownTahunKiri(false);
+        setDropdownTahunKanan(false);
+    };
+    const handleOptionYears = (year) => {
+        setSelectedYears(year);
         setDropdownTahunKiri(false);
         setDropdownTahunKanan(false);
     };
@@ -75,7 +81,7 @@ const UtakGraph = () => {
     };
 
     const renderDropdownYear = () => {
-        const years = ["2022", "2023", "2024"];
+        const years = ["", "2022", "2023", "2024"];
     
         return years.map((year, index) => (
           <div
@@ -83,11 +89,24 @@ const UtakGraph = () => {
             onClick={() => handleOptionYear(year)}
             className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mr-4"
           >
-            <p>{year}</p>
+            <p>{year ? year : 'Pilih Tahun'}</p>
           </div>
         ));
     };
 
+    const renderDropdownYears = () => {
+        const years = ["2022", "2023", "2024"];
+    
+        return years.map((year, index) => (
+          <div
+            key={index}
+            onClick={() => handleOptionYears(year)}
+            className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mr-4"
+          >
+            <p>{year}</p>
+          </div>
+        ));
+    };
     const [activeTab, setActiveTab] = useState("nominal");
 
     const toggleTab = () => {
@@ -177,7 +196,7 @@ const UtakGraph = () => {
                     onClick={handleDropdownTahunKiri}
                     className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer "
                 >
-                    <p>{selectedYear}</p>
+                    <p>{selectedYear || 'Pilih Tahun'}</p>
                     <FontAwesomeIcon
                         icon={faCaretDown}
                         color="#24445A"
@@ -195,7 +214,7 @@ const UtakGraph = () => {
                     onClick={handleDropdownTahunKanan}
                     className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
                 >
-                    <p>{selectedYear}</p>
+                    <p>{selectedYears ? selectedYears : '2022'}</p>
                     <FontAwesomeIcon
                         icon={faCaretDown}
                         color="#24445A"
@@ -204,7 +223,7 @@ const UtakGraph = () => {
                 </div>
                 {dropdownTahunKanan && (
                     <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px] ml-[216px]">
-                        {renderDropdownYear()}
+                        {renderDropdownYears()}
                     </div>
                 )}
             </div>
