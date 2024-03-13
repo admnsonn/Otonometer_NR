@@ -7,6 +7,7 @@ import industri from "../../assets/icons/industri.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import Timeseries from "../../components/Grafik/Timeseries.js";
+import bulat from "../../assets/circ.svg";
 
 const Utakmain = () => {
   const [selectedOption, setSelectedOption] = useState("Provinsi");
@@ -20,6 +21,10 @@ const Utakmain = () => {
 
   const [selectedDataset, setSelectedDataset] = useState("Pilih");
   const [dropdownDataset, setDropdownDataset] = useState(false);
+
+  const [selectedDataset2, setSelectedDataset2] = useState("Pilih");
+  const [dropdownDataset2, setDropdownDataset2] = useState(false);
+
 
   const handleDropdownClick = () => {
     setDropdownOpen(!dropdownOpen);
@@ -55,6 +60,11 @@ const Utakmain = () => {
   const handleOptionDataset = (option) => {
     setSelectedDataset(option);
     setDropdownDataset(false);
+  };
+
+  const handleOptionDataset2 = (option) => {
+    setSelectedDataset2(option);
+    setDropdownDataset2(false);
   };
 
   const renderDropdownOptions = () => {
@@ -112,9 +122,22 @@ const Utakmain = () => {
     ));
   };
 
+  const renderDropdownDataset2 = () => {
+    const options = ["Pendapatan", "Belanja", "Pembiaay"];
+    return options.map((option, index) => (
+      <div
+        key={index}
+        onClick={() => handleOptionDataset(option)}
+        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+      >
+        <p>{option}</p>
+      </div>
+    ));
+  };
+
   return (
-      <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px]">
-        <div className="relative w-full max-w-lg blur-2xl">
+      <div className="flex flex-col mb-[150px] mt-[80px] justify-center items-center max-lg:[1920px]">
+        {/* <div className="relative w-full max-w-lg blur-2xl">
           <div class="absolute top-[20%] left-[1100px] w-[280px] h-[280px] bg-third rounded-full mix-blend-multiply filter opacity-20 animate-blob animation-delay-4000"></div>
           <div class="absolute top-[50%] right-[960px] w-[220px] h-[220px] bg-secondary rounded-full mix-blend-multiply filter opacity-10 animate-blob animation-delay-2000"></div>
           <div class="absolute top-[650px] right-[800px] w-[390px] h-[390px] bg-third rounded-full mix-blend-multiply filter opacity-35 animate-blob animation-delay-2000"></div>
@@ -123,8 +146,8 @@ const Utakmain = () => {
         </div>
         <div className="w-[1170px] h-[535px] text-secondary">
           <Timeseries/>
-        </div>
-        {/* <img src={bulat} alt="" className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] opacity-50 w-full" /> */}
+        </div> */}
+        <img src={bulat} alt="" className="absolute w-full -z-10" />
         <div className="flex bg-none w-[167px] h-[41px] rounded-[10px] text-secondary border-2 border-secondary text-[14px] font-semibold items-center justify-center">
           UTAK-ATIK
         </div>
@@ -232,6 +255,12 @@ const Utakmain = () => {
               {renderDropdownDataset()}
             </div>
           )}
+
+{dropdownDataset2 && (
+      <div className="absolute z-[20px] bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[1050px] ml-[216px]">
+        {renderDropdownDataset2()}
+      </div>
+    )}
       </div>
   );
 };

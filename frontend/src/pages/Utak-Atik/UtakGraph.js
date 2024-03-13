@@ -146,16 +146,16 @@ const UtakGraph = () => {
                 )}
             </div>
 
-            <div className="flex justify-center items-center text-secondary text-[14px] font-bold mt-4">
+            <div className="flex justify-center items-center text-secondary text-[14px] font-bold mt-4 gap-[80px] ml-[30px]">
                 <div className='text-center'>
                     <p className='text-center font-extrabold text-[24px] text-[#064878]'>Belanja</p>
                     <p className="text-sm">(Rp 10/Kapita)</p>
                 </div>
-                <div className='text-center' style={{ marginLeft: '100px', marginRight: '110px' }}>
+                <div className='text-center'>
                     <p className='text-[20px] text-[#0B578E]'>Penduduk</p>
                     <p>(Rp 10/Kapita)</p>
                 </div>
-                <div className='text-center'>
+                <div className='text-center ml-[-10px]'>
                     <p className='text-center font-extrabold text-[24px] text-[#064878]'>Pendapatan</p>
                     <p>(Rp 10/Kapita)</p>
                 </div>
