@@ -7,7 +7,7 @@ const Carousel = () => {
 
   const imageSources = [
     { src: require('../assets/jelajah.png'), href: '/Jelajah'},
-    { src: require('../assets/utak.png'), href: '/Utak' },
+    { src: require('../assets/utak.png'), href: '/Utak-Atik' },
     { src: require('../assets/berkaca.png'), href: '/Berkaca' },
     { src: require('../assets/lens.png'), href: '/' }
   ];

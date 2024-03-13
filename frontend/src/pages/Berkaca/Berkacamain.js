@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import bulat from "../../assets/bg-elemen.svg";
+import bulat from "../../assets/circ.svg";
 
 const Berkacamain = () => {
   const [selectedOption, setSelectedOption] = useState("Provinsi");
@@ -83,7 +83,7 @@ const Berkacamain = () => {
   };
 
   return (
-      <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px]">
+      <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
         {/* <div className="relative w-full max-w-lg blur-2xl">
           <div class="absolute top-[20%] left-[1100px] w-[280px] h-[280px] bg-third rounded-full mix-blend-multiply filter opacity-20 animate-blob animation-delay-4000"></div>
           <div class="absolute top-[50%] right-[960px] w-[220px] h-[220px] bg-secondary rounded-full mix-blend-multiply filter opacity-10 animate-blob animation-delay-2000"></div>
@@ -91,6 +91,7 @@ const Berkacamain = () => {
           <div class="absolute top-[450px] left-[800px] w-[220px] h-[220px] bg-secondary rounded-full mix-blend-multiply filter opacity-10 animate-blob animation-delay-2000"></div>
           <div class="absolute top-[400px] left-[800px] w-[390px] h-[390px] bg-third rounded-full mix-blend-multiply filter opacity-40 animate-blob animation-delay-2000"></div>
         </div> */}
+              <img src={bulat} alt="" className="fixed w-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] -z-10" />
         <div className="flex bg-none w-[167px] h-[41px] rounded-[10px] text-secondary border-2 border-secondary text-[14px] font-semibold items-center justify-center">
           BERKACA
         </div>
