@@ -5,7 +5,6 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import bulat from "../../assets/bulat.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
-import Timeseries from '../../components/Grafik/Timeseries';
 
 // Komponen card baru
 const Card = ({ chartRef, note, legendData }) => {
@@ -331,11 +330,6 @@ const UtakGraph = () => {
 
       {/* Menambahkan dua card di bawah dropdown tahun */}
       <div className="flex gap-[90px] mt-4">
-<<<<<<< Updated upstream
-        <Timeseries/>
-        <Timeseries/>
-        </div>
-=======
         <Card 
             chartRef={chartRef1}
             note="Catatan: Data Kendaraan dan BBNKB tidak tersedia dalam skala kabupaten/kota"
@@ -347,7 +341,6 @@ const UtakGraph = () => {
             legendData={legendData2}
         />
       </div>
->>>>>>> Stashed changes
     </div>
   );
 };
