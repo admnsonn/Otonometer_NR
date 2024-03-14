@@ -8,38 +8,42 @@ import "../../style/Components.css";
 import Timeseries from '../../components/Grafik/Timeseries';
 
 // Komponen card baru
-const Card = ({ chartRef, note }) => (
-    <div className="flex flex-col bg-white w-[350px] h-[300px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer">
-      <div className="flex flex-col items-center justify-center h-full">
-        <canvas ref={chartRef} width="200" height="200"></canvas>
-      </div>
-      <p className="text-center mt-2 text-sm text-[#064878] italic">
-        {note}
-      </p>
-      <div className="legend-container">
-        <div className="legend-row">
-          <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#ff0000' }}></div>
-            <p className="legend-label">Label 1</p>
-          </div>
-          <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#00ff00' }}></div>
-            <p className="legend-label">Label 2</p>
-          </div>
+const Card = ({ chartRef, note, legendData }) => {
+    const [showAllLegends, setShowAllLegends] = useState(false);
+  
+    const handleClickMore = () => {
+      setShowAllLegends(!showAllLegends);
+    };
+  
+    return (
+      <div className="flex flex-col bg-white w-[350px] h-[auto] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer">
+        <div className="flex flex-col items-center justify-center h-full">
+          <canvas ref={chartRef} width="200" height="200"></canvas>
         </div>
-        <div className="legend-row">
-          <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#0000ff' }}></div>
-            <p className="legend-label">Label 3</p>
-          </div>
-          <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#ffff00' }}></div>
-            <p className="legend-label">Label 4</p>
-          </div>
+        <p className="text-center mt-2 text-sm text-[#064878] italic">
+          {note}
+        </p>
+        <div className="legend-container">
+          {legendData.length > 4 && !showAllLegends ? (
+            <div className="flex justify-center items-center mt-2">
+              <button className="text-[#064878] hover:text-[#0B578E] focus:outline-none" onClick={handleClickMore}>
+                Show All Legends
+              </button>
+            </div>
+          ) : (
+            legendData.map((legend, index) => (
+              <div key={index} className="legend-row">
+                <div className="legend-item">
+                  <div className="legend-color" style={{ backgroundColor: legend.color }}></div>
+                  <p className="legend-label">{legend.label}</p>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
-    </div>
-  );
+    );
+  };
   
 
 const UtakGraph = () => {
@@ -54,6 +58,8 @@ const UtakGraph = () => {
   const chartRef1 = useRef(null);
   const chartRef2 = useRef(null);
   const [showAllLegends, setShowAllLegends] = useState(false);
+  const [legendData1, setLegendData1] = useState([]);
+  const [legendData2, setLegendData2] = useState([]);
 
   const handleClickMore = () => {
     setShowAllLegends(!showAllLegends);
@@ -165,43 +171,54 @@ const UtakGraph = () => {
   );
 
   useEffect(() => {
-    // Menggambar pie chart untuk Card 1
-    if (chartRef1.current) {
-        const ctx = chartRef1.current.getContext('2d');
-        if (chartRef1.current.chart) {
-            chartRef1.current.chart.destroy();
-        }
-        chartRef1.current.chart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Data Card 1',
-                    data: [30, 40, 30],
-                    backgroundColor: ['#ff0000', '#00ff00', '#0000ff']
-                }]
-            }
-        });
-    }
+    // Chart data
+    const data1 = [30, 40, 20, 50, 30, 20, 10, 40];
+    const labels1 = ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5', 'Label 6', 'Label 7', 'Label 8'];
+    const backgroundColor1 = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#9900ff', '#ff9900'];
+    const legendData1 = labels1.map((label, index) => ({ label, color: backgroundColor1[index] }));
 
-    // Menggambar pie chart untuk Card 2
-    if (chartRef2.current) {
-        const ctx = chartRef2.current.getContext('2d');
-        if (chartRef2.current.chart) {
-            chartRef2.current.chart.destroy();
-        }
-        chartRef2.current.chart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Data Card 2',
-                    data: [20, 50, 30],
-                    backgroundColor: ['#ffff00', '#ff00ff', '#00ffff']
-                }]
-            }
-        });
-    }
+    const data2 = [20, 30, 40, 50, 20, 30, 10, 50];
+    const labels2 = ['Label 9', 'Label 10', 'Label 11', 'Label 12', 'Label 13', 'Label 14', 'Label 15', 'Label 16'];
+    const backgroundColor2 = ['#9900ff', '#ff9900', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ff0000'];
+    const legendData2 = labels2.map((label, index) => ({ label, color: backgroundColor2[index] }));
+
+    // Draw pie chart for Card 1
+    const ctx1 = chartRef1.current.getContext('2d');
+    const chart1 = new Chart(ctx1, {
+      type: 'doughnut',
+      data: {
+        labels: labels1,
+        datasets: [{
+          label: 'Data Card 1',
+          data: data1,
+          backgroundColor: backgroundColor1
+        }]
+      }
+    });
+
+    // Draw pie chart for Card 2
+    const ctx2 = chartRef2.current.getContext('2d');
+    const chart2 = new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: labels2,
+        datasets: [{
+          label: 'Data Card 2',
+          data: data2,
+          backgroundColor: backgroundColor2
+        }]
+      }
+    });
+
+    // Set legend data
+    setLegendData1(legendData1);
+    setLegendData2(legendData2);
+
+    // Cleanup
+    return () => {
+      chart1.destroy();
+      chart2.destroy();
+    };
   }, []);
 
   return (
@@ -314,9 +331,23 @@ const UtakGraph = () => {
 
       {/* Menambahkan dua card di bawah dropdown tahun */}
       <div className="flex gap-[90px] mt-4">
+<<<<<<< Updated upstream
         <Timeseries/>
         <Timeseries/>
         </div>
+=======
+        <Card 
+            chartRef={chartRef1}
+            note="Catatan: Data Kendaraan dan BBNKB tidak tersedia dalam skala kabupaten/kota"
+            legendData={legendData1}
+        />
+        <Card 
+            chartRef={chartRef2}
+            note="Catatan: Data Kendaraan dan BBNKB tidak tersedia dalam skala kabupaten/kota"
+            legendData={legendData2}
+        />
+      </div>
+>>>>>>> Stashed changes
     </div>
   );
 };
