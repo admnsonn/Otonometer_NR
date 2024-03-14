@@ -125,3 +125,10 @@
 .legend-label {
   font-size: 14px;
 }
+
+.custom-checkbox {
+  margin-bottom: 100px;
+  color: #cd3838;
+  background-color: aqua;
+  /* Tambahkan properti CSS lain sesuai kebutuhan */
+}
