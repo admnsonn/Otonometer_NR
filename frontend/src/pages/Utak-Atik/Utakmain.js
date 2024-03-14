@@ -210,8 +210,7 @@ const Utakmain = () => {
         }
       }
       return (
-        <div>
-          {/* Render dropdown untuk memilih subdata */}
+        <div className="ml-[20px]">
           <select onChange={(e) => handleSubDataSelect(e.target.value)}>
             <option value="">Pilih Subdata</option>
             <option value="Pendapatan">Pendapatan</option>
@@ -219,7 +218,6 @@ const Utakmain = () => {
             <option value="Pembiayaan">Pembiayaan</option>
           </select>
 
-          {/* Render opsi checkbox berdasarkan subdata yang dipilih */}
           <div>
             {checkboxOptions.map((option, index) => (
               <div key={index}>
@@ -269,7 +267,7 @@ const Utakmain = () => {
                 name={option}
                 id={option}
                 onChange={handleCheckboxChange}
-                className="mr-2"
+                className="mr-4"
               />
               <label htmlFor={option}>{option}</label>
             </div>
