@@ -5,6 +5,7 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import bulat from "../../assets/bulat.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
+import Timeseries from '../../components/Grafik/Timeseries'
 
 // Komponen card baru
 const Card = ({ chartRef, note, legendData }) => {
@@ -32,7 +33,7 @@ const Card = ({ chartRef, note, legendData }) => {
           ) : (
             legendData.map((legend, index) => (
               <div key={index} className="legend-row">
-                <div className="legend-item">
+                <div className="legend-item flex w-[100px] gap-x-[20px] mx-[20px]">
                   <div className="legend-color" style={{ backgroundColor: legend.color }}></div>
                   <p className="legend-label">{legend.label}</p>
                 </div>
@@ -172,7 +173,7 @@ const UtakGraph = () => {
   useEffect(() => {
     // Chart data
     const data1 = [30, 40, 20, 50, 30, 20, 10, 40];
-    const labels1 = ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5', 'Label 6', 'Label 7', 'Label 8'];
+    const labels1 = ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5', 'Label 6', 'Label 7'];
     const backgroundColor1 = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#9900ff', '#ff9900'];
     const legendData1 = labels1.map((label, index) => ({ label, color: backgroundColor1[index] }));
 
@@ -186,7 +187,6 @@ const UtakGraph = () => {
     const chart1 = new Chart(ctx1, {
       type: 'doughnut',
       data: {
-        labels: labels1,
         datasets: [{
           label: 'Data Card 1',
           data: data1,
@@ -200,7 +200,6 @@ const UtakGraph = () => {
     const chart2 = new Chart(ctx2, {
       type: 'doughnut',
       data: {
-        labels: labels2,
         datasets: [{
           label: 'Data Card 2',
           data: data2,
@@ -340,6 +339,7 @@ const UtakGraph = () => {
             note="Catatan: Data Kendaraan dan BBNKB tidak tersedia dalam skala kabupaten/kota"
             legendData={legendData2}
         />
+        {/* <Timeseries/> */}
       </div>
     </div>
   );
