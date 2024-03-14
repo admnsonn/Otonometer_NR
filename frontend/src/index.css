@@ -35,3 +35,6 @@ body {
 .home {
   background-image: url("asset/Ilustrasion.svg");
 } */
+select:focus {
+  outline:none;
+}   

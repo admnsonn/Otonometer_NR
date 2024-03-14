@@ -6,7 +6,6 @@ import people from "../../assets/icons/people.svg";
 import industri from "../../assets/icons/industri.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import Timeseries from "../../components/Grafik/Timeseries.js";
 import bulat from "../../assets/circ.svg";
 
 const Utakmain = () => {
@@ -19,12 +18,6 @@ const Utakmain = () => {
   const [selectedTahun, setSelectedTahun] = useState("Tahun");
   const [dropdownTahun, setDropdownTahun] = useState(false);
 
-  const [selectedDataset, setSelectedDataset] = useState("Pilih");
-  const [dropdownDataset, setDropdownDataset] = useState(false);
-
-  const [selectedDataset2, setSelectedDataset2] = useState("Pilih");
-  const [dropdownDataset2, setDropdownDataset2] = useState(false);
-
   const handleDropdownClick = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -35,14 +28,6 @@ const Utakmain = () => {
 
   const handleDropdownTahun = () => {
     setDropdownTahun(!dropdownTahun);
-  };
-
-  const handleDropdownDataset = () => {
-    setDropdownDataset(!dropdownDataset);
-  };
-
-  const handleDropdownDataset2 = () => {
-    setDropdownDataset2(!dropdownDataset2);
   };
 
   const handleOptionClick = (option) => {
@@ -60,15 +45,6 @@ const Utakmain = () => {
     setDropdownTahun(false);
   };
 
-  const handleOptionDataset = (option) => {
-    setSelectedDataset(option);
-    setDropdownDataset(false);
-  };
-
-  const handleOptionDataset2 = (option) => {
-    setSelectedDataset2(option);
-    setDropdownDataset2(false);
-  };
 
   const renderDropdownOptions = () => {
     const options = ["Jawa Barat", "Jawa Tengah", "Jawa Timur"];
@@ -112,44 +88,241 @@ const Utakmain = () => {
     ));
   };
 
-  const renderDropdownDataset = () => {
-    const options = ["Keuangan", "Ekonomi", "Statik"];
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionDataset(option)}
-        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
+  ///DATASET
+  // const [selectedDataset, setSelectedDataset] = useState("Pilih");
+  // const [dropdownDataset, setDropdownDataset] = useState(false);
+  // const [selectedDataset2, setSelectedDataset2] = useState("Pilih");
+  // const [dropdownDataset2, setDropdownDataset2] = useState(false);
+  // const handleDropdownDataset = () => {
+  //   setDropdownDataset(!dropdownDataset);
+  // };
+  // const handleDropdownDataset2 = () => {
+  //   setDropdownDataset2(!dropdownDataset2);
+  // };
+  // const handleOptionDataset2 = (option) => {
+  //   setSelectedDataset2(option);
+  //   setDropdownDataset2(false);
+  // };
+  // const renderDropdownDataset = () => {
+  //   const options = ["Pilih", "Keuangan", "Ekonomi", "Statistik"];
+  //   return options.map((option, index) => (
+  //     <div
+  //       key={index}
+  //       onClick={() => handleOptionDataset(option)}
+  //       className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+  //     >
+  //       <p>{option}</p>
+  //     </div>
+  //   ));
+  // };
+  // const handleOptionDataset = (option) => {
+  //   setSelectedDataset(option);
+  //   setDropdownDataset(false); // Menutup dropdown dataset pertama
+  //   // Menampilkan dropdown dataset kedua saat dataset pertama dipilih
+  //   if (option === "Keuangan" || option === "Ekonomi" || option === "Statistik") {
+  //     setDropdownDataset2(true);
+  //   } else {
+  //     setDropdownDataset2(false); // Menyembunyikan dropdown dataset kedua jika dataset pertama tidak memenuhi kriteria
+  //   }
+  // };
+  // const renderDropdownDataset2 = () => {
+  //   let options = [];
 
-  const renderDropdownDataset2 = () => {
-    const options = ["Pendapatan", "Belanja", "Pembiayaan"];
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionDataset2(option)}
-        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
+  //   if (selectedDataset === "Keuangan") {
+  //     options = ["Pendapatan", "Belanja", "Pembiayaan"];
+  //   } else if (selectedDataset === "Ekonomi") {
+  //     options = ["PDRB - ADHB", "PDRB - ADHK"];
+  //   } else if (selectedDataset === "Statistik") {
+  //     options = ["Jumlah Penduduk"];
+  //   }
+
+  //   return options.map((option, index) => (
+  //     <div
+  //       key={index}
+  //       onClick={() => handleOptionDataset2(option)}
+  //       className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
+  //     >
+  //       <p>{option}</p>
+  //     </div>
+  //   ));
+  // };
+  // const renderCheckboxOptions = () => {
+  //   let checkboxes = [];
+
+  //   if (selectedDataset === "Keuangan" && selectedDataset2 === "Pendapatan") {
+  //     checkboxes = ["Semua", "PAD", "Transfer", "Lain Transfer", "Perimbangan", "Lain Imbang"];
+  //   } else if (selectedDataset === "Keuangan" && selectedDataset2 === "Belanja") {
+  //     checkboxes = ["Semua", "Operasi", "Modal", "Tak Terduga", "Belanja TRF", "B. Tidak Langsung", "B. Langsung"];
+  //   } else if (selectedDataset === "Keuangan" && selectedDataset2 === "Pembiayaan") {
+  //     checkboxes = ["Semua", "Penerimaan", "Pengeluaran"];
+  //   } else if (selectedDataset === "Ekonomi" || selectedDataset2 === "PDRB - ADHB") {
+  //     checkboxes = ["Semua", "Pertanian", "Pertambangan", "Industri"];
+  //   } else if (selectedDataset === "Ekonomi" || selectedDataset2 === "PDRB - ADHK") {
+  //     checkboxes = ["Semua", "Pertanian", "Pertambangan", "Industri"];
+  //   } else if (selectedDataset === "Statistik" || selectedDataset2 === "Jumlah Penduduk") {
+  //     checkboxes = ["Semua", "Semua Umur", "Perempuan", "Laki-laki"];
+  //   }
+  //   return checkboxes.map((checkbox, index) => (
+  //     <div key={index} className="flex items-center mt-2">
+  //       <input type="checkbox" id={checkbox} name={checkbox} value={checkbox} />
+  //       <label htmlFor={checkbox} className="ml-2">{checkbox}</label>
+  //     </div>
+  //   ));
+  // };
+  
+  // const renderDataset2Button = () => {
+  //   if (selectedDataset2 !== "Pilih") {
+  //     return (
+  //       <button className="bg-secondary text-white px-4 py-2 rounded-md mt-4">Dataset 2</button>
+  //     );
+  //   }
+  // };
+
+  const Dropdown = ({ options, onSelect, label, dropdownClass }) => {
+    const [selectedOption, setSelectedOption] = useState('');
+  
+    const handleOptionChange = (e) => {
+      setSelectedOption(e.target.value);
+      onSelect(e.target.value);
+    };
+  
+    return (
+      <div className={`flex ${dropdownClass} w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mt-[10px] mb-[10px]`}>
+        <select className={`bg-secondary ${dropdownClass} w-full h-full mx-[20px]`} value={selectedOption} onChange={handleOptionChange}>
+          <option value="">Pilih</option>
+          {options.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
-    ));
+    );
   };
+  
+  const CheckboxForm = ({ options, onCheck }) => {
+    const handleCheckboxChange = (e) => {
+      onCheck(e.target.name, e.target.checked);
+    };
+  
+    return (
+      <div>
+        {options.map((option, index) => (
+          <div key={index}>
+            <input
+              type="checkbox"
+              name={option}
+              onChange={handleCheckboxChange}
+            />
+            <label>{option}</label>
+          </div>
+        ))}
+      </div>
+    );
+  };
+  
+  const Tesss = () => {
+    const [selectedData, setSelectedData] = useState('');
+    const [selectedSubData, setSelectedSubData] = useState('');
+    const [checkboxOptions, setCheckboxOptions] = useState([]);
+    const [selectedDataset2, setSelectedDataset2] = useState('');
+  
+    const handleDataSelect = (data) => {
+      setSelectedData(data);
+      setSelectedSubData('');
+      setCheckboxOptions([]);
+      setSelectedDataset2('');
+    };
+  
+    const handleSubDataSelect = (subData) => {
+      setSelectedSubData(subData);
+      if (selectedData === 'Keuangan') {
+        switch (subData) {
+          case 'Pendapatan':
+            setCheckboxOptions(['Semua', 'PAD', 'Transfer', 'Lain Transfer', 'Perimbangan', 'Lain Imbang']);
+            break;
+          case 'Belanja':
+            setCheckboxOptions(['Semua', 'Operasi', 'Modal', 'Tak Terduga', 'Belanja Trf', 'B. Tidak Langsung', 'B. Langsung']);
+            break;
+          case 'Pembiayaan':
+            setCheckboxOptions(['Semua', 'Penerimaan', 'Pengeluaran']);
+            break;
+          default:
+            setCheckboxOptions([]);
+        }
+      } else if (selectedData === 'Ekonomi') {
+        switch (subData) {
+          case 'PDRB - ADHB':
+          case 'PDRB - ADHK':
+            setCheckboxOptions(['Semua', 'Pertanian', 'Pertambangan', 'Industri']);
+            break;
+          default:
+            setCheckboxOptions([]);
+        }
+      } else if (selectedData === 'Statistik') {
+        switch (subData) {
+          case 'Jumlah Penduduk':
+            setCheckboxOptions(['Semua', 'Semua Umur', 'Perempuan', 'Laki-laki']);
+            break;
+          default:
+            setCheckboxOptions([]);
+        }
+      }
+    };
+  
+    const handleCheckboxChange = (name, checked) => {
+      console.log(`${name} is ${checked ? 'checked' : 'unchecked'}`);
+    };
+  
+    const handleDataset2Select = (data) => {
+      setSelectedDataset2(data);
+    };
+  
+    return (
+      <div>
+        <Dropdown
+          options={['Keuangan', 'Ekonomi', 'Statistik']}
+          onSelect={handleDataSelect}
+          label="Pilih"
+          dropdownClass="bg-secondary"
+        />
+        
+        {selectedData && (
+          <Dropdown
+            options={
+              selectedData === 'Keuangan' ? ['Pendapatan', 'Belanja', 'Pembiayaan'] :
+              selectedData === 'Ekonomi' ? ['PDRB - ADHB', 'PDRB - ADHK'] :
+              selectedData === 'Statistik' ? ['Jumlah Penduduk'] :
+              []
+            }
+            onSelect={handleSubDataSelect}
+            label="Select a sub-data category"
+            dropdownClass="bg-third text-secondary"
+          />
+        )}
+  
+        {selectedSubData && (
+          <CheckboxForm
+            options={checkboxOptions}
+            onCheck={handleCheckboxChange}
+          />
+        )}
+  
+        {selectedSubData && selectedDataset2 && (
+          <Dropdown
+            options={['Keuangan', 'Ekonomi', 'Statistik']}
+            onSelect={handleDataset2Select}
+            label="Pilih Dataset 2"
+            dropdownClass="bg-secondary"
+          />
+        )}
+      </div>
+    );
+  };
+  
 
   return (
     <div className="flex flex-col mt-[50px] mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
-      {/* <div className="relative w-full max-w-lg blur-2xl">
-          <div class="absolute top-[20%] left-[1100px] w-[280px] h-[280px] bg-third rounded-full mix-blend-multiply filter opacity-20 animate-blob animation-delay-4000"></div>
-          <div class="absolute top-[50%] right-[960px] w-[220px] h-[220px] bg-secondary rounded-full mix-blend-multiply filter opacity-10 animate-blob animation-delay-2000"></div>
-          <div class="absolute top-[650px] right-[800px] w-[390px] h-[390px] bg-third rounded-full mix-blend-multiply filter opacity-35 animate-blob animation-delay-2000"></div>
-          <div class="absolute top-[450px] left-[800px] w-[220px] h-[220px] bg-secondary rounded-full mix-blend-multiply filter opacity-10 animate-blob animation-delay-2000"></div>
-          <div class="absolute top-[400px] left-[800px] w-[390px] h-[390px] bg-third rounded-full mix-blend-multiply filter opacity-40 animate-blob animation-delay-2000"></div>
-        </div>
-        <div className="w-[1170px] h-[535px] text-secondary">
-          <Timeseries/>
-        </div> */}
       <img
         src={bulat}
         alt=""
@@ -161,8 +334,10 @@ const Utakmain = () => {
       <h1 className="flex justify-center items-center text-secondary text-[34px] font-bold mt-[24px]">
         Utak-Atik Menyajikan Insight Tanpa Batas!
       </h1>
-      {/* DROPDOWN */}
+
+      {/* Dropdown for Province, City, and Year */}
       <div className=" flex gap-[50px] relative mt-[24px] mb-[24px]">
+        {/* Province Dropdown */}
         <div
           onClick={handleDropdownClick}
           className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
@@ -180,6 +355,7 @@ const Utakmain = () => {
           </div>
         )}
 
+        {/* City Dropdown */}
         <div
           onClick={handleDropdownKota}
           className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
@@ -197,6 +373,7 @@ const Utakmain = () => {
           </div>
         )}
 
+        {/* Year Dropdown */}
         <div
           onClick={handleDropdownTahun}
           className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
@@ -245,13 +422,14 @@ const Utakmain = () => {
         </div>
       </div>
 
-      {/* DROPDOWN */}
+      {/* Dropdowns for Dataset 1 and Dataset 2 */}
       <div className="flex gap-[80px] mt-[40px]">
         <div className="">
           <h1 className="text-secondary text-[14px] font-semibold ml-[45px]">
             DATASET 1
           </h1>
-          <div
+          {/* Dataset 1 Dropdown */}
+          {/* <div
             onClick={handleDropdownDataset}
             className="flex bg-secondary w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mt-[10px]"
           >
@@ -263,83 +441,21 @@ const Utakmain = () => {
             />
           </div>
           {dropdownDataset && (
-            <div className="absolute z-[20px] bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[10%]">
+            <div className="absolute z-20 bg-white border border-gray-200 rounded-md shadow-lg mt-2">
               {renderDropdownDataset()}
             </div>
-          )}
-          <div
-            onClick={handleDropdownDataset2}
-            className="flex bg-[#86bbd8] w-[167px] h-[41px] rounded-[10px] text-black border-1 border-[f1f1f1] text-[14px] font-semibold items-center justify-center drop-shadow-lg cursor-pointer mt-[10px]"
-          >
-            <p>{selectedDataset2}</p>
-            <FontAwesomeIcon
-              icon={faCaretDown}
-              color="white"
-              className="ml-[20px]"
-            />
-          </div>
-          {dropdownDataset2 && (
-            <div className="absolute z-[20px] bg-white border border-gray-200 mt-2 rounded-md shadow-lg mr-[10%]">
+          )} */}
+
+          {/* Dataset 2 Dropdown */}
+          {/* {dropdownDataset2 && (
+            <div className="absolute z-20 bg-white border border-gray-200 rounded-md shadow-lg mt-2 ml-180">
               {renderDropdownDataset2()}
             </div>
-          )}
-        </div>
-        <div className=" w-[50px] w-[400px] h-[250px] rounded-md shadow-lg border-gray-500">
-          <div className="mt-[40px] ml-[30px]">
-            <input
-              type="checkbox"
-              id="myCheckbox"
-              class="mr-2 h-4 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-            />
-            <label
-              for="myCheckbox"
-              class="font-medium text-gray-700 items-center font-semibold"
-            >
-              Semua
-            </label>
-          </div>
-
-          <div className="mt-[20px] ml-[30px]">
-            <input
-              type="checkbox"
-              id="myCheckbox"
-              class="mr-2 h-4 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-            />
-            <label
-              for="myCheckbox"
-              class="font-medium text-gray-700 items-center font-semibold"
-            >
-              Modal
-            </label>
-          </div>
-
-          <div className="mt-[20px] ml-[30px]">
-            <input
-              type="checkbox"
-              id="myCheckbox"
-              class="mr-2 h-4 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-            />
-            <label
-              for="myCheckbox"
-              class="font-medium text-gray-700 items-center font-semibold"
-            >
-              Tak Terduga
-            </label>
-          </div>
-
-          <div className="mt-[20px] ml-[30px]">
-            <input
-              type="checkbox"
-              id="myCheckbox"
-              class="mr-2 h-4 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-            />
-            <label
-              for="myCheckbox"
-              class="font-medium text-gray-700 items-center font-semibold"
-            >
-              Operasi
-            </label>
-          </div>
+          )} */}
+          {/* Render checkboxes and Dataset 2 button based on selection */}
+          {/* {renderCheckboxOptions()}
+          {renderDataset2Button()} */}
+          <Tesss/>
         </div>
       </div>
     </div>
