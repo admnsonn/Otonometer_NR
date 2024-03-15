@@ -8,42 +8,46 @@ import "../../style/Components.css";
 import Timeseries from '../../components/Grafik/Timeseries'
 
 // Komponen card baru
-const Card = ({ chartRef, note, legendData }) => {
-    const [showAllLegends, setShowAllLegends] = useState(false);
-  
-    const handleClickMore = () => {
-      setShowAllLegends(!showAllLegends);
-    };
-  
-    return (
-      <div className="flex flex-col bg-white w-[350px] h-[auto] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer">
-        <div className="flex flex-col items-center justify-center h-full">
-          <canvas ref={chartRef} width="200" height="200"></canvas>
-        </div>
-        <p className="text-center mt-2 text-sm text-[#064878] italic">
-          {note}
-        </p>
-        <div className="legend-container">
-          {legendData.length > 4 && !showAllLegends ? (
-            <div className="flex justify-center items-center mt-2">
-              <button className="text-[#064878] hover:text-[#0B578E] focus:outline-none" onClick={handleClickMore}>
-                Show All Legends
-              </button>
-            </div>
-          ) : (
-            legendData.map((legend, index) => (
+const Card = ({ chartRef, note, legendData, expand, onExpand, onHide }) => {
+  return (
+    <div className="flex flex-col bg-white w-[350px] h-[auto] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer">
+      <div className="flex flex-col items-center justify-center h-full">
+        <canvas ref={chartRef} width="200" height="200"></canvas>
+      </div>
+      <p className="text-center mt-2 text-sm text-[#064878] italic">
+        {note}
+      </p>
+      <div className="legend-container">
+        {legendData.length > 4 && !expand ? (
+          <div className="flex justify-center items-center mt-[10px]">
+            <button className="text-[#064878] hover:text-[#0B578E] focus:outline-none" onClick={onExpand}>
+              Show All Legends
+            </button>
+          </div>
+        ) : (
+          <>
+            {legendData.map((legend, index) => (
               <div key={index} className="legend-row">
-                <div className="legend-item flex w-[100px] gap-x-[20px] mx-[20px]">
+                <div className="legend-item flex w-[100px] gap-x-[20px] mx-[20px] ml-[40px]">
                   <div className="legend-color" style={{ backgroundColor: legend.color }}></div>
                   <p className="legend-label">{legend.label}</p>
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </>
+        )}
       </div>
-    );
-  };
+      {/* Button Hide Legends dipisahkan ke dalam div baru */}
+      {expand && (
+        <div className="flex justify-center items-center mt-[10px] mb-[20px]">
+          <button className="text-[#064878] hover:text-[#0B578E] focus:outline-none" onClick={onHide}>
+            Hide Legends
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
   
 
 const UtakGraph = () => {
@@ -57,12 +61,31 @@ const UtakGraph = () => {
   const [selectedYears, setSelectedYears] = useState('');
   const chartRef1 = useRef(null);
   const chartRef2 = useRef(null);
-  const [showAllLegends, setShowAllLegends] = useState(false);
+  const [showAllLegends1, setShowAllLegends1] = useState(false);
+  const [showAllLegends2, setShowAllLegends2] = useState(false);
   const [legendData1, setLegendData1] = useState([]);
   const [legendData2, setLegendData2] = useState([]);
 
+  const handleExpandCard1 = () => {
+    setShowAllLegends1(!showAllLegends1);
+  };
+
+  const handleExpandCard2 = () => {
+    setShowAllLegends2(!showAllLegends2);
+  };
+
+  const handleCloseLegends1 = () => {
+    setShowAllLegends1(false);
+  };
+
+  const handleCloseLegends2 = () => {
+    setShowAllLegends2(false);
+  };
+
   const handleClickMore = () => {
-    setShowAllLegends(!showAllLegends);
+    // setShowAllLegends(!showAllLegends); // Menggunakan variabel yang tidak didefinisikan
+    setShowAllLegends1(!showAllLegends1); // Menggunakan setShowAllLegends1 untuk card pertama
+    setShowAllLegends2(!showAllLegends2); // Menggunakan setShowAllLegends2 untuk card kedua
   };
 
   const handleDropdownProvinsi = () => {
@@ -208,6 +231,7 @@ const UtakGraph = () => {
       }
     });
 
+
     // Set legend data
     setLegendData1(legendData1);
     setLegendData2(legendData2);
@@ -218,6 +242,34 @@ const UtakGraph = () => {
       chart2.destroy();
     };
   }, []);
+  const handleSliderLeft = () => {
+    if (selectedYear) {
+      const index = ["2022", "2023", "2024"].indexOf(selectedYear);
+      if (index > 0) {
+        setSelectedYear(["2022", "2023", "2024"][index - 1]);
+      }
+    } else if (selectedYears) {
+      const index = ["2022", "2023"].indexOf(selectedYears);
+      if (index > 0) {
+        setSelectedYears(["2022", "2023"][index - 1]);
+      }
+    }
+  };
+  
+  const handleSliderRight = () => {
+    if (selectedYear) {
+      const index = ["2022", "2023", "2024"].indexOf(selectedYear);
+      if (index < 2) {
+        setSelectedYear(["2022", "2023", "2024"][index + 1]);
+      }
+    } else if (selectedYears) {
+      const index = ["2022", "2023"].indexOf(selectedYears);
+      if (index < 1) {
+        setSelectedYears(["2022", "2023"][index + 1]);
+      }
+    }
+  };
+  
 
   return (
     <div className="flex flex-col mt-[50px] mb-[150px] justify-center items-center max-lg:[1920px]">
@@ -328,17 +380,39 @@ const UtakGraph = () => {
       </div>
 
       {/* Menambahkan dua card di bawah dropdown tahun */}
-      <div className="flex gap-[90px] mt-4">
-        <Card 
+      {/* Container untuk kedua kartu */}
+      <div className="flex gap-[50px]">
+        {/* Container untuk card pertama */}
+        <div className="slider-left">
+          <button onClick={handleSliderLeft}>&lt;</button>
+        </div>
+        <div className="card-container">
+          {/* Konten Card pertama */}
+          <Card 
             chartRef={chartRef1}
             note="Catatan: Data Kendaraan dan BBNKB tidak tersedia dalam skala kabupaten/kota"
             legendData={legendData1}
-        />
-        <Card 
+            expand={showAllLegends1}
+            onExpand={handleExpandCard1}
+            onHide={handleCloseLegends1}
+          />
+        </div>
+
+        {/* Container untuk card kedua */}
+        <div className="card-container">
+          {/* Konten Card kedua */}
+          <Card 
             chartRef={chartRef2}
             note="Catatan: Data Kendaraan dan BBNKB tidak tersedia dalam skala kabupaten/kota"
             legendData={legendData2}
-        />
+            expand={showAllLegends2}
+            onExpand={handleExpandCard2}
+            onHide={handleCloseLegends2}
+          />
+        </div>
+        <div className="slider-right">
+          <button onClick={handleSliderRight}>&gt;</button>
+        </div>
         {/* <Timeseries/> */}
       </div>
     </div>
@@ -346,3 +420,4 @@ const UtakGraph = () => {
 };
 
 export default UtakGraph;
+
