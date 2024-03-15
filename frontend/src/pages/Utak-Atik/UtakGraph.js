@@ -201,7 +201,7 @@ const UtakGraph = () => {
     const legendData1 = labels1.map((label, index) => ({ label, color: backgroundColor1[index] }));
 
     const data2 = [20, 30, 40, 50, 20, 30, 10, 50];
-    const labels2 = ['Label 9', 'Label 10', 'Label 11', 'Label 12', 'Label 13', 'Label 14', 'Label 15', 'Label 16'];
+    const labels2 = ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5', 'Label 6', 'Label 7', 'Label 8'];
     const backgroundColor2 = ['#9900ff', '#ff9900', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ff0000'];
     const legendData2 = labels2.map((label, index) => ({ label, color: backgroundColor2[index] }));
 
@@ -241,35 +241,7 @@ const UtakGraph = () => {
       chart1.destroy();
       chart2.destroy();
     };
-  }, []);
-  const handleSliderLeft = () => {
-    if (selectedYear) {
-      const index = ["2022", "2023", "2024"].indexOf(selectedYear);
-      if (index > 0) {
-        setSelectedYear(["2022", "2023", "2024"][index - 1]);
-      }
-    } else if (selectedYears) {
-      const index = ["2022", "2023"].indexOf(selectedYears);
-      if (index > 0) {
-        setSelectedYears(["2022", "2023"][index - 1]);
-      }
-    }
-  };
-  
-  const handleSliderRight = () => {
-    if (selectedYear) {
-      const index = ["2022", "2023", "2024"].indexOf(selectedYear);
-      if (index < 2) {
-        setSelectedYear(["2022", "2023", "2024"][index + 1]);
-      }
-    } else if (selectedYears) {
-      const index = ["2022", "2023"].indexOf(selectedYears);
-      if (index < 1) {
-        setSelectedYears(["2022", "2023"][index + 1]);
-      }
-    }
-  };
-  
+  }, []);  
 
   return (
     <div className="flex flex-col mt-[50px] mb-[150px] justify-center items-center max-lg:[1920px]">
@@ -383,9 +355,6 @@ const UtakGraph = () => {
       {/* Container untuk kedua kartu */}
       <div className="flex gap-[50px]">
         {/* Container untuk card pertama */}
-        <div className="slider-left">
-          <button onClick={handleSliderLeft}>&lt;</button>
-        </div>
         <div className="card-container">
           {/* Konten Card pertama */}
           <Card 
@@ -410,9 +379,6 @@ const UtakGraph = () => {
             onHide={handleCloseLegends2}
           />
         </div>
-        <div className="slider-right">
-          <button onClick={handleSliderRight}>&gt;</button>
-        </div>
         {/* <Timeseries/> */}
       </div>
     </div>
@@ -420,4 +386,3 @@ const UtakGraph = () => {
 };
 
 export default UtakGraph;
-
