@@ -106,16 +106,50 @@ const Jelajahmain = () => {
 
 
   ///FETCHING DROPDOWN PROVINSI
-  const [provincesss, setProvinces] = useState(null);
+  const [provincess, setProvinces] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState("");
   const [openProvinsi, setOpenProvinsi] = useState(false);
- useEffect(() => {
-    fetch("https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/provinces.json")
+
+  useEffect(() => {
+    fetch("https://api.otonometer.neracaruang.com/api/provinces")
       .then((response ) => response.json())
-      .then((provinces) => {
-        setProvinces(provinces);
-        console.log(provinces);
+      .then((data) => {
+        setProvinces(data.data);
+        console.log(provincess)
+      });
+  }, []);
+  ///FETCHING DROPDOWN KOTA
+  const [cities, setCity] = useState(null);
+  const [inputValueofCity, setInputValueofCity] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [openCity, setOpenCity] = useState(false);
+  ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
+  function updateKota(item,choosed,id){
+    if(item.toLowerCase() !== choosed.toLowerCase()){
+      setSelected(item);
+      setOpenProvinsi(false);
+      setInputValue("");
+      fetch("https://api.otonometer.neracaruang.com/api/cities?province_id="+id)
+        .then((response) => response.json())
+        .then((data)=> {
+          setCity(data.data);
+        });
+    }
+  }
+
+  ///FETCHING DROPDOWN TAHUN
+  const [years, setYears] = useState(null);
+  const [inputValueofYears, setInputValueofYears] = useState("");
+  const [selectedYears, setSelectedYears] = useState("");
+  const [openYears, setOpenYears] = useState(false);
+
+  useEffect(() => {
+    fetch("https://api.otonometer.neracaruang.com/api/year")
+      .then((response ) => response.json())
+      .then((data) => {
+        setYears(data.data);
+        console.log(years)
       });
   }, []);
 
@@ -201,7 +235,6 @@ const Jelajahmain = () => {
             />
             )}
         </div>
-
         <ul 
           className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
             ${
@@ -221,28 +254,154 @@ const Jelajahmain = () => {
               placeholder="Cari Provinsi" 
               className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-[120px] text-[12px] font-medium bg-none"/>
           </div>
-          {provincesss?.map((provinces)=>(
+          {provincess?.map((provinces)=>(
             <li 
-              key={provinces?.name} 
+              key={provinces?.nama} 
               className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-              ${provinces?.name?.toLowerCase() === selected?.toLowerCase() && 'bg-secondary text-white'
+              ${provinces?.nama?.toLowerCase() === selected?.toLowerCase() && 'bg-secondary text-white'
+              }
+              ${
+                provinces?.nama?.toLowerCase().startsWith(inputValue) 
+                  ? "block"
+                  : "hidden"
+              }`}
+              onClick={()=>{
+                updateKota(provinces?.nama,selected,provinces.id)
+              }}  
+            >
+              {provinces?.nama}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* FETCHING KOTA */}
+      <div className="w-[167px] h-auto text-secondary font-medium text-[14px]">
+        <div 
+          onClick={()=>setOpenCity(!openCity)}
+          
+          className="bg-[#ebebeb] w-full p-2 flex items-center justify-center rounded-[10px]"
+          >
+            {selectedCity 
+              ? selectedCity?.length > 12 
+                ? selectedCity?.substring(0,13) + "..." 
+                : selectedCity 
+              : "Kota"}
+            {!selectedCity && (
+              <FontAwesomeIcon
+              icon={faChevronDown}
+              color="#24445A"
+              className={`ml-[20px] w-[10px] h-[20px] ${openCity && "rotate-180"}`}
+            />
+            )}
+        </div>
+        <ul 
+          className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
+            ${
+              openCity ? "max-h-[240px]" : "max-h-[0]"}`
+            }
+          >
+          <div className="flex items-center px-2 sticky top-0 bg-white">
+            <FontAwesomeIcon
+              icon={faSearch}
+              color="#24445A"
+              className="w-[10px] h-[20px] opacity-75"
+            />
+            <input 
+              type="text" 
+              value={inputValueofCity}
+              onChange={(e)=>setInputValueofCity(e.target.value.toLowerCase())}
+              placeholder="Cari Kota/Kabupaten" 
+              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-[120px] text-[12px] font-medium bg-none"/>
+          </div>
+          {cities?.map((regencies)=>(
+            <li 
+              key={regencies?.nama} 
+              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+              ${regencies?.nama?.toLowerCase() === selectedCity?.toLowerCase() && 'bg-secondary text-white'
               }
 
               ${
-                provinces?.name?.toLowerCase().startsWith(inputValue) 
+                regencies?.nama?.toLowerCase().startsWith(inputValueofCity) 
                   ? "block"
                   : "hidden"
               }`}
 
               onClick={()=>{
-                if(provinces?.name?.toLowerCase() !== selected.toLowerCase()){
-                  setSelected(provinces?.name);
-                  setOpenProvinsi(false);
-                  setInputValue("");
+                if(regencies?.nama?.toLowerCase() !== selectedCity.toLowerCase()){
+                  setSelectedCity(regencies?.nama);
+                  setOpenCity(false);
+                  setInputValueofCity("");
                 }
               }}  
             >
-              {provinces?.name}
+              {regencies?.nama}
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      {/* FETCHING TAHUN */}
+      <div className="w-[167px] h-auto text-secondary font-medium text-[14px]">
+        <div 
+          onClick={()=>setOpenYears(!openYears)}
+          
+          className="bg-[#ebebeb] w-full p-2 flex items-center justify-center rounded-[10px]"
+          >
+            {selectedYears 
+              ? selectedYears?.length > 12 
+                ? selectedYears?.substring(0,13) + "..." 
+                : selectedYears 
+              : "Kota"}
+            {!selectedCity && (
+              <FontAwesomeIcon
+              icon={faChevronDown}
+              color="#24445A"
+              className={`ml-[20px] w-[10px] h-[20px] ${openYears && "rotate-180"}`}
+            />
+            )}
+        </div>
+        <ul 
+          className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
+            ${
+              openYears ? "max-h-[240px]" : "max-h-[0]"}`
+            }
+          >
+          <div className="flex items-center px-2 sticky top-0 bg-white">
+            <FontAwesomeIcon
+              icon={faSearch}
+              color="#24445A"
+              className="w-[10px] h-[20px] opacity-75"
+            />
+            <input 
+              type="text" 
+              value={inputValueofYears}
+              onChange={(e)=>setInputValueofYears(e.target.value.toLowerCase())}
+              placeholder="Cari Kota/Kabupaten" 
+              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-[120px] text-[12px] font-medium bg-none"/>
+          </div>
+          {years?.map((regencies)=>(
+            <li 
+              key={regencies?.nama} 
+              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+              ${regencies?.nama?.toLowerCase() === selectedYears?.toLowerCase() && 'bg-secondary text-white'
+              }
+
+              ${
+                regencies?.nama?.toLowerCase().startsWith(inputValueofYears) 
+                  ? "block"
+                  : "hidden"
+              }`}
+
+              onClick={()=>{
+                if(regencies?.nama?.toLowerCase() !== selectedYears.toLowerCase()){
+                  setSelectedYears(regencies?.nama);
+                  setOpenYears(false);
+                  setInputValueofYears("");
+                }
+              }}  
+            >
+              {regencies?.nama}
             </li>
           ))}
         </ul>
