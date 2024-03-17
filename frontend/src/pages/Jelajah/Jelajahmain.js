@@ -6,7 +6,7 @@ import people from "../../assets/icons/people.svg";
 import industri from "../../assets/icons/industri.svg";
 import Switchbtn from "../../components/Switchbtn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faChevronDown, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
 import bulat from "../../assets/circ.svg";
 import "../../style/Switchbtn.css";
@@ -104,15 +104,23 @@ const Jelajahmain = () => {
     </div>
   );
 
+
+  ///FETCHING DROPDOWN PROVINSI
+  const [provincesss, setProvinces] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [selected, setSelected] = useState("");
+  const [openProvinsi, setOpenProvinsi] = useState(false);
+ useEffect(() => {
+    fetch("https://staggingabsensi.labura.go.id/api-wilayah-indonesia/static/api/provinces.json")
+      .then((response ) => response.json())
+      .then((provinces) => {
+        setProvinces(provinces);
+        console.log(provinces);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
-      {/* <div className="relative w-full max-w-lg blur-2xl">
-        <div class="absolute top-[20%] left-[1100px] w-[280px] h-[280px] bg-third rounded-full mix-blend-multiply filter opacity-20 animate-blob animation-delay-4000"></div>
-        <div class="absolute top-[50%] right-[960px] w-[220px] h-[220px] bg-secondary rounded-full mix-blend-multiply filter opacity-10 animate-blob animation-delay-2000"></div>
-        <div class="absolute top-[650px] right-[800px] w-[390px] h-[390px] bg-third rounded-full mix-blend-multiply filter opacity-35 animate-blob animation-delay-2000"></div>
-        <div class="absolute top-[450px] left-[800px] w-[220px] h-[220px] bg-secondary rounded-full mix-blend-multiply filter opacity-10 animate-blob animation-delay-2000"></div>
-        <div class="absolute top-[400px] left-[800px] w-[390px] h-[390px] bg-third rounded-full mix-blend-multiply filter opacity-40 animate-blob animation-delay-2000"></div>
-      </div> */}
       <img src={bulat} alt="" className="fixed w-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] -z-10" />
       <div className="flex bg-none w-[167px] h-[41px] rounded-[10px] text-secondary border-2 border-secondary text-[14px] font-semibold items-center justify-center">
         JELAJAH
@@ -172,6 +180,72 @@ const Jelajahmain = () => {
             {renderDropdownTahun()}
           </div>
         )}
+      </div>
+      {/* FETCHING PROVINSI */}
+      <div className="w-[167px] h-auto text-secondary font-medium text-[14px]">
+        <div 
+          onClick={()=>setOpenProvinsi(!openProvinsi)}
+          
+          className="bg-[#ebebeb] w-full p-2 flex items-center justify-center rounded-[10px]"
+          >
+            {selected 
+              ? selected?.length > 12 
+                ? selected?.substring(0,13) + "..." 
+                : selected 
+              : "Provinsi"}
+            {!selected && (
+              <FontAwesomeIcon
+              icon={faChevronDown}
+              color="#24445A"
+              className={`ml-[20px] w-[10px] h-[20px] ${openProvinsi && "rotate-180"}`}
+            />
+            )}
+        </div>
+
+        <ul 
+          className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
+            ${
+              openProvinsi ? "max-h-[240px]" : "max-h-[0]"}`
+            }
+          >
+          <div className="flex items-center px-2 sticky top-0 bg-white">
+            <FontAwesomeIcon
+              icon={faSearch}
+              color="#24445A"
+              className="w-[10px] h-[20px] opacity-75"
+            />
+            <input 
+              type="text" 
+              value={inputValue}
+              onChange={(e)=>setInputValue(e.target.value.toLowerCase())}
+              placeholder="Cari Provinsi" 
+              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-[120px] text-[12px] font-medium bg-none"/>
+          </div>
+          {provincesss?.map((provinces)=>(
+            <li 
+              key={provinces?.name} 
+              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+              ${provinces?.name?.toLowerCase() === selected?.toLowerCase() && 'bg-secondary text-white'
+              }
+
+              ${
+                provinces?.name?.toLowerCase().startsWith(inputValue) 
+                  ? "block"
+                  : "hidden"
+              }`}
+
+              onClick={()=>{
+                if(provinces?.name?.toLowerCase() !== selected.toLowerCase()){
+                  setSelected(provinces?.name);
+                  setOpenProvinsi(false);
+                  setInputValue("");
+                }
+              }}  
+            >
+              {provinces?.name}
+            </li>
+          ))}
+        </ul>
       </div>
 
       <img
@@ -255,6 +329,9 @@ const Jelajahmain = () => {
           (Rp10<sup>3</sup>/kapita)
         </p>
       </div>
+
+
+      
 
       {/* DATA */}
       {activeTab === "provinsi" && (
