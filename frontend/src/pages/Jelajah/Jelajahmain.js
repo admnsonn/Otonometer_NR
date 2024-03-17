@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import peta from "../../assets/petajelajah.png";
 import map from "../../assets/icons/peta.png";
 import geo from "../../assets/icons/geodating.svg";
 import people from "../../assets/icons/people.svg";
@@ -149,9 +148,28 @@ const Jelajahmain = () => {
       .then((response ) => response.json())
       .then((data) => {
         setYears(data.data);
-        console.log(years)
       });
   }, []);
+
+
+  ///UPDATE PETANYA DORA THE EXPLORER
+  const [peta, setPeta] = useState(null);
+  const [koordinatLokasi, setKoordinatLokasi] = useState(null)
+  
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow"
+  };
+  function updatePeta(wilayah_id){
+    fetch("https://api.otonometer.neracaruang.com/api/wilayah-info?lang=en&wilayah_id=" + wilayah_id, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setPeta(result.data.peta);
+        setKoordinatLokasi(result.data.longitude+", "+result.data.latitude)
+        console.log(result.data.peta);
+      });
+  }
+  
 
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
@@ -332,6 +350,7 @@ const Jelajahmain = () => {
                   setSelectedCity(regencies?.nama);
                   setOpenCity(false);
                   setInputValueofCity("");
+                  updatePeta(regencies.id);
                 }
               }}  
             >
@@ -417,7 +436,7 @@ const Jelajahmain = () => {
           <img src={map} alt="" className="flex w-6" />
         </div>
         <div className="text-[#064878] font-semibold mt-[5px] text-[20px]">
-          <p>-6.902186, 107.618756</p>
+          <p>{koordinatLokasi}</p>
         </div>
       </div>
 
