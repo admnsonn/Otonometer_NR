@@ -192,6 +192,25 @@ const Jelajahmain = () => {
       });
   }
 
+  ///FETCHING
+  const [satuan, setSatuan] = useState([]);
+
+  useEffect(() => {
+    const fetchSatuan = async () => {
+      try {
+        const response = await fetch('https://api.otonometer.neracaruang.com/api/satuan');
+        if (!response.ok) {
+          throw new Error('Gagal memuat data satuan');
+        }
+        const data = await response.json();
+        setSatuan(data.data);
+      } catch (error) {
+      }
+    };
+
+    fetchSatuan();
+  }, []);
+
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
       <img
@@ -449,16 +468,15 @@ const Jelajahmain = () => {
       </div> */}
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
-        <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>168</p>
-          <p>km²</p>
-        </div>
+      <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
+        {satuan.map((item) => {
+          <p key={item.id}>{item.nama}</p>
+        })}
+      </div>
         <div className="flex gap-[10px]">
           <div className="hover-container">
             <img src={dataranicon} alt="" className="w-20" />
-            <span className="hover-text w-[150%] mb-[10px]">
-              {datarannama}
-            </span>
+            <span className="hover-text w-[150%] mb-[10px]">{datarannama}</span>
           </div>
           <a href="/Jelajah-Profil">
             <img src={people} alt="" className="w-20" />
