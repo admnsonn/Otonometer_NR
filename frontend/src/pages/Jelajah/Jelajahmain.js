@@ -162,6 +162,8 @@ const Jelajahmain = () => {
   const [koordinatLokasi, setKoordinatLokasi] = useState(null);
   const [infoDaerah, setInfoDaerah] = useState(null);
   const [pinMap, setPinMap] = useState(null);
+  const [dataranicon, setDataranicon] = useState(null);
+  const [sektoricon, setSektoricon] = useState(null);
 
   const requestOptions = {
     method: "GET",
@@ -176,6 +178,8 @@ const Jelajahmain = () => {
       .then((response) => response.json())
       .then((result) => {
         setPeta(result.data.peta);
+        setDataranicon(result.data.dataran_icon);
+        setSektoricon(result.data.wilayah_info.sektor_icon);
         setKoordinatLokasi(result.data.longitude + ", " + result.data.latitude);
         setInfoDaerah(result.data.nama);
         setPinMap(map);
@@ -442,16 +446,16 @@ const Jelajahmain = () => {
         </div>
         <div className="flex gap-[10px]">
           <div className="hover-container">
-            <img src={geo} alt="" className="hover-image" />
+            <img src={dataranicon} alt="" className="w-20" />
             <span className="hover-text w-[150%] mb-[10px]">
               1,518 km² 489 mdpl Dataran Tinggi
             </span>
           </div>
           <a href="/Jelajah-Profil">
-            <img src={people} alt="" className="" />
+            <img src={people} alt="" className="w-20" />
           </a>
           <div className="hover-container">
-            <img src={industri} alt="" className="hover-image" />
+            <img src={sektoricon} alt="" className="w-20" />
             <span className="hover-text w-[150%] mb-[10px]">N/A</span>
           </div>
         </div>
