@@ -370,59 +370,6 @@ const Jelajahmain = () => {
           </ul>
         </div>
       </div>
-
-      <div className=" flex gap-[50px] relative mt-[24px] mb-[24px]">
-        <div
-          onClick={handleDropdownClick}
-          className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-        >
-          <p>{selectedOption}</p>
-          <FontAwesomeIcon
-            icon={faCaretDown}
-            color="#24445A"
-            className="ml-[20px]"
-          />
-        </div>
-        {dropdownOpen && (
-          <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px]">
-            {renderDropdownOptions()}
-          </div>
-        )}
-
-        <div
-          onClick={handleDropdownKota}
-          className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-        >
-          <p>{selectedKota}</p>
-          <FontAwesomeIcon
-            icon={faCaretDown}
-            color="#24445A"
-            className="ml-[20px]"
-          />
-        </div>
-        {dropdownKota && (
-          <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px] ml-[216px]">
-            {renderDropdownKota()}
-          </div>
-        )}
-
-        <div
-          onClick={handleDropdownTahun}
-          className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-        >
-          <p>{selectedTahun}</p>
-          <FontAwesomeIcon
-            icon={faCaretDown}
-            color="#24445A"
-            className="ml-[20px]"
-          />
-        </div>
-        {dropdownTahun && (
-          <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px] ml-[434px]">
-            {renderDropdownTahun()}
-          </div>
-        )}
-      </div>
       
       <img
         src={peta}
