@@ -29,12 +29,23 @@ body {
     @apply w-[313px] h-[40px] py-2 px-4 rounded-[8px] text-[14px] font-medium text-white bg-secondary hover:bg-third active:bg-secondary active:bg-opacity-70
   }
 }   
-/* * {
-  transition: all 300ms ease-in-out;
-}
-.home {
-  background-image: url("asset/Ilustrasion.svg");
-} */
+
 select:focus {
   outline:none;
 }   
+
+/* custom scrollbar */
+::-webkit-scrollbar{
+  width: 10px;
+}
+.mini-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #24445A;
+  border-radius: 100px;
+}

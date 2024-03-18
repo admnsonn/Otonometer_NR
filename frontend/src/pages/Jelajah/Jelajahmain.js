@@ -109,7 +109,6 @@ const Jelajahmain = () => {
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState("");
   const [openProvinsi, setOpenProvinsi] = useState(false);
-
   useEffect(() => {
     fetch("https://api.otonometer.neracaruang.com/api/provinces")
       .then((response ) => response.json())
@@ -118,11 +117,13 @@ const Jelajahmain = () => {
         console.log(provincess)
       });
   }, []);
+
   ///FETCHING DROPDOWN KOTA
   const [cities, setCity] = useState(null);
   const [inputValueofCity, setInputValueofCity] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [openCity, setOpenCity] = useState(false);
+
   ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
   function updateKota(item,choosed,id){
     if(item.toLowerCase() !== choosed.toLowerCase()){
@@ -154,8 +155,10 @@ const Jelajahmain = () => {
 
   ///UPDATE PETANYA DORA THE EXPLORER
   const [peta, setPeta] = useState(null);
-  const [koordinatLokasi, setKoordinatLokasi] = useState(null)
-  
+  const [koordinatLokasi, setKoordinatLokasi] = useState(null);
+  const [infoDaerah, setInfoDaerah] = useState (null);
+  const [pinMap, setPinMap] = useState (null);
+
   const requestOptions = {
     method: "GET",
     redirect: "follow"
@@ -165,7 +168,9 @@ const Jelajahmain = () => {
       .then((response) => response.json())
       .then((result) => {
         setPeta(result.data.peta);
-        setKoordinatLokasi(result.data.longitude+", "+result.data.latitude)
+        setKoordinatLokasi(result.data.longitude+", "+result.data.latitude);
+        setInfoDaerah(result.data.nama);
+        setPinMap(map);
         console.log(result.data.peta);
       });
   }
@@ -181,6 +186,191 @@ const Jelajahmain = () => {
         Jelajahi Data Wilayah!
       </h1>
       {/* DROPDOWN */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-[40px] gap-y-[10px] mt-[20px]">
+        {/* FETCHING PROVINSI */}
+        <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+          <div 
+            onClick={()=>setOpenProvinsi(!openProvinsi)}
+            
+            className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+            >
+              {selected 
+                ? selected?.length > 20 
+                  ? selected?.substring(0,20) + "..." 
+                  : selected 
+                : "Provinsi"}
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                color="#24445A"
+                className={`ml-[20px] w-[10px] h-[20px] ${openProvinsi && "rotate-180"}`}
+              />
+          </div>
+          <div className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${
+            openProvinsi ? "max-h-auto" : "hidden"}`
+          }
+          >
+              <FontAwesomeIcon
+                icon={faSearch}
+                color="#24445A"
+                style={{ opacity: "40%" }}
+                className="w-[10px] h-[20px] opacity-75"
+              />
+              <input 
+                type="text" 
+                value={inputValue}
+                onChange={(e)=>setInputValue(e.target.value.toLowerCase())}
+                placeholder="Cari Provinsi" 
+                className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"/>
+          </div>
+          <ul 
+            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${
+                openProvinsi ? "max-h-[240px]" : "max-h-[0]"}`
+              }
+            >
+            {provincess?.map((provinces)=>(
+              <li 
+                key={provinces?.nama} 
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${provinces?.nama?.toLowerCase() === selected?.toLowerCase() && 'bg-secondary text-white'
+                }
+                ${
+                  provinces?.nama?.toLowerCase().startsWith(inputValue) 
+                    ? "block"
+                    : "hidden"
+                }`}
+                onClick={()=>{
+                  updateKota(provinces?.nama,selected,provinces.id)
+                }}  
+              >
+                {provinces?.nama}
+              </li>
+            ))}
+          </ul>
+        </div>
+        {/* FETCHING KOTA */}
+        <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+          <div 
+            onClick={()=>setOpenCity(!openCity)}
+            
+            className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+            >
+              {selectedCity 
+                ? selectedCity?.length > 20 
+                  ? selectedCity?.substring(0,20) + "..." 
+                  : selectedCity 
+                : "Kota/Kabupaten"}
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                color="#24445A"
+                className={`ml-[20px] w-[10px] h-[20px] ${openCity && "rotate-180"}`}
+              />
+          </div>
+          <div className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${
+            openCity ? "max-h-auto" : "hidden"}`
+          }
+          >
+              <FontAwesomeIcon
+                icon={faSearch}
+                color="#24445A"
+                style={{ opacity: "40%" }}
+                className="w-[10px] h-[20px] opacity-75"
+              />
+              <input 
+                type="text" 
+                value={inputValueofCity}
+                onChange={(e)=>setInputValueofCity(e.target.value.toLowerCase())}
+                placeholder="Cari Kota/Kabupaten" 
+                className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"/>
+          </div>
+          <ul 
+            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${
+                openCity ? "max-h-[240px]" : "max-h-[0]"}`
+              }
+            >
+            {cities?.map((regencies)=>(
+              <li 
+                key={regencies?.nama} 
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${regencies?.nama?.toLowerCase() === selectedCity?.toLowerCase() && 'bg-secondary text-white'
+                }
+                ${
+                  regencies?.nama?.toLowerCase().startsWith(inputValueofCity) 
+                    ? "block"
+                    : "hidden"
+                }`}
+                onClick={()=>{
+                  if(regencies?.nama?.toLowerCase() !== selectedCity.toLowerCase()){
+                    setSelectedCity(regencies?.nama);
+                    setOpenCity(false);
+                    setInputValueofCity("");
+                    updatePeta(regencies.id);
+                  }
+                }} 
+              >
+                {regencies?.nama}
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        {/* FETCHING TAHUN */}
+        <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+          <div 
+            onClick={()=>setOpenYears(!openYears)}
+            
+            className="bg-[#ebebeb] w-full p-2 flex items-center justify-center rounded-[10px]"
+            >
+              {selectedYears 
+                ? selectedYears?.length > 12 
+                  ? selectedYears?.substring(0,13) + "..." 
+                  : selectedYears 
+                : "Tahun"}
+              {!selectedCity && (
+                <FontAwesomeIcon
+                icon={faChevronDown}
+                color="#24445A"
+                className={`ml-[20px] w-[10px] h-[20px] ${openYears && "rotate-180"}`}
+              />
+              )}
+          </div>
+          <ul 
+            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
+              ${
+                openYears ? "max-h-[240px]" : "max-h-[0]"}`
+              }
+            >
+            {years?.map((regencies)=>(
+              <li 
+                key={regencies?.nama} 
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${regencies?.nama?.toLowerCase() === selectedYears?.toLowerCase() && 'bg-secondary text-white'
+                }
+
+                ${
+                  regencies?.nama?.toLowerCase().startsWith(inputValueofYears) 
+                    ? "block"
+                    : "hidden"
+                }`}
+
+                onClick={()=>{
+                  if(regencies?.nama?.toLowerCase() !== selectedYears.toLowerCase()){
+                    setSelectedYears(regencies?.nama);
+                    setOpenYears(false);
+                    setInputValueofYears("");
+                  }
+                }}  
+              >
+                {regencies?.nama}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
       <div className=" flex gap-[50px] relative mt-[24px] mb-[24px]">
         <div
           onClick={handleDropdownClick}
@@ -233,212 +423,29 @@ const Jelajahmain = () => {
           </div>
         )}
       </div>
-      {/* FETCHING PROVINSI */}
-      <div className="w-[167px] h-auto text-secondary font-medium text-[14px]">
-        <div 
-          onClick={()=>setOpenProvinsi(!openProvinsi)}
-          
-          className="bg-[#ebebeb] w-full p-2 flex items-center justify-center rounded-[10px]"
-          >
-            {selected 
-              ? selected?.length > 12 
-                ? selected?.substring(0,13) + "..." 
-                : selected 
-              : "Provinsi"}
-            {!selected && (
-              <FontAwesomeIcon
-              icon={faChevronDown}
-              color="#24445A"
-              className={`ml-[20px] w-[10px] h-[20px] ${openProvinsi && "rotate-180"}`}
-            />
-            )}
-        </div>
-        <ul 
-          className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
-            ${
-              openProvinsi ? "max-h-[240px]" : "max-h-[0]"}`
-            }
-          >
-          <div className="flex items-center px-2 sticky top-0 bg-white">
-            <FontAwesomeIcon
-              icon={faSearch}
-              color="#24445A"
-              className="w-[10px] h-[20px] opacity-75"
-            />
-            <input 
-              type="text" 
-              value={inputValue}
-              onChange={(e)=>setInputValue(e.target.value.toLowerCase())}
-              placeholder="Cari Provinsi" 
-              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-[120px] text-[12px] font-medium bg-none"/>
-          </div>
-          {provincess?.map((provinces)=>(
-            <li 
-              key={provinces?.nama} 
-              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-              ${provinces?.nama?.toLowerCase() === selected?.toLowerCase() && 'bg-secondary text-white'
-              }
-              ${
-                provinces?.nama?.toLowerCase().startsWith(inputValue) 
-                  ? "block"
-                  : "hidden"
-              }`}
-              onClick={()=>{
-                updateKota(provinces?.nama,selected,provinces.id)
-              }}  
-            >
-              {provinces?.nama}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* FETCHING KOTA */}
-      <div className="w-[167px] h-auto text-secondary font-medium text-[14px]">
-        <div 
-          onClick={()=>setOpenCity(!openCity)}
-          
-          className="bg-[#ebebeb] w-full p-2 flex items-center justify-center rounded-[10px]"
-          >
-            {selectedCity 
-              ? selectedCity?.length > 12 
-                ? selectedCity?.substring(0,13) + "..." 
-                : selectedCity 
-              : "Kota"}
-            {!selectedCity && (
-              <FontAwesomeIcon
-              icon={faChevronDown}
-              color="#24445A"
-              className={`ml-[20px] w-[10px] h-[20px] ${openCity && "rotate-180"}`}
-            />
-            )}
-        </div>
-        <ul 
-          className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
-            ${
-              openCity ? "max-h-[240px]" : "max-h-[0]"}`
-            }
-          >
-          <div className="flex items-center px-2 sticky top-0 bg-white">
-            <FontAwesomeIcon
-              icon={faSearch}
-              color="#24445A"
-              className="w-[10px] h-[20px] opacity-75"
-            />
-            <input 
-              type="text" 
-              value={inputValueofCity}
-              onChange={(e)=>setInputValueofCity(e.target.value.toLowerCase())}
-              placeholder="Cari Kota/Kabupaten" 
-              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-[120px] text-[12px] font-medium bg-none"/>
-          </div>
-          {cities?.map((regencies)=>(
-            <li 
-              key={regencies?.nama} 
-              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-              ${regencies?.nama?.toLowerCase() === selectedCity?.toLowerCase() && 'bg-secondary text-white'
-              }
-
-              ${
-                regencies?.nama?.toLowerCase().startsWith(inputValueofCity) 
-                  ? "block"
-                  : "hidden"
-              }`}
-
-              onClick={()=>{
-                if(regencies?.nama?.toLowerCase() !== selectedCity.toLowerCase()){
-                  setSelectedCity(regencies?.nama);
-                  setOpenCity(false);
-                  setInputValueofCity("");
-                  updatePeta(regencies.id);
-                }
-              }}  
-            >
-              {regencies?.nama}
-            </li>
-          ))}
-        </ul>
-      </div>
       
-      {/* FETCHING TAHUN */}
-      <div className="w-[167px] h-auto text-secondary font-medium text-[14px]">
-        <div 
-          onClick={()=>setOpenYears(!openYears)}
-          
-          className="bg-[#ebebeb] w-full p-2 flex items-center justify-center rounded-[10px]"
-          >
-            {selectedYears 
-              ? selectedYears?.length > 12 
-                ? selectedYears?.substring(0,13) + "..." 
-                : selectedYears 
-              : "Kota"}
-            {!selectedCity && (
-              <FontAwesomeIcon
-              icon={faChevronDown}
-              color="#24445A"
-              className={`ml-[20px] w-[10px] h-[20px] ${openYears && "rotate-180"}`}
-            />
-            )}
-        </div>
-        <ul 
-          className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
-            ${
-              openYears ? "max-h-[240px]" : "max-h-[0]"}`
-            }
-          >
-          <div className="flex items-center px-2 sticky top-0 bg-white">
-            <FontAwesomeIcon
-              icon={faSearch}
-              color="#24445A"
-              className="w-[10px] h-[20px] opacity-75"
-            />
-            <input 
-              type="text" 
-              value={inputValueofYears}
-              onChange={(e)=>setInputValueofYears(e.target.value.toLowerCase())}
-              placeholder="Cari Kota/Kabupaten" 
-              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-[120px] text-[12px] font-medium bg-none"/>
-          </div>
-          {years?.map((regencies)=>(
-            <li 
-              key={regencies?.nama} 
-              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-              ${regencies?.nama?.toLowerCase() === selectedYears?.toLowerCase() && 'bg-secondary text-white'
-              }
-
-              ${
-                regencies?.nama?.toLowerCase().startsWith(inputValueofYears) 
-                  ? "block"
-                  : "hidden"
-              }`}
-
-              onClick={()=>{
-                if(regencies?.nama?.toLowerCase() !== selectedYears.toLowerCase()){
-                  setSelectedYears(regencies?.nama);
-                  setOpenYears(false);
-                  setInputValueofYears("");
-                }
-              }}  
-            >
-              {regencies?.nama}
-            </li>
-          ))}
-        </ul>
-      </div>
-
       <img
         src={peta}
         alt=""
         className="flex items-center w-80 mb-[40px] mt-[20px]"
       />
-      <div className="flex mb-[10px] gap-[30px]">
+      
+      <div className="flex justify-between items-center gap-x-[40px]">
+        <img src={pinMap} alt="" className="flex w-6" />
+        <div className="text-secondary">
+          <h1 className="text-[24px] font-bold">{infoDaerah}</h1>
+          <p className="font-semibold text-[20px]">{koordinatLokasi}</p>
+        </div>
+      </div>
+      {/* <div className="flex mb-[10px] gap-[30px]">
         <div className="">
           <img src={map} alt="" className="flex w-6" />
         </div>
         <div className="text-[#064878] font-semibold mt-[5px] text-[20px]">
+          
           <p>{koordinatLokasi}</p>
         </div>
-      </div>
+      </div> */}
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
