@@ -351,7 +351,7 @@ const Jelajahmain = () => {
             <FontAwesomeIcon
               icon={faChevronDown}
               color="#24445A"
-              className={`ml-[20px] w-[10px] h-[20px] ${
+              className={`ml-[120px] w-[10px] h-[20px] ${
                 openYears && "rotate-180"
               }`}
             />
