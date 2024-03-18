@@ -192,7 +192,7 @@ const Jelajahmain = () => {
       });
   }
 
-  ///FETCHING
+  ///FETCHING SATUAN
   const [satuan, setSatuan] = useState([]);
 
   useEffect(() => {
