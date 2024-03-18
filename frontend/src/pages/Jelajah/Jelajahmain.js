@@ -164,6 +164,8 @@ const Jelajahmain = () => {
   const [pinMap, setPinMap] = useState(null);
   const [dataranicon, setDataranicon] = useState(null);
   const [sektoricon, setSektoricon] = useState(null);
+  const [datarannama, setDatarannama] = useState(null);
+  const [sektornama, setSektornama] = useState(null);
 
   const requestOptions = {
     method: "GET",
@@ -182,6 +184,8 @@ const Jelajahmain = () => {
         setSektoricon(result.data.wilayah_info.sektor_icon);
         setKoordinatLokasi(result.data.longitude + ", " + result.data.latitude);
         setInfoDaerah(result.data.nama);
+        setDatarannama(result.data.dataran_nama);
+        setSektornama(result.data.wilayah_info.sektor_nama);
         setPinMap(map);
         console.log(result.data.peta);
       });
@@ -448,7 +452,7 @@ const Jelajahmain = () => {
           <div className="hover-container">
             <img src={dataranicon} alt="" className="w-20" />
             <span className="hover-text w-[150%] mb-[10px]">
-              1,518 km² 489 mdpl Dataran Tinggi
+              {datarannama}
             </span>
           </div>
           <a href="/Jelajah-Profil">
@@ -456,7 +460,7 @@ const Jelajahmain = () => {
           </a>
           <div className="hover-container">
             <img src={sektoricon} alt="" className="w-20" />
-            <span className="hover-text w-[150%] mb-[10px]">N/A</span>
+            <span className="hover-text w-[150%] mb-[10px]">{sektornama}</span>
           </div>
         </div>
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
