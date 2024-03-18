@@ -15,6 +15,7 @@ import bulat from "../../assets/circ.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
 
+
 const Jelajahmain = () => {
   const [selectedOption, setSelectedOption] = useState("Provinsi");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -263,6 +264,8 @@ const Jelajahmain = () => {
                 }`}
                 onClick={() => {
                   updateKota(provinces?.nama, selected, provinces.id);
+                  sessionStorage.setItem("idprovinsi", provinces.id);
+                  sessionStorage.setItem("namaprovinsi", provinces.nama);
                 }}
               >
                 {provinces?.nama}
@@ -333,6 +336,8 @@ const Jelajahmain = () => {
                     selectedCity.toLowerCase()
                   ) {
                     setSelectedCity(regencies?.nama);
+                    sessionStorage.setItem("idkota", regencies.id);
+                    sessionStorage.setItem("namakota", regencies.nama);
                     setOpenCity(false);
                     setInputValueofCity("");
                     updatePeta(regencies.id);

@@ -121,21 +121,21 @@ const Jelajahprofil = () => {
   ///FETCHING DROPDOWN PROVINSI
   const [provincess, setProvinces] = useState(null);
   const [inputValue, setInputValue] = useState("");
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(sessionStorage.getItem("namaprovinsi"));
   const [openProvinsi, setOpenProvinsi] = useState(false);
   useEffect(() => {
     fetch("https://api.otonometer.neracaruang.com/api/provinces")
-      .then((response ) => response.json())
+      .then((response) => response.json())
       .then((data) => {
         setProvinces(data.data);
-        console.log(provincess)
+        console.log(provincess);
       });
   }, []);
 
   ///FETCHING DROPDOWN KOTA
   const [cities, setCity] = useState(null);
   const [inputValueofCity, setInputValueofCity] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedCity, setSelectedCity] = useState(sessionStorage.getItem("namakota"));
   const [openCity, setOpenCity] = useState(false);
 
   ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
@@ -151,6 +151,15 @@ const Jelajahprofil = () => {
         });
     }
   }
+    if(sessionStorage.getItem("idprovinsi") !== null){
+      fetch("https://api.otonometer.neracaruang.com/api/cities?province_id="+sessionStorage.getItem("idprovinsi"))
+        .then((response) => response.json())
+        .then((data)=> {
+          setCity(data.data);
+        });
+    }
+    
+
 
   ///FETCHING DROPDOWN TAHUN
   const [years, setYears] = useState(null);
