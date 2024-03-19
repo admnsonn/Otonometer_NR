@@ -15,7 +15,6 @@ import bulat from "../../assets/circ.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
 
-
 const Jelajahmain = () => {
   const [activeTab, setActiveTab] = useState("provinsi");
 
@@ -90,6 +89,8 @@ const Jelajahmain = () => {
   const [sektoricon, setSektoricon] = useState(null);
   const [datarannama, setDatarannama] = useState(null);
   const [sektornama, setSektornama] = useState(null);
+  const [luaswilayah, setLuaswilayah] = useState(null);
+  const [jumlahpenduduk, setJumlahpenduduk] = useState(null);
 
   const requestOptions = {
     method: "GET",
@@ -110,29 +111,12 @@ const Jelajahmain = () => {
         setInfoDaerah(result.data.nama);
         setDatarannama(result.data.dataran_nama);
         setSektornama(result.data.wilayah_info.sektor_nama);
+        setLuaswilayah(result.data.wilayah_info.luas_wilayah);
+        setJumlahpenduduk(result.data.wilayah_info.jumlah_penduduk);
         setPinMap(map);
         console.log(result.data.peta);
       });
   }
-
-  ///FETCHING SATUAN
-  const [satuan, setSatuan] = useState([]);
-
-  useEffect(() => {
-    const fetchSatuan = async () => {
-      try {
-        const response = await fetch('https://api.otonometer.neracaruang.com/api/satuan');
-        if (!response.ok) {
-          throw new Error('Gagal memuat data satuan');
-        }
-        const data = await response.json();
-        setSatuan(data.data);
-      } catch (error) {
-      }
-    };
-
-    fetchSatuan();
-  }, []);
 
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
@@ -208,7 +192,7 @@ const Jelajahmain = () => {
                   updateKota(provinces?.nama, selected, provinces.id);
                   sessionStorage.setItem("idprovinsi", provinces.id);
                   sessionStorage.setItem("namaprovinsi", provinces.nama);
-                  setGetInfoProvinsi(provinces.id)
+                  setGetInfoProvinsi(provinces.id);
                 }}
               >
                 {provinces?.nama}
@@ -220,7 +204,9 @@ const Jelajahmain = () => {
         {/* FETCHING KOTA */}
         <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
           <div
-            onClick={() => setOpenCity(!openCity)}
+            onClick={() => {
+              setOpenCity(!openCity);
+            }}
             className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
           >
             {selectedCity
@@ -260,19 +246,22 @@ const Jelajahmain = () => {
             className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
               ${openCity ? "max-h-[240px]" : "max-h-[0]"}`}
           >
-              <li
-                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-secondary
+            <li
+              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-secondary
                 ${
-                  'semua' === selectedCity?.toLowerCase() && 'bg-secondary text-white'
+                  "semua" === selectedCity?.toLowerCase() &&
+                  "bg-secondary text-white"
                 }
                 `}
-                onClick={()=>{
-                  setInfoDaerah("Semua")
-                  setSelectedCity("Semua")
-                  updatePeta(getInfoProvinsi)
-                  setOpenCity(false);
-                }}
-              >Semua</li>
+              onClick={() => {
+                setInfoDaerah("Semua");
+                setSelectedCity("Semua");
+                updatePeta(getInfoProvinsi);
+                setOpenCity(false);
+              }}
+            >
+              Semua
+            </li>
             {cities?.map((regencies) => (
               <li
                 key={regencies?.nama}
@@ -405,11 +394,10 @@ const Jelajahmain = () => {
       </div> */}
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
-      <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-        {satuan.map((item) => {
-          <p key={item.id}>{item.nama}</p>
-        })}
-      </div>
+        <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
+          <p>{luaswilayah}</p>
+          <p>km²</p>
+        </div>
         <div className="flex gap-[10px]">
           <div className="hover-container">
             <img src={dataranicon} alt="" className="w-20" />
@@ -424,7 +412,7 @@ const Jelajahmain = () => {
           </div>
         </div>
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>2.453</p>
+          <p>{jumlahpenduduk}</p>
           <p>10³ Jiwa</p>
         </div>
       </div>
