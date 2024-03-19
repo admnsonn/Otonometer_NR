@@ -151,13 +151,16 @@ const Jelajahprofil = () => {
         });
     }
   }
-    if(sessionStorage.getItem("idprovinsi") !== null){
-      fetch("https://api.otonometer.neracaruang.com/api/cities?province_id="+sessionStorage.getItem("idprovinsi"))
+  useEffect(() => {
+    if (sessionStorage.getItem("idprovinsi") !== null) {
+      fetch("https://api.otonometer.neracaruang.com/api/cities?province_id=" + sessionStorage.getItem("idprovinsi"))
         .then((response) => response.json())
-        .then((data)=> {
+        .then((data) => {
           setCity(data.data);
         });
     }
+  }, [sessionStorage.getItem("idprovinsi")]);
+  
     
 
 
@@ -179,8 +182,15 @@ const Jelajahprofil = () => {
   ///UPDATE PETANYA DORA THE EXPLORER
   const [peta, setPeta] = useState(null);
   const [koordinatLokasi, setKoordinatLokasi] = useState(null);
-  const [infoDaerah, setInfoDaerah] = useState (null);
-  const [pinMap, setPinMap] = useState (null);
+  const [infoDaerah, setInfoDaerah] = useState(null);
+  const [pinMap, setPinMap] = useState(null);
+  const [dataranicon, setDataranicon] = useState(null);
+  const [sektoricon, setSektoricon] = useState(null);
+  const [datarannama, setDatarannama] = useState(null);
+  const [sektornama, setSektornama] = useState(null);
+  const [luaswilayah, setLuaswilayah] = useState(null);
+  const [jumlahpenduduk, setJumlahpenduduk] = useState(null);
+  const [namawilayah, setNamawilayah] = useState(null);
 
   const requestOptions = {
     method: "GET",
@@ -191,13 +201,69 @@ const Jelajahprofil = () => {
       .then((response) => response.json())
       .then((result) => {
         setPeta(result.data.peta);
-        setKoordinatLokasi(result.data.longitude+", "+result.data.latitude);
+        setDataranicon(result.data.dataran_icon);
+        setSektoricon(result.data.wilayah_info.sektor_icon);
+        setKoordinatLokasi(result.data.longitude + ", " + result.data.latitude);
         setInfoDaerah(result.data.nama);
+        setDatarannama(result.data.dataran_nama);
+        setSektornama(result.data.wilayah_info.sektor_nama);
+        setLuaswilayah(result.data.wilayah_info.luas_wilayah);
+        setJumlahpenduduk(result.data.wilayah_info.jumlah_penduduk);
         setPinMap(map);
+        setNamawilayah(result.data.nama);
         console.log(result.data.peta);
       });
   }
+
+  useEffect(() => {
+    if(sessionStorage.getItem("idkota") !== null) {
+      updatePeta(sessionStorage.getItem("idkota"));
+    }
+  }, []);
   
+  ///UPDATE PEJABAT
+  const [namaketua, setNamaketua] = useState(null);
+  const [namawakil, setNamawakil] = useState(null);
+  const [tlketua, setTlketua] = useState(null);
+  const [taketua, setTaketua] = useState(null);
+  const [fotoketua, setFotoketua] = useState(null);
+  const [jabatanketua, setJabatanketua] = useState(null);
+  const [tlwakilketua, setTlwakilketua] = useState(null);
+  const [tawakilketua, setTawakilketua] = useState(null);
+  const [fotowakilketua, setFotowakilketua] = useState(null);
+  const [jabatanwakilketua, setJabatanwakilketua] = useState(null);
+
+  function updatePejabat(wilayah_id, tahun){
+    fetch("https://api.otonometer.neracaruang.com/api/pemda?wilayah_id=" + wilayah_id + "&tahun=" + tahun )
+    .then((response) => response.json())
+      .then((result) => {
+        setNamaketua(result.data.ketua[0].nama_lengkap);
+        setNamawakil(result.data.wakil[0].nama_lengkap);
+        setTlketua(result.data.ketua[0].tahun_lantik);
+        setTaketua(result.data.ketua[0].tahun_akhir);
+        setFotoketua(result.data.ketua[0].foto);
+        setJabatanketua(result.data.ketua[0].jabatan_nama)
+        setTlwakilketua(result.data.wakil[0].tahun_lantik);
+        setTawakilketua(result.data.wakil[0].tahun_akhir);
+        setFotowakilketua(result.data.wakil[0].foto);
+        setJabatanwakilketua(result.data.wakil[0].jabatan_nama)
+        console.log(result.data);
+      });
+  }
+
+  useEffect(() => {
+    if(sessionStorage.getItem("idkota") !== null) {
+      updatePejabat( sessionStorage.getItem("idkota"),2020);
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   if (sessionStorage.getItem("idkota") !== null) {
+  //     updatePeta(sessionStorage.getItem("idkota"));
+  //     updatePejabat(sessionStorage.getItem("idkota"));
+  //   }
+  // }, [sessionStorage.getItem("idkota")]);
+
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
 
@@ -331,6 +397,7 @@ const Jelajahprofil = () => {
                     setOpenCity(false);
                     setInputValueofCity("");
                     updatePeta(regencies.id);
+                    updatePejabat(regencies.id, 2020);
                   }
                 }} 
               >
@@ -409,18 +476,24 @@ const Jelajahprofil = () => {
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>168</p>
+          <p>{luaswilayah}</p>
           <p>km²</p>
         </div>
         <div className="flex gap-[10px]">
-          <img src={geo} alt="" className="" />
+          <div className="hover-container">
+            <img src={dataranicon} alt="" className="w-20" />
+            <span className="hover-text w-[150%] mb-[10px]">{datarannama}</span>
+          </div>
           <a href="/Jelajah-Profil">
-            <img src={people} alt="" className="" />
+            <img src={people} alt="" className="w-20" />
           </a>
-          <img src={industri} alt="" className="" />
+          <div className="hover-container">
+            <img src={sektoricon} alt="" className="w-20" />
+            <span className="hover-text w-[150%] mb-[10px]">{sektornama}</span>
+          </div>
         </div>
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>2.453</p>
+          <p>{jumlahpenduduk}</p>
           <p>10³ Jiwa</p>
         </div>
       </div>
@@ -432,34 +505,34 @@ const Jelajahprofil = () => {
       </div>
       {/* TEXT */}
       <div className="text-secondary text-center mt-[48px]">
-        <p className="text-[32px] font-extrabold">PEMERINTAH KOTA BANDUNG</p>
+        <p className="text-[32px] font-extrabold">Pemerintah {namawilayah}</p>
       </div>
 
       {/* DATA */}
       {activeTab === "pemda" && (
         <div className="flex mt-[50px] gap-[100px]">
           <div className="flex flex-col">
-            <Circleimage src={pejabat} alt="User Profile" size="400px" />
+            <Circleimage src={fotoketua} alt="User Profile" size="400px" />
             <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">
-              Walikota
+              {jabatanketua}
             </p>
             <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">
-              H. Tedy Rusmawan
+              {namaketua}
             </p>
             <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
-              (2019-2024)
+              ({tlketua}-{taketua})
             </p>
           </div>
           <div className="flex flex-col">
-            <Circleimage src={pejabat} alt="User Profile" size="400px" />
+            <Circleimage src={fotowakilketua} alt="User Profile" size="400px" />
             <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">
-              Wakil Walikota
+              {jabatanwakilketua}
             </p>
             <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">
-              H. Tedy Rusmawan
+              {namawakil}
             </p>
             <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
-              (2019-2024)
+              ({tlwakilketua}-{tawakilketua})
             </p>
           </div>
         </div>
