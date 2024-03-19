@@ -12,6 +12,8 @@ import Jelajahprofilpage from "./pages/Jelajah/Jelajahprofilpage";
 import Utakpage from "./pages/Utak-Atik/Utakpage";
 import Berkacapage from "./pages/Berkaca/Berkacapage";
 import UtakGraphPage from "./pages/Utak-Atik/UtakGraphPage";
+import HalamanMasuk from "./pages/auth/Masukpage";
+
 
 const App = () => {
   return (
@@ -19,6 +21,7 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Dashboardpage />}></Route>
 		    <Route exact path="/Login" element={<HalamanLogin />}></Route>
+        <Route exact path="/Masuk" element={<HalamanMasuk />}></Route>
         <Route exact path="/Register" element={<HalamanRegister />}></Route>
         <Route exact path="/Jelajah" element={<Jelajahpage />}></Route>
         <Route exact path="/Utak-Atik" element={<Utakpage />}></Route>

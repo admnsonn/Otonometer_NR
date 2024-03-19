@@ -17,84 +17,6 @@ import "../../style/Components.css";
 
 
 const Jelajahmain = () => {
-  const [selectedOption, setSelectedOption] = useState("Provinsi");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const [selectedKota, setSelectedKota] = useState("Kota");
-  const [dropdownKota, setDropdownKota] = useState(false);
-
-  const [selectedTahun, setSelectedTahun] = useState("Tahun");
-  const [dropdownTahun, setDropdownTahun] = useState(false);
-
-  const handleDropdownClick = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const handleDropdownKota = () => {
-    setDropdownKota(!dropdownKota);
-  };
-
-  const handleDropdownTahun = () => {
-    setDropdownTahun(!dropdownTahun);
-  };
-
-  const handleOptionClick = (option) => {
-    setSelectedOption(option);
-    setDropdownOpen(false);
-  };
-
-  const handleOptionKota = (option) => {
-    setSelectedKota(option);
-    setDropdownKota(false);
-  };
-
-  const handleOptionTahun = (option) => {
-    setSelectedTahun(option);
-    setDropdownTahun(false);
-  };
-
-  const renderDropdownOptions = () => {
-    const options = ["Jawa Barat", "Jawa Tengah", "Jawa Timur"];
-
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionClick(option)}
-        className="flex  w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
-
-  const renderDropdownKota = () => {
-    const options = ["Kota Bandung", "Kota Cirebon", "Kota Bekasi"];
-
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionKota(option)}
-        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
-
-  const renderDropdownTahun = () => {
-    const options = ["2022", "2021", "2020"];
-
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionTahun(option)}
-        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
-
   const [activeTab, setActiveTab] = useState("provinsi");
 
   const toggleTab = () => {
@@ -113,6 +35,7 @@ const Jelajahmain = () => {
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState("");
   const [openProvinsi, setOpenProvinsi] = useState(false);
+  const [getInfoProvinsi, setGetInfoProvinsi] = useState(null);
   useEffect(() => {
     fetch("https://api.otonometer.neracaruang.com/api/provinces")
       .then((response) => response.json())
@@ -285,6 +208,7 @@ const Jelajahmain = () => {
                   updateKota(provinces?.nama, selected, provinces.id);
                   sessionStorage.setItem("idprovinsi", provinces.id);
                   sessionStorage.setItem("namaprovinsi", provinces.nama);
+                  setGetInfoProvinsi(provinces.id)
                 }}
               >
                 {provinces?.nama}
@@ -336,6 +260,19 @@ const Jelajahmain = () => {
             className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
               ${openCity ? "max-h-[240px]" : "max-h-[0]"}`}
           >
+              <li
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-secondary
+                ${
+                  'semua' === selectedCity?.toLowerCase() && 'bg-secondary text-white'
+                }
+                `}
+                onClick={()=>{
+                  setInfoDaerah("Semua")
+                  setSelectedCity("Semua")
+                  updatePeta(getInfoProvinsi)
+                  setOpenCity(false);
+                }}
+              >Semua</li>
             {cities?.map((regencies) => (
               <li
                 key={regencies?.nama}
