@@ -35,14 +35,7 @@ const Jelajahmain = () => {
   const [selected, setSelected] = useState("");
   const [openProvinsi, setOpenProvinsi] = useState(false);
   const [getInfoProvinsi, setGetInfoProvinsi] = useState(null);
-  useEffect(() => {
-    fetch("https://api.otonometer.neracaruang.com/api/provinces")
-      .then((response) => response.json())
-      .then((data) => {
-        setProvinces(data.data);
-        console.log(provincess);
-      });
-  }, []);
+  
 
   ///FETCHING DROPDOWN KOTA
   const [cities, setCity] = useState(null);
@@ -92,6 +85,14 @@ const Jelajahmain = () => {
   const [luaswilayah, setLuaswilayah] = useState(null);
   const [jumlahpenduduk, setJumlahpenduduk] = useState(null);
 
+  useEffect(() => {
+    fetch("https://api.otonometer.neracaruang.com/api/provinces")
+      .then((response) => response.json())
+      .then((data) => {
+        setProvinces(data.data);
+      });
+  }, []);
+
   const requestOptions = {
     method: "GET",
     redirect: "follow",
@@ -105,16 +106,21 @@ const Jelajahmain = () => {
       .then((response) => response.json())
       .then((result) => {
         setPeta(result.data.peta);
-        setDataranicon(result.data.dataran_icon);
+        if(sessionStorage.getItem("namawilayah") === "Semua"){
+          setDataranicon("https://storage.googleapis.com/otonometer-bucket/infografis/655fb32670807.icon_geo_dattinggi.png")
+          
+        }else{
+          setDataranicon(result.data.dataran_icon);
+        }
+        setInfoDaerah(result.data.nama);
         setSektoricon(result.data.wilayah_info.sektor_icon);
         setKoordinatLokasi(result.data.longitude + ", " + result.data.latitude);
-        setInfoDaerah(result.data.nama);
         setDatarannama(result.data.dataran_nama);
         setSektornama(result.data.wilayah_info.sektor_nama);
         setLuaswilayah(result.data.wilayah_info.luas_wilayah);
         setJumlahpenduduk(result.data.wilayah_info.jumlah_penduduk);
         setPinMap(map);
-        console.log(result.data.peta);
+        console.log(infoDaerah);
       });
   }
 
@@ -254,8 +260,11 @@ const Jelajahmain = () => {
                 }
                 `}
               onClick={() => {
+                sessionStorage.setItem("namawilayah","Semua")
                 setInfoDaerah("Semua");
+                console.log(infoDaerah);
                 setSelectedCity("Semua");
+                setDataranicon("Semua");
                 updatePeta(getInfoProvinsi);
                 setOpenCity(false);
               }}
@@ -280,6 +289,7 @@ const Jelajahmain = () => {
                     regencies?.nama?.toLowerCase() !==
                     selectedCity.toLowerCase()
                   ) {
+                    sessionStorage.setItem("namawilayah",regencies.nama)
                     setSelectedCity(regencies?.nama);
                     sessionStorage.setItem("idkota", regencies.id);
                     sessionStorage.setItem("namakota", regencies.nama);
