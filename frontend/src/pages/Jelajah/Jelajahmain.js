@@ -35,6 +35,7 @@ const Jelajahmain = () => {
   const [selected, setSelected] = useState("");
   const [openProvinsi, setOpenProvinsi] = useState(false);
   const [getInfoProvinsi, setGetInfoProvinsi] = useState(null);
+  const [wilayahID, setWilayahID] = useState(null);
 
   ///FETCHING DROPDOWN KOTA
   const [cities, setCity] = useState(null);
@@ -59,18 +60,20 @@ const Jelajahmain = () => {
   }
 
   ///FETCHING DROPDOWN TAHUN
-  const [years, setYears] = useState(null);
+  const [years, setYears] = useState([]);
   const [inputValueofYears, setInputValueofYears] = useState("");
   const [selectedYears, setSelectedYears] = useState("");
   const [openYears, setOpenYears] = useState(false);
+  
 
   useEffect(() => {
-    fetch("https://api.otonometer.neracaruang.com/api/year")
+      fetch("https://api.otonometer.neracaruang.com/api/year")
       .then((response) => response.json())
       .then((data) => {
         setYears(data.data);
+        sessionStorage.setItem("yearss",data.data[0].tahun)
       });
-  }, []);
+    },[]);
 
   ///UPDATE PETANYA DORA THE EXPLORER
   const [peta, setPeta] = useState(null);
@@ -99,7 +102,7 @@ const Jelajahmain = () => {
   function updatePeta(wilayah_id) {
     fetch(
       "https://api.otonometer.neracaruang.com/api/wilayah-info?lang=en&wilayah_id=" +
-        wilayah_id,
+        wilayah_id + "&tahun=" + sessionStorage.getItem("yearss"),
       requestOptions
     )
       .then((response) => response.json())
@@ -246,6 +249,7 @@ const Jelajahmain = () => {
                   sessionStorage.setItem("idprovinsi", provinces.id);
                   sessionStorage.setItem("namaprovinsi", provinces.nama);
                   setGetInfoProvinsi(provinces.id);
+                  setWilayahID(provinces.id);
                 }}
               >
                 {provinces?.nama}
@@ -312,8 +316,11 @@ const Jelajahmain = () => {
                 console.log(infoDaerah);
                 setSelectedCity("Semua");
                 setDataranicon("Semua");
+                setWilayahID(getInfoProvinsi);
+
                 updatePeta(getInfoProvinsi);
                 setOpenCity(false);
+                
               }}
             >
               Semua
@@ -343,6 +350,8 @@ const Jelajahmain = () => {
                     setOpenCity(false);
                     setInputValueofCity("");
                     updatePeta(regencies.id);
+                    setWilayahID(regencies.id);
+                    setSelectedYears(sessionStorage.getItem("yearss"))
                   }
                 }}
               >
@@ -395,32 +404,35 @@ const Jelajahmain = () => {
             className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
               ${openYears ? "max-h-[240px]" : "max-h-[0]"}`}
           >
-            {years?.map((citiess) => (
+            {years?.map((tahunn) => (
               <li
-                key={citiess?.tahun}
+                key={tahunn?.tahun}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
                 ${
-                  citiess?.tahun?.toLowerCase() ===
+                  tahunn?.tahun?.toLowerCase() ===
                     selectedYears?.toLowerCase() && "bg-secondary text-white"
                 }
 
                 ${
-                  citiess?.tahun?.toLowerCase().startsWith(inputValueofYears)
+                  tahunn?.tahun?.toLowerCase().startsWith(inputValueofYears)
                     ? "block"
                     : "hidden"
                 }`}
                 onClick={() => {
                   if (
-                    citiess?.tahun?.toLowerCase() !==
+                    tahunn?.tahun?.toLowerCase() !==
                     selectedYears.toLowerCase()
                   ) {
-                    setSelectedYears(citiess?.tahun);
+                    setSelectedYears(tahunn?.tahun);
                     setOpenYears(false);
                     setInputValueofYears("");
+                    sessionStorage.setItem("yearss",tahunn?.tahun)
+                    updatePeta(wilayahID);
+
                   }
                 }}
               >
-                {citiess?.tahun}
+                {tahunn?.tahun}
               </li>
             ))}
           </ul>
@@ -440,15 +452,6 @@ const Jelajahmain = () => {
           <p className="font-semibold text-[20px]">{koordinatLokasi}</p>
         </div>
       </div>
-      {/* <div className="flex mb-[10px] gap-[30px]">
-        <div className="">
-          <img src={map} alt="" className="flex w-6" />
-        </div>
-        <div className="text-[#064878] font-semibold mt-[5px] text-[20px]">
-          
-          <p>{koordinatLokasi}</p>
-        </div>
-      </div> */}
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
@@ -630,7 +633,9 @@ const Jelajahmain = () => {
               </p>
             </div>
             <div className="w-[660px] border-2 rounded-full border-secondary">
-              <p className="px-2 font-bold text-[20px]">100</p>
+              <div className="w-[100%] bg-secondary rounded-full">
+                <p className="px-2 font-bold text-[20px] text-white">100</p>
+              </div>
             </div>
             <p className="font-bold text-third text-[24px]">#12</p>
           </div>
