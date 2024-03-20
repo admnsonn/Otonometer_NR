@@ -237,16 +237,20 @@ const Jelajahprofil = () => {
     fetch("https://api.otonometer.neracaruang.com/api/pemda?wilayah_id=" + wilayah_id + "&tahun=" + tahun )
     .then((response) => response.json())
       .then((result) => {
-        setNamaketua(result.data.ketua[0].nama_lengkap);
-        setNamawakil(result.data.wakil[0].nama_lengkap);
-        setTlketua(result.data.ketua[0].tahun_lantik);
-        setTaketua(result.data.ketua[0].tahun_akhir);
-        setFotoketua(result.data.ketua[0].foto);
-        setJabatanketua(result.data.ketua[0].jabatan_nama)
-        setTlwakilketua(result.data.wakil[0].tahun_lantik);
-        setTawakilketua(result.data.wakil[0].tahun_akhir);
-        setFotowakilketua(result.data.wakil[0].foto);
-        setJabatanwakilketua(result.data.wakil[0].jabatan_nama)
+        if (result.data && result.data.ketua && result.data.ketua.length > 0) {
+          setNamaketua(result.data.ketua[0].nama_lengkap);
+          setTlketua(result.data.ketua[0].tahun_lantik);
+          setTaketua(result.data.ketua[0].tahun_akhir);
+          setFotoketua(result.data.ketua[0].foto);
+          setJabatanketua(result.data.ketua[0].jabatan_nama)
+        }
+        if (result.data && result.data.wakil && result.data.wakil.length > 0) {
+          setNamawakil(result.data.wakil[0].nama_lengkap);
+          setTlwakilketua(result.data.wakil[0].tahun_lantik);
+          setTawakilketua(result.data.wakil[0].tahun_akhir);
+          setFotowakilketua(result.data.wakil[0].foto);
+          setJabatanwakilketua(result.data.wakil[0].jabatan_nama)
+        }
         console.log(result.data);
       });
   }
@@ -257,12 +261,7 @@ const Jelajahprofil = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (sessionStorage.getItem("idkota") !== null) {
-  //     updatePeta(sessionStorage.getItem("idkota"));
-  //     updatePejabat(sessionStorage.getItem("idkota"));
-  //   }
-  // }, [sessionStorage.getItem("idkota")]);
+  ///UPDATE DPRD
 
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
