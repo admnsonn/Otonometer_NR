@@ -10,10 +10,10 @@ const Dashboard = () => {
   return (
     <div className="">
       {/* HEADING SECTION */}
-      <div className="absolute justify-between w-full bg-primer pl-[5%] md:pl-[10%] lg:pl-[10%] md:flex-row gap-[20px] lg:gap-[200px] mt-[200px]">
-        <div className="w-full md:w-[60%]">
-          <img src={logo} alt="loading" className="h-[82px]" />
-          <p className="w-[900px] text-[20px] mt-[30px] text-secondary">
+      <div className="flex xl:absolute xl:justify-between w-full bg-primer xl:pl-[10%] px-[15%] xl:gap-[20px] mt-[200px]">
+        <div className="flex flex-col justify-center items-start w-[800px] xl:w-full">
+          <img src={logo} alt="loading" className="h-[60px] xl:h-[82px]" />
+          <p className="w-full xl:w-[900px] text-[20px] mt-[30px] text-secondary">
             Otonometer menyediakan informasi akurat kepada pengguna indikator
             keuangan, ekonomi dan statistik dari 549 daerah provinsi, kabupaten
             dan kota di Indonesia
@@ -25,20 +25,20 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="relative left-0 right-0">
-          <Carousel />
+      <div className="hidden xl:block left-0 right-0">
+          <Carousel/>
       </div>
       {/* ABOUT SECTION */}
-      <div className="relative">
-        <img src={ombak} alt="" className="flex items-center" />
-        <div className="absolute inset-0 flex justify-center items-center">
-          <div className="flex flex-col justify-center items-center md:flex-row gap-[10px] lg:gap-[200px] md:px-[10%] lg:px-[15%] mb-[350px]">
-            <img src={logo3d} alt="" className="w-[50%] md:w-[10%] xl:w-[40%]" />
-            <div className="w-full md:w-[75%] lg:w-[80%] text-secondary text-[16px] text-justify">
-              <div className="mb-[10px] md:mb-[20px] text-[2rem] md:text-[3px] lg:text-[3%] xl:text-[50px] font-bold">
+      <div className="xl:relative xl:mt-0 mt-[200px]">
+        <img src={ombak} alt="illustrate" className="hidden xl:flex items-center" />
+        <div className="xl:absolute xl:inset-0 left-0">
+          <div className="flex flex-col justify-center items-center xl:flex-row gap-[10px] xl:gap-[200px] xl:px-[15%] xl:mt-0 px-[15%]">
+            <img src={logo3d} alt="" className="hidden xl:block xl:w-[40%]" />
+            <div className="w-full xl:w-[80%] text-secondary text-[16px] text-justify">
+              <div className="mb-[10px] md:mb-[20px] text-[40px] xl:text-[50px] font-bold">
                 Tentang Kami
               </div>
-              <p>
+              <p className="xl:mb-0 mb-[200px]">
                 Tujuan aplikasi Otonometer ini adalah menyediakan informasi kepada
                 publik luas agar lebih memahami potensi dan kinerja setiap daerah.
                 Kami juga ingin informasi tersebut dapat digunakan untuk

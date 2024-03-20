@@ -73,7 +73,7 @@ const Masuk = () => {
   
   return (
     <section className='w-full h-screen xl:flex xl:items-start xl:justify-between flex justify-center items-start'>
-      <div className="flex hidden xl:block xl:relative xl:w-1/2 h-full xl:flex-col">
+      <div className="hidden xl:block xl:relative xl:w-1/2 h-full xl:flex-col">
         <img
           src={Illustration}
           alt="Illustration"
