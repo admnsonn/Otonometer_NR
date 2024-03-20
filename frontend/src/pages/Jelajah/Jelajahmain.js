@@ -124,6 +124,7 @@ const Jelajahmain = () => {
         setJumlahpenduduk(result.data.wilayah_info.jumlah_penduduk);
         setPinMap(map);
         console.log(infoDaerah);
+        console.log(datarannama);
       });
   }
 
@@ -157,21 +158,30 @@ const Jelajahmain = () => {
    const [getInfoParent, setGetInfoParent] = useState(null);
  
    ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
-   function updatePilihan(item, choosed) {
-     if (item.toLowerCase() !== choosed.toLowerCase()) {
-       setSelectedParent(item);
-       setOpenParent(false);
-       setInputValueParent("");
+   function updatePilihan() {
        fetch(
-         "https://api.otonometer.neracaruang.com/api/sektor/2020?lang=id"
+         "https://api.otonometer.neracaruang.com/api/filter-parent"
        )
          .then((response) => response.json())
-         .then((data) => {
-           setParent(data.data);
-           console.log(parent)
+         .then((result) => {
+           setParent(result.data);
+           console.log(result.data)
          });
      }
-   }
+
+   const [selectedd, setSelectedd] = useState(null);
+
+   function updateSelectedd(parent_id) {
+      fetch(
+        "https://api.otonometer.neracaruang.com/api/filter-select?parent_id=" + parent_id
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setSelectedd(result.data);
+          setParent(result.data);
+          console.log(result.data)
+        });
+    }
   
 
   return (
@@ -482,7 +492,10 @@ const Jelajahmain = () => {
         {/* TOMBOL KEUANGAN */}
         <button
           className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
-          onClick={toggleKeuanganDropdown}
+          onClick={() => {
+            updateSelectedd(1)
+            toggleKeuanganDropdown()
+          }}
         >
           <p>KEUANGAN</p>
         </button>
@@ -540,7 +553,7 @@ const Jelajahmain = () => {
               type="text"
               value={inputValueParent}
               onChange={(e) => setInputValue(e.target.value.toLowerCase())}
-              placeholder="Cari Provinsi"
+              placeholder="Cari"
               className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
             />
           </div>
@@ -561,10 +574,7 @@ const Jelajahmain = () => {
                     ? "block"
                     : "hidden"
                 }`}
-                onClick={() => {
-                  updatePilihan(parents?.nama, selectedParent, parents.id);
-                  setGetInfoParent(parents.id);
-                }}
+
               >
                 {parents?.nama}
               </li>
