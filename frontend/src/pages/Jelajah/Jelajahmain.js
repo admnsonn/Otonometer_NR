@@ -64,16 +64,15 @@ const Jelajahmain = () => {
   const [inputValueofYears, setInputValueofYears] = useState("");
   const [selectedYears, setSelectedYears] = useState("");
   const [openYears, setOpenYears] = useState(false);
-  
 
   useEffect(() => {
-      fetch("https://api.otonometer.neracaruang.com/api/year")
+    fetch("https://api.otonometer.neracaruang.com/api/year")
       .then((response) => response.json())
       .then((data) => {
         setYears(data.data);
-        sessionStorage.setItem("yearss",data.data[0].tahun)
+        sessionStorage.setItem("yearss", data.data[0].tahun);
       });
-    },[]);
+  }, []);
 
   ///UPDATE PETANYA DORA THE EXPLORER
   const [peta, setPeta] = useState(null);
@@ -102,7 +101,9 @@ const Jelajahmain = () => {
   function updatePeta(wilayah_id) {
     fetch(
       "https://api.otonometer.neracaruang.com/api/wilayah-info?lang=en&wilayah_id=" +
-        wilayah_id + "&tahun=" + sessionStorage.getItem("yearss"),
+        wilayah_id +
+        "&tahun=" +
+        sessionStorage.getItem("yearss"),
       requestOptions
     )
       .then((response) => response.json())
@@ -131,58 +132,57 @@ const Jelajahmain = () => {
   const [showKeuanganDropdown, setShowKeuanganDropdown] = useState(false);
   const [showEkonomiDropdown, setShowEkonomiDropdown] = useState(false);
   const [showStatistikDropdown, setShowStatistikDropdown] = useState(false);
-  
+
   const toggleKeuanganDropdown = () => {
     setShowKeuanganDropdown(!showKeuanganDropdown);
     setShowEkonomiDropdown(false);
-    setShowStatistikDropdown(false); 
+    setShowStatistikDropdown(false);
   };
-  
+
   const toggleEkonomiDropdown = () => {
     setShowEkonomiDropdown(!showEkonomiDropdown);
-    setShowKeuanganDropdown(false); 
-    setShowStatistikDropdown(false); 
+    setShowKeuanganDropdown(false);
+    setShowStatistikDropdown(false);
   };
-  
+
   const toggleStatistikDropdown = () => {
     setShowStatistikDropdown(!showStatistikDropdown);
-    setShowKeuanganDropdown(false); 
-    setShowEkonomiDropdown(false); 
+    setShowKeuanganDropdown(false);
+    setShowEkonomiDropdown(false);
   };
 
-   ///FETCHING DROPDOWN PARENT
-   const [parent, setParent] = useState(null);
-   const [inputValueParent, setInputValueParent] = useState("");
-   const [selectedParent, setSelectedParent] = useState("");
-   const [openParent, setOpenParent] = useState(false);
-   const [getInfoParent, setGetInfoParent] = useState(null);
- 
-   ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
-   function updatePilihan() {
-       fetch(
-         "https://api.otonometer.neracaruang.com/api/filter-parent"
-       )
-         .then((response) => response.json())
-         .then((result) => {
-           setParent(result.data);
-           console.log(result.data)
-         });
-     }
+  ///FETCHING DROPDOWN PARENT
+  const [parent, setParent] = useState(null);
+  const [inputValueParent, setInputValueParent] = useState("");
+  const [selectedParent, setSelectedParent] = useState("");
+  const [openParent, setOpenParent] = useState(false);
+  const [getInfoParent, setGetInfoParent] = useState(null);
 
-   const [selectedd, setSelectedd] = useState(null);
+  ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
+  function updatePilihan() {
+    fetch("https://api.otonometer.neracaruang.com/api/filter-parent")
+      .then((response) => response.json())
+      .then((result) => {
+        setParent(result.data);
+        console.log(result.data);
+      });
+  }
 
-   function updateSelectedd(parent_id) {
-      fetch(
-        "https://api.otonometer.neracaruang.com/api/filter-select?parent_id=" + parent_id
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          setSelectedd(result.data);
-          setParent(result.data);
-          console.log(result.data)
-        });
-    }
-  
+  const [selectedd, setSelectedd] = useState(null);
+  const [selectedSelectedd, setSelectedSelect] = useState("");
+
+  function updateSelectedd(parent_id) {
+    fetch(
+      "https://api.otonometer.neracaruang.com/api/filter-select?parent_id=" +
+        parent_id
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setSelectedd(result.data);
+        setParent(result.data);
+        console.log(result.data);
+      });
+  }
 
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
@@ -330,7 +330,6 @@ const Jelajahmain = () => {
 
                 updatePeta(getInfoProvinsi);
                 setOpenCity(false);
-                
               }}
             >
               Semua
@@ -361,7 +360,7 @@ const Jelajahmain = () => {
                     setInputValueofCity("");
                     updatePeta(regencies.id);
                     setWilayahID(regencies.id);
-                    setSelectedYears(sessionStorage.getItem("yearss"))
+                    setSelectedYears(sessionStorage.getItem("yearss"));
                   }
                 }}
               >
@@ -430,15 +429,13 @@ const Jelajahmain = () => {
                 }`}
                 onClick={() => {
                   if (
-                    tahunn?.tahun?.toLowerCase() !==
-                    selectedYears.toLowerCase()
+                    tahunn?.tahun?.toLowerCase() !== selectedYears.toLowerCase()
                   ) {
                     setSelectedYears(tahunn?.tahun);
                     setOpenYears(false);
                     setInputValueofYears("");
-                    sessionStorage.setItem("yearss",tahunn?.tahun)
+                    sessionStorage.setItem("yearss", tahunn?.tahun);
                     updatePeta(wilayahID);
-
                   }
                 }}
               >
@@ -493,8 +490,8 @@ const Jelajahmain = () => {
         <button
           className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
           onClick={() => {
-            updateSelectedd(1)
-            toggleKeuanganDropdown()
+            updateSelectedd(1);
+            toggleKeuanganDropdown();
           }}
         >
           <p>KEUANGAN</p>
@@ -503,7 +500,10 @@ const Jelajahmain = () => {
         {/* TOMBOL EKONOMI */}
         <button
           className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
-          onClick={toggleEkonomiDropdown}
+          onClick={() => {
+            updateSelectedd(2);
+            toggleEkonomiDropdown();
+          }}
         >
           <p>EKONOMI</p>
         </button>
@@ -511,7 +511,10 @@ const Jelajahmain = () => {
         {/* TOMBOL STATISTIK */}
         <button
           className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
-          onClick={toggleStatistikDropdown}
+          onClick={() => {
+            updateSelectedd(3);
+            toggleEkonomiDropdown();
+          }}
         >
           <p>STATISTIK</p>
         </button>
@@ -520,85 +523,212 @@ const Jelajahmain = () => {
       {/* DROPDOWN "KEUANGAN" */}
       {showKeuanganDropdown && (
         <div className="flex flex-col mt-[30px] gap-y-[10px]">
-        {/* FETCHING PARENT */}
-        <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
-          <div
-            onClick={() => setOpenParent(!openParent)}
-            className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-          >
-            {selectedParent
-              ? selectedParent?.length > 20
-                ? selectedParent?.substring(0, 20) + "..."
-                : selectedParent
-              : "Pilih"}
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              color="#24445A"
-              className={`ml-[20px] w-[10px] h-[20px] ${
-                openParent && "rotate-180"
-              }`}
-            />
-          </div>
-          <div
-            className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          {/* FETCHING PARENT */}
+          <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+            <div
+              onClick={() => setOpenParent(!openParent)}
+              className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+            >
+              {selectedParent
+                ? selectedParent?.length > 20
+                  ? selectedParent?.substring(0, 20) + "..."
+                  : selectedParent
+                : "Pilih"}
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                color="#24445A"
+                className={`ml-[20px] w-[10px] h-[20px] ${
+                  openParent && "rotate-180"
+                }`}
+              />
+            </div>
+            <div
+              className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
           ${openParent ? "max-h-auto" : "hidden"}`}
-          >
-            <FontAwesomeIcon
-              icon={faSearch}
-              color="#24445A"
-              style={{ opacity: "40%" }}
-              className="w-[10px] h-[20px] opacity-75"
-            />
-            <input
-              type="text"
-              value={inputValueParent}
-              onChange={(e) => setInputValue(e.target.value.toLowerCase())}
-              placeholder="Cari"
-              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-            />
-          </div>
-          <ul
-            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+            >
+              <FontAwesomeIcon
+                icon={faSearch}
+                color="#24445A"
+                style={{ opacity: "40%" }}
+                className="w-[10px] h-[20px] opacity-75"
+              />
+              <input
+                type="text"
+                value={inputValueParent}
+                onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+                placeholder="Cari"
+                className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+              />
+            </div>
+            <ul
+              className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
               ${openParent ? "max-h-[240px]" : "max-h-[0]"}`}
-          >
-            {parent?.map((parents) => (
-              <li
-                key={parents?.nama}
-                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+            >
+              {parent?.map((parents) => (
+                <li
+                  key={parents?.nama}
+                  className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
                 ${
-                  parents?.nama?.toLowerCase() === selectedParent?.toLowerCase() &&
-                  "bg-secondary text-white"
+                  parents?.nama?.toLowerCase() ===
+                    selectedParent?.toLowerCase() && "bg-secondary text-white"
                 }
                 ${
                   parents?.nama?.toLowerCase().startsWith(inputValueParent)
                     ? "block"
                     : "hidden"
                 }`}
-
-              >
-                {parents?.nama}
-              </li>
-            ))}
-          </ul>
-        </div>
+                  onClick={() => {
+                    setGetInfoParent(selectedd.id);
+                    updateSelectedd(
+                      selectedParent?.nama,
+                      selectedSelectedd,
+                      parent
+                    );
+                  }}
+                >
+                  {parents?.nama}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
 
       {/* DROPDOWN "EKONOMI" */}
       {showEkonomiDropdown && (
         <div className="flex flex-col mt-[30px] gap-y-[10px]">
-          <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-            <p>Pilih</p>
-          </button>
+          {/* FETCHING PARENT */}
+          <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+            <div
+              onClick={() => setOpenParent(!openParent)}
+              className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+            >
+              {selectedParent
+                ? selectedParent?.length > 20
+                  ? selectedParent?.substring(0, 20) + "..."
+                  : selectedParent
+                : "Pilih"}
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                color="#24445A"
+                className={`ml-[20px] w-[10px] h-[20px] ${
+                  openParent && "rotate-180"
+                }`}
+              />
+            </div>
+            <div
+              className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${openParent ? "max-h-auto" : "hidden"}`}
+            >
+              <FontAwesomeIcon
+                icon={faSearch}
+                color="#24445A"
+                style={{ opacity: "40%" }}
+                className="w-[10px] h-[20px] opacity-75"
+              />
+              <input
+                type="text"
+                value={inputValueParent}
+                onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+                placeholder="Cari"
+                className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+              />
+            </div>
+            <ul
+              className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${openParent ? "max-h-[240px]" : "max-h-[0]"}`}
+            >
+              {parent?.map((parents) => (
+                <li
+                  key={parents?.nama}
+                  className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${
+                  parents?.nama?.toLowerCase() ===
+                    selectedParent?.toLowerCase() && "bg-secondary text-white"
+                }
+                ${
+                  parents?.nama?.toLowerCase().startsWith(inputValueParent)
+                    ? "block"
+                    : "hidden"
+                }`}
+                  onClick={() => {
+                    updateSelectedd(3);
+                  }}
+                >
+                  {parents?.nama}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
 
       {/* DROPDOWN "STATISTIK" */}
       {showStatistikDropdown && (
         <div className="flex flex-col mt-[30px] gap-y-[10px]">
-          <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-            <p>ASA</p>
-          </button>
+          {/* FETCHING PARENT */}
+          <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+            <div
+              onClick={() => setOpenParent(!openParent)}
+              className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+            >
+              {selectedParent
+                ? selectedParent?.length > 20
+                  ? selectedParent?.substring(0, 20) + "..."
+                  : selectedParent
+                : "Pilih"}
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                color="#24445A"
+                className={`ml-[20px] w-[10px] h-[20px] ${
+                  openParent && "rotate-180"
+                }`}
+              />
+            </div>
+            <div
+              className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+ ${openParent ? "max-h-auto" : "hidden"}`}
+            >
+              <FontAwesomeIcon
+                icon={faSearch}
+                color="#24445A"
+                style={{ opacity: "40%" }}
+                className="w-[10px] h-[20px] opacity-75"
+              />
+              <input
+                type="text"
+                value={inputValueParent}
+                onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+                placeholder="Cari"
+                className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+              />
+            </div>
+            <ul
+              className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+     ${openParent ? "max-h-[240px]" : "max-h-[0]"}`}
+            >
+              {parent?.map((parents) => (
+                <li
+                  key={parents?.nama}
+                  className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+       ${
+         parents?.nama?.toLowerCase() === selectedParent?.toLowerCase() &&
+         "bg-secondary text-white"
+       }
+       ${
+         parents?.nama?.toLowerCase().startsWith(inputValueParent)
+           ? "block"
+           : "hidden"
+       }`}
+                  onClick={() => {
+                    updateSelectedd(3);
+                  }}
+                >
+                  {parents?.nama}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
 
