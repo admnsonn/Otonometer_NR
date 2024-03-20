@@ -130,23 +130,43 @@ const Jelajahmain = () => {
   }
 
   const [showKeuanganDropdown, setShowKeuanganDropdown] = useState(false);
+  const [showKeuanganAnakan1, setshowKeuanganAnakan1] = useState(false);
+
   const [showEkonomiDropdown, setShowEkonomiDropdown] = useState(false);
   const [showStatistikDropdown, setShowStatistikDropdown] = useState(false);
 
+  const [selectedKeuanganOption, setSelectedKeuanganOption] = useState("Pilih");
+  const [selectedKeuanganAnakanOption1, setselectedKeuanganAnakanOption1] =
+    useState("Pilih");
+  const [selectedEkonomiOption, setSelectedEkonomiOption] = useState("Pilih");
+  const [selectedStatistikOption, setSelectedStatistikOption] =
+    useState("Pilih");
+
   const toggleKeuanganDropdown = () => {
     setShowKeuanganDropdown(!showKeuanganDropdown);
+    setOpenParent(!openParent);
+    setOpenChild(!openChild);
+    setShowEkonomiDropdown(false);
+    setShowStatistikDropdown(false);
+  };
+
+  const toggleKeuanganAnakan1 = () => {
+    setshowKeuanganAnakan1(!showKeuanganAnakan1);
+    setOpenParent(!openParent);
     setShowEkonomiDropdown(false);
     setShowStatistikDropdown(false);
   };
 
   const toggleEkonomiDropdown = () => {
     setShowEkonomiDropdown(!showEkonomiDropdown);
+    setOpenParent(!openParent);
     setShowKeuanganDropdown(false);
     setShowStatistikDropdown(false);
   };
 
   const toggleStatistikDropdown = () => {
     setShowStatistikDropdown(!showStatistikDropdown);
+    setOpenParent(!openParent);
     setShowKeuanganDropdown(false);
     setShowEkonomiDropdown(false);
   };
@@ -156,7 +176,7 @@ const Jelajahmain = () => {
   const [inputValueParent, setInputValueParent] = useState("");
   const [selectedParent, setSelectedParent] = useState("");
   const [openParent, setOpenParent] = useState(false);
-  const [getInfoParent, setGetInfoParent] = useState(null);
+  // const [getInfoParent, setGetInfoParent] = useState(null);
 
   ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
   function updatePilihan() {
@@ -169,7 +189,6 @@ const Jelajahmain = () => {
   }
 
   const [selectedd, setSelectedd] = useState(null);
-  const [selectedSelectedd, setSelectedSelect] = useState("");
 
   function updateSelectedd(parent_id) {
     fetch(
@@ -181,6 +200,32 @@ const Jelajahmain = () => {
         setSelectedd(result.data);
         setParent(result.data);
         console.log(result.data);
+      });
+  }
+
+  const [child, setChild] = useState(null);
+  const [inputValueChild, setInputValueChild] = useState("");
+  const [selectedChild, setSelectedChild] = useState("");
+  const [openChild, setOpenChild] = useState(false);
+
+  function updateChild(satuan_id, parent_id) {
+    fetch(
+      "https://api.otonometer.neracaruang.com/api/filter-child?satuan_id=" +
+        satuan_id +
+        "&parent_id=" +
+        parent_id
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (Array.isArray(result.data)) {
+          setChild(result.data);
+          console.log(result.data);
+        } else {
+          console.error("Response tidak mengandung array:", result);
+        }
+      })
+      .catch((error) => {
+        console.error("Error saat fetching data:", error);
       });
   }
 
@@ -492,6 +537,8 @@ const Jelajahmain = () => {
           onClick={() => {
             updateSelectedd(1);
             toggleKeuanganDropdown();
+            toggleKeuanganAnakan1();
+            updateChild(1, 4);
           }}
         >
           <p>KEUANGAN</p>
@@ -503,6 +550,8 @@ const Jelajahmain = () => {
           onClick={() => {
             updateSelectedd(2);
             toggleEkonomiDropdown();
+            updateChild(1, 5);
+            
           }}
         >
           <p>EKONOMI</p>
@@ -513,7 +562,7 @@ const Jelajahmain = () => {
           className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
           onClick={() => {
             updateSelectedd(3);
-            toggleEkonomiDropdown();
+            toggleStatistikDropdown();
           }}
         >
           <p>STATISTIK</p>
@@ -521,53 +570,51 @@ const Jelajahmain = () => {
       </div>
 
       {/* DROPDOWN "KEUANGAN" */}
-      {showKeuanganDropdown && (
-        <div className="flex flex-col mt-[30px] gap-y-[10px]">
-          {/* FETCHING PARENT */}
-          <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
-            <div
-              onClick={() => setOpenParent(!openParent)}
-              className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-            >
-              {selectedParent
-                ? selectedParent?.length > 20
-                  ? selectedParent?.substring(0, 20) + "..."
-                  : selectedParent
-                : "Pilih"}
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                color="#24445A"
-                className={`ml-[20px] w-[10px] h-[20px] ${
-                  openParent && "rotate-180"
-                }`}
-              />
-            </div>
-            <div
-              className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+      {showKeuanganDropdown &&
+        !showEkonomiDropdown &&
+        !showStatistikDropdown && (
+          <div className="flex flex mt-[30px] gap-[60px]">
+            {/* // Dropdown 1: Keuangan */}
+            <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+              <div
+                onClick={() => setOpenParent(!openParent)}
+                className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+              >
+                {selectedKeuanganOption}{" "}
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  color="#24445A"
+                  className={`ml-[20px] w-[10px] h-[20px] ${
+                    openParent && "rotate-180"
+                  }`}
+                />
+              </div>
+              <div
+                className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
           ${openParent ? "max-h-auto" : "hidden"}`}
-            >
-              <FontAwesomeIcon
-                icon={faSearch}
-                color="#24445A"
-                style={{ opacity: "40%" }}
-                className="w-[10px] h-[20px] opacity-75"
-              />
-              <input
-                type="text"
-                value={inputValueParent}
-                onChange={(e) => setInputValue(e.target.value.toLowerCase())}
-                placeholder="Cari"
-                className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-              />
-            </div>
-            <ul
-              className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              >
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  color="#24445A"
+                  style={{ opacity: "40%" }}
+                  className="w-[10px] h-[20px] opacity-75"
+                />
+                <input
+                  type="text"
+                  value={inputValueParent}
+                  onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+                  placeholder="Cari"
+                  className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                />
+              </div>
+              <ul
+                className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
               ${openParent ? "max-h-[240px]" : "max-h-[0]"}`}
-            >
-              {parent?.map((parents) => (
-                <li
-                  key={parents?.nama}
-                  className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+              >
+                {parent?.map((parents) => (
+                  <li
+                    key={parents?.nama}
+                    className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
                 ${
                   parents?.nama?.toLowerCase() ===
                     selectedParent?.toLowerCase() && "bg-secondary text-white"
@@ -577,71 +624,133 @@ const Jelajahmain = () => {
                     ? "block"
                     : "hidden"
                 }`}
-                  onClick={() => {
-                    setGetInfoParent(selectedd.id);
-                    updateSelectedd(
-                      selectedParent?.nama,
-                      selectedSelectedd,
-                      parent
-                    );
-                  }}
+                    onClick={() => {
+                      updateSelectedd(1);
+                      setSelectedKeuanganOption(parents?.nama);
+                      setOpenParent(false);
+                    }}
+                  >
+                    {parents?.nama}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Dropdown 2: Keuangan */}
+            {showKeuanganAnakan1 && (
+              <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+                <div
+                  onClick={() => setOpenChild(!openChild)}
+                  className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
                 >
-                  {parents?.nama}
-                </li>
-              ))}
-            </ul>
+                  {selectedKeuanganAnakanOption1}{" "}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    color="#24445A"
+                    className={`ml-[20px] w-[10px] h-[20px] ${
+                      openChild ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+                <div
+                  className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+        ${openChild ? "max-h-auto" : "hidden"}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    color="#24445A"
+                    style={{ opacity: "40%" }}
+                    className="w-[10px] h-[20px] opacity-75"
+                  />
+                  <input
+                    type="text"
+                    value={inputValueChild}
+                    onChange={(e) =>
+                      setInputValueChild(e.target.value.toLowerCase())
+                    }
+                    placeholder="Cari"
+                    className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                  />
+                </div>
+                <ul
+                  className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+        ${openChild ? "max-h-[240px]" : "max-h-[0]"}`}
+                >
+                  {child &&
+                    child.map((childs) => (
+                      <li
+                        key={childs?.nama}
+                        className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+              ${
+                childs?.nama?.toLowerCase() ===
+                  selectedKeuanganAnakanOption1?.toLowerCase() &&
+                "bg-secondary text-white"
+              }
+              ${
+                childs?.nama?.toLowerCase().startsWith(inputValueChild)
+                  ? "block"
+                  : "hidden"
+              }`}
+                        onClick={() => {
+                          setselectedKeuanganAnakanOption1(childs?.nama);
+                          setOpenChild(false);
+                        }}
+                      >
+                        {childs?.nama}
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        )}
 
       {/* DROPDOWN "EKONOMI" */}
-      {showEkonomiDropdown && (
-        <div className="flex flex-col mt-[30px] gap-y-[10px]">
-          {/* FETCHING PARENT */}
-          <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
-            <div
-              onClick={() => setOpenParent(!openParent)}
-              className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-            >
-              {selectedParent
-                ? selectedParent?.length > 20
-                  ? selectedParent?.substring(0, 20) + "..."
-                  : selectedParent
-                : "Pilih"}
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                color="#24445A"
-                className={`ml-[20px] w-[10px] h-[20px] ${
-                  openParent && "rotate-180"
-                }`}
-              />
-            </div>
-            <div
-              className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+      {showEkonomiDropdown &&
+        !showKeuanganDropdown &&
+        !showStatistikDropdown && (
+          <div className="flex flex mt-[30px] gap-[60px]">
+            {/* Dropdown 1: Ekonomi */}
+            <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+              <div
+                onClick={() => setOpenParent(!openParent)}
+                className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+              >
+                {selectedEkonomiOption}{" "}
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  color="#24445A"
+                  className={`ml-[20px] w-[10px] h-[20px] ${
+                    openParent && "rotate-180"
+                  }`}
+                />
+              </div>
+              <div
+                className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
           ${openParent ? "max-h-auto" : "hidden"}`}
-            >
-              <FontAwesomeIcon
-                icon={faSearch}
-                color="#24445A"
-                style={{ opacity: "40%" }}
-                className="w-[10px] h-[20px] opacity-75"
-              />
-              <input
-                type="text"
-                value={inputValueParent}
-                onChange={(e) => setInputValue(e.target.value.toLowerCase())}
-                placeholder="Cari"
-                className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-              />
-            </div>
-            <ul
-              className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              >
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  color="#24445A"
+                  style={{ opacity: "40%" }}
+                  className="w-[10px] h-[20px] opacity-75"
+                />
+                <input
+                  type="text"
+                  value={inputValueParent}
+                  onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+                  placeholder="Cari"
+                  className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                />
+              </div>
+              <ul
+                className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
               ${openParent ? "max-h-[240px]" : "max-h-[0]"}`}
-            >
-              {parent?.map((parents) => (
-                <li
-                  key={parents?.nama}
-                  className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+              >
+                {parent?.map((parents) => (
+                  <li
+                    key={parents?.nama}
+                    className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
                 ${
                   parents?.nama?.toLowerCase() ===
                     selectedParent?.toLowerCase() && "bg-secondary text-white"
@@ -651,17 +760,86 @@ const Jelajahmain = () => {
                     ? "block"
                     : "hidden"
                 }`}
-                  onClick={() => {
-                    updateSelectedd(3);
-                  }}
+                    onClick={() => {
+                      updateSelectedd(2);
+                      setSelectedEkonomiOption(parents?.nama);
+                      setOpenParent(false);
+                    }}
+                  >
+                    {parents?.nama}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Dropdown 2: Ekonomi */}
+            {showKeuanganAnakan1 && (
+              <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+                <div
+                  onClick={() => setOpenChild(!openChild)}
+                  className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
                 >
-                  {parents?.nama}
-                </li>
-              ))}
-            </ul>
+                  {selectedKeuanganAnakanOption1}{" "}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    color="#24445A"
+                    className={`ml-[20px] w-[10px] h-[20px] ${
+                      openChild ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+                <div
+                  className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+        ${openChild ? "max-h-auto" : "hidden"}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    color="#24445A"
+                    style={{ opacity: "40%" }}
+                    className="w-[10px] h-[20px] opacity-75"
+                  />
+                  <input
+                    type="text"
+                    value={inputValueChild}
+                    onChange={(e) =>
+                      setInputValueChild(e.target.value.toLowerCase())
+                    }
+                    placeholder="Cari"
+                    className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                  />
+                </div>
+                <ul
+                  className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+        ${openChild ? "max-h-[240px]" : "max-h-[0]"}`}
+                >
+                  {child &&
+                    child.map((childs) => (
+                      <li
+                        key={childs?.nama}
+                        className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+              ${
+                childs?.nama?.toLowerCase() ===
+                  selectedKeuanganAnakanOption1?.toLowerCase() &&
+                "bg-secondary text-white"
+              }
+              ${
+                childs?.nama?.toLowerCase().startsWith(inputValueChild)
+                  ? "block"
+                  : "hidden"
+              }`}
+                        onClick={() => {
+                          setselectedKeuanganAnakanOption1(childs?.nama);
+                          setOpenChild(false);
+                        }}
+                      >
+                        {childs?.nama}
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        )}
 
       {/* DROPDOWN "STATISTIK" */}
       {showStatistikDropdown && (
@@ -672,11 +850,7 @@ const Jelajahmain = () => {
               onClick={() => setOpenParent(!openParent)}
               className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
             >
-              {selectedParent
-                ? selectedParent?.length > 20
-                  ? selectedParent?.substring(0, 20) + "..."
-                  : selectedParent
-                : "Pilih"}
+              {selectedStatistikOption}{" "}
               <FontAwesomeIcon
                 icon={faChevronDown}
                 color="#24445A"
@@ -722,6 +896,8 @@ const Jelajahmain = () => {
        }`}
                   onClick={() => {
                     updateSelectedd(3);
+                    setSelectedStatistikOption(parents?.nama);
+                    setOpenParent(false);
                   }}
                 >
                   {parents?.nama}
