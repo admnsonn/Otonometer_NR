@@ -121,21 +121,21 @@ const Jelajahprofil = () => {
   ///FETCHING DROPDOWN PROVINSI
   const [provincess, setProvinces] = useState(null);
   const [inputValue, setInputValue] = useState("");
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(sessionStorage.getItem("namaprovinsi"));
   const [openProvinsi, setOpenProvinsi] = useState(false);
   useEffect(() => {
     fetch("https://api.otonometer.neracaruang.com/api/provinces")
-      .then((response ) => response.json())
+      .then((response) => response.json())
       .then((data) => {
         setProvinces(data.data);
-        console.log(provincess)
+        console.log(provincess);
       });
   }, []);
 
   ///FETCHING DROPDOWN KOTA
   const [cities, setCity] = useState(null);
   const [inputValueofCity, setInputValueofCity] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedCity, setSelectedCity] = useState(sessionStorage.getItem("namakota"));
   const [openCity, setOpenCity] = useState(false);
 
   ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
@@ -151,6 +151,18 @@ const Jelajahprofil = () => {
         });
     }
   }
+  useEffect(() => {
+    if (sessionStorage.getItem("idprovinsi") !== null) {
+      fetch("https://api.otonometer.neracaruang.com/api/cities?province_id=" + sessionStorage.getItem("idprovinsi"))
+        .then((response) => response.json())
+        .then((data) => {
+          setCity(data.data);
+        });
+    }
+  }, [sessionStorage.getItem("idprovinsi")]);
+  
+    
+
 
   ///FETCHING DROPDOWN TAHUN
   const [years, setYears] = useState(null);
@@ -170,8 +182,15 @@ const Jelajahprofil = () => {
   ///UPDATE PETANYA DORA THE EXPLORER
   const [peta, setPeta] = useState(null);
   const [koordinatLokasi, setKoordinatLokasi] = useState(null);
-  const [infoDaerah, setInfoDaerah] = useState (null);
-  const [pinMap, setPinMap] = useState (null);
+  const [infoDaerah, setInfoDaerah] = useState(null);
+  const [pinMap, setPinMap] = useState(null);
+  const [dataranicon, setDataranicon] = useState(null);
+  const [sektoricon, setSektoricon] = useState(null);
+  const [datarannama, setDatarannama] = useState(null);
+  const [sektornama, setSektornama] = useState(null);
+  const [luaswilayah, setLuaswilayah] = useState(null);
+  const [jumlahpenduduk, setJumlahpenduduk] = useState(null);
+  const [namawilayah, setNamawilayah] = useState(null);
 
   const requestOptions = {
     method: "GET",
@@ -182,13 +201,110 @@ const Jelajahprofil = () => {
       .then((response) => response.json())
       .then((result) => {
         setPeta(result.data.peta);
-        setKoordinatLokasi(result.data.longitude+", "+result.data.latitude);
+        setDataranicon(result.data.dataran_icon);
+        setSektoricon(result.data.wilayah_info.sektor_icon);
+        setKoordinatLokasi(result.data.longitude + ", " + result.data.latitude);
         setInfoDaerah(result.data.nama);
+        setDatarannama(result.data.dataran_nama);
+        setSektornama(result.data.wilayah_info.sektor_nama);
+        setLuaswilayah(result.data.wilayah_info.luas_wilayah);
+        setJumlahpenduduk(result.data.wilayah_info.jumlah_penduduk);
         setPinMap(map);
+        setNamawilayah(result.data.nama);
         console.log(result.data.peta);
       });
   }
+
+  useEffect(() => {
+    if(sessionStorage.getItem("idkota") !== null) {
+      updatePeta(sessionStorage.getItem("idkota"));
+    }
+  }, []);
   
+  ///UPDATE PEJABAT
+  const [namaketua, setNamaketua] = useState(null);
+  const [namawakil, setNamawakil] = useState(null);
+  const [tlketua, setTlketua] = useState(null);
+  const [taketua, setTaketua] = useState(null);
+  const [fotoketua, setFotoketua] = useState(null);
+  const [jabatanketua, setJabatanketua] = useState(null);
+  const [tlwakilketua, setTlwakilketua] = useState(null);
+  const [tawakilketua, setTawakilketua] = useState(null);
+  const [fotowakilketua, setFotowakilketua] = useState(null);
+  const [jabatanwakilketua, setJabatanwakilketua] = useState(null);
+
+  function updatePejabat(wilayah_id, tahun){
+    fetch("https://api.otonometer.neracaruang.com/api/pemda?wilayah_id=" + wilayah_id + "&tahun=" + tahun )
+    .then((response) => response.json())
+      .then((result) => {
+        if (result.data && result.data.ketua && result.data.ketua.length > 0) {
+          setNamaketua(result.data.ketua[0].nama_lengkap);
+          setTlketua(result.data.ketua[0].tahun_lantik);
+          setTaketua(result.data.ketua[0].tahun_akhir);
+          setFotoketua(result.data.ketua[0].foto);
+          setJabatanketua(result.data.ketua[0].jabatan_nama)
+        }
+        if (result.data && result.data.wakil && result.data.wakil.length > 0) {
+          setNamawakil(result.data.wakil[0].nama_lengkap);
+          setTlwakilketua(result.data.wakil[0].tahun_lantik);
+          setTawakilketua(result.data.wakil[0].tahun_akhir);
+          setFotowakilketua(result.data.wakil[0].foto);
+          setJabatanwakilketua(result.data.wakil[0].jabatan_nama)
+        }
+        console.log(result.data);
+      });
+  }
+
+  useEffect(() => {
+    if(sessionStorage.getItem("idkota") !== null) {
+      updatePejabat( sessionStorage.getItem("idkota"),2020);
+    }
+  }, []);
+
+  ///UPDATE DPRD
+
+  const [ketuadprd, setKetuadprd] = useState(null);
+  const [wakildprd, setWakildprd] = useState(null);
+  const [tlketuadprd, setTlketuadprd] = useState(null);
+  const [taketuadprd, setTaketuadprd] = useState(null);
+  const [fotoketuadprd, setFotoketuadprd] = useState(null);
+  const [jabatanketuadprd, setJabatanketuadprd] = useState(null);
+  const [fotopartaiketuadprd, setFotopartaiketuadprd] = useState(null);
+  const [tlwakilketuadprd, setTlwakilketuadprd] = useState(null);
+  const [tawakilketuadprd, setTawakilketuadprd] = useState(null);
+  const [fotowakilketuadprd, setFotowakilketuadprd] = useState(null);
+  const [jabatanwakilketuadprd, setJabatanwakilketuadprd] = useState(null);
+  const [fotopartaiwakilketuadprd, setFotopartaiwakilketuadprd] = useState(null);
+
+  function updateDPRD(wilayah_id, tahun){
+    fetch("https://api.otonometer.neracaruang.com/api/dewan?wilayah_id=" + wilayah_id + "&tahun=" + tahun )
+    .then((response) => response.json())
+      .then((result) => {
+        if (result.data && result.data.ketua && result.data.ketua.length > 0) {
+          setKetuadprd(result.data.ketua[0].nama_lengkap);
+          setTlketuadprd(result.data.ketua[0].tahun_lantik);
+          setTaketuadprd(result.data.ketua[0].tahun_akhir);
+          setFotoketuadprd(result.data.ketua[0].foto);
+          setJabatanketuadprd(result.data.ketua[0].jabatan_nama)
+          setFotopartaiketuadprd(result.data.ketua[0].partai_foto)
+        }
+        if (result.data && result.data.wakil && result.data.wakil.length > 0) {
+          setWakildprd(result.data.wakil[0].nama_lengkap);
+          setTlwakilketuadprd(result.data.wakil[0].tahun_lantik);
+          setTawakilketuadprd(result.data.wakil[0].tahun_akhir);
+          setFotowakilketuadprd(result.data.wakil[0].foto);
+          setJabatanwakilketuadprd(result.data.wakil[0].jabatan_nama)
+          setFotopartaiwakilketuadprd(result.data.wakil[0].partai_foto)
+        }
+        console.log(result.data);
+      });
+  }
+  useEffect(() => {
+    if(sessionStorage.getItem("idkota") !== null) {
+      updateDPRD( sessionStorage.getItem("idkota"),2020);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
 
@@ -322,6 +438,8 @@ const Jelajahprofil = () => {
                     setOpenCity(false);
                     setInputValueofCity("");
                     updatePeta(regencies.id);
+                    updatePejabat(regencies.id, 2020);
+                    updateDPRD(regencies.id, 2020);
                   }
                 }} 
               >
@@ -400,18 +518,24 @@ const Jelajahprofil = () => {
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>168</p>
+          <p>{luaswilayah}</p>
           <p>km²</p>
         </div>
         <div className="flex gap-[10px]">
-          <img src={geo} alt="" className="" />
+          <div className="hover-container">
+            <img src={dataranicon} alt="" className="w-20" />
+            <span className="hover-text w-[150%] mb-[10px]">{datarannama}</span>
+          </div>
           <a href="/Jelajah-Profil">
-            <img src={people} alt="" className="" />
+            <img src={people} alt="" className="w-20" />
           </a>
-          <img src={industri} alt="" className="" />
+          <div className="hover-container">
+            <img src={sektoricon} alt="" className="w-20" />
+            <span className="hover-text w-[150%] mb-[10px]">{sektornama}</span>
+          </div>
         </div>
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>2.453</p>
+          <p>{jumlahpenduduk}</p>
           <p>10³ Jiwa</p>
         </div>
       </div>
@@ -423,34 +547,34 @@ const Jelajahprofil = () => {
       </div>
       {/* TEXT */}
       <div className="text-secondary text-center mt-[48px]">
-        <p className="text-[32px] font-extrabold">PEMERINTAH KOTA BANDUNG</p>
+        <p className="text-[32px] font-extrabold">Pemerintah {namawilayah}</p>
       </div>
 
       {/* DATA */}
       {activeTab === "pemda" && (
         <div className="flex mt-[50px] gap-[100px]">
           <div className="flex flex-col">
-            <Circleimage src={pejabat} alt="User Profile" size="400px" />
+            <Circleimage src={fotoketua} alt="User Profile" size="400px" />
             <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">
-              Walikota
+              {jabatanketua}
             </p>
             <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">
-              H. Tedy Rusmawan
+              {namaketua}
             </p>
             <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
-              (2019-2024)
+              ({tlketua}-{taketua})
             </p>
           </div>
           <div className="flex flex-col">
-            <Circleimage src={pejabat} alt="User Profile" size="400px" />
+            <Circleimage src={fotowakilketua} alt="User Profile" size="400px" />
             <p className="text-center mt-[20px] text-[30px] text-[#064878] font-bold">
-              Wakil Walikota
+              {jabatanwakilketua}
             </p>
             <p className="text-center mt-[15px] text-[25px] text-[#064878] font-semibold">
-              H. Tedy Rusmawan
+              {namawakil}
             </p>
             <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
-              (2019-2024)
+              ({tlwakilketua}-{tawakilketua})
             </p>
           </div>
         </div>
@@ -462,43 +586,43 @@ const Jelajahprofil = () => {
             <div className="flex flex-col">
               <div className="overlay-container">
                 <Circleimage
-                  src={dprd}
+                  src={fotoketuadprd}
                   alt="User Profile"
                   size="400px"
                   className="base-image"
                 />
                 <img
-                  src={partai}
+                  src={fotopartaiketuadprd}
                   alt=""
                   className="flex items-center overlay-image"
                 />
               </div>
               <p className="text-center mt-[50px] text-[25px] text-[#064878] font-semibold">
-                H. Tedy Rusmawan
+                {ketuadprd}
               </p>
               <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
-                (2019-2024)
+                ({tlketuadprd}-{taketuadprd})
               </p>
             </div>
             <div className="flex flex-col">
               <div className="overlay-container">
                 <Circleimage
-                  src={dprd}
+                  src={fotowakilketuadprd}
                   alt="User Profile"
                   size="400px"
                   className="base-image"
                 />
                 <img
-                  src={partai}
+                  src={fotopartaiwakilketuadprd}
                   alt=""
                   className="flex items-center overlay-image"
                 />
               </div>
               <p className="text-center mt-[50px] text-[25px] text-[#064878] font-semibold">
-                H. Tedy Rusmawan
+                {wakildprd}
               </p>
               <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
-                (2019-2024)
+              ({tlwakilketuadprd}-{tawakilketuadprd})
               </p>
             </div>
           </div>

@@ -16,84 +16,6 @@ import "../../style/Switchbtn.css";
 import "../../style/Components.css";
 
 const Jelajahmain = () => {
-  const [selectedOption, setSelectedOption] = useState("Provinsi");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const [selectedKota, setSelectedKota] = useState("Kota");
-  const [dropdownKota, setDropdownKota] = useState(false);
-
-  const [selectedTahun, setSelectedTahun] = useState("Tahun");
-  const [dropdownTahun, setDropdownTahun] = useState(false);
-
-  const handleDropdownClick = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const handleDropdownKota = () => {
-    setDropdownKota(!dropdownKota);
-  };
-
-  const handleDropdownTahun = () => {
-    setDropdownTahun(!dropdownTahun);
-  };
-
-  const handleOptionClick = (option) => {
-    setSelectedOption(option);
-    setDropdownOpen(false);
-  };
-
-  const handleOptionKota = (option) => {
-    setSelectedKota(option);
-    setDropdownKota(false);
-  };
-
-  const handleOptionTahun = (option) => {
-    setSelectedTahun(option);
-    setDropdownTahun(false);
-  };
-
-  const renderDropdownOptions = () => {
-    const options = ["Jawa Barat", "Jawa Tengah", "Jawa Timur"];
-
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionClick(option)}
-        className="flex  w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
-
-  const renderDropdownKota = () => {
-    const options = ["Kota Bandung", "Kota Cirebon", "Kota Bekasi"];
-
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionKota(option)}
-        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
-
-  const renderDropdownTahun = () => {
-    const options = ["2022", "2021", "2020"];
-
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionTahun(option)}
-        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
-
   const [activeTab, setActiveTab] = useState("provinsi");
 
   const toggleTab = () => {
@@ -112,14 +34,7 @@ const Jelajahmain = () => {
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState("");
   const [openProvinsi, setOpenProvinsi] = useState(false);
-  useEffect(() => {
-    fetch("https://api.otonometer.neracaruang.com/api/provinces")
-      .then((response) => response.json())
-      .then((data) => {
-        setProvinces(data.data);
-        console.log(provincess);
-      });
-  }, []);
+  const [getInfoProvinsi, setGetInfoProvinsi] = useState(null);
 
   ///FETCHING DROPDOWN KOTA
   const [cities, setCity] = useState(null);
@@ -166,6 +81,16 @@ const Jelajahmain = () => {
   const [sektoricon, setSektoricon] = useState(null);
   const [datarannama, setDatarannama] = useState(null);
   const [sektornama, setSektornama] = useState(null);
+  const [luaswilayah, setLuaswilayah] = useState(null);
+  const [jumlahpenduduk, setJumlahpenduduk] = useState(null);
+
+  useEffect(() => {
+    fetch("https://api.otonometer.neracaruang.com/api/provinces")
+      .then((response) => response.json())
+      .then((data) => {
+        setProvinces(data.data);
+      });
+  }, []);
 
   const requestOptions = {
     method: "GET",
@@ -180,16 +105,71 @@ const Jelajahmain = () => {
       .then((response) => response.json())
       .then((result) => {
         setPeta(result.data.peta);
-        setDataranicon(result.data.dataran_icon);
+        if (sessionStorage.getItem("namawilayah") === "Semua") {
+          setDataranicon(
+            "https://storage.googleapis.com/otonometer-bucket/infografis/655fb32670807.icon_geo_dattinggi.png"
+          );
+        } else {
+          setDataranicon(result.data.dataran_icon);
+        }
+        setInfoDaerah(result.data.nama);
         setSektoricon(result.data.wilayah_info.sektor_icon);
         setKoordinatLokasi(result.data.longitude + ", " + result.data.latitude);
-        setInfoDaerah(result.data.nama);
         setDatarannama(result.data.dataran_nama);
         setSektornama(result.data.wilayah_info.sektor_nama);
+        setLuaswilayah(result.data.wilayah_info.luas_wilayah);
+        setJumlahpenduduk(result.data.wilayah_info.jumlah_penduduk);
         setPinMap(map);
-        console.log(result.data.peta);
+        console.log(infoDaerah);
       });
   }
+
+  const [showKeuanganDropdown, setShowKeuanganDropdown] = useState(false);
+  const [showEkonomiDropdown, setShowEkonomiDropdown] = useState(false);
+  const [showStatistikDropdown, setShowStatistikDropdown] = useState(false);
+  
+  const toggleKeuanganDropdown = () => {
+    setShowKeuanganDropdown(!showKeuanganDropdown);
+    setShowEkonomiDropdown(false);
+    setShowStatistikDropdown(false); 
+  };
+  
+  const toggleEkonomiDropdown = () => {
+    setShowEkonomiDropdown(!showEkonomiDropdown);
+    setShowKeuanganDropdown(false); 
+    setShowStatistikDropdown(false); 
+  };
+  
+  const toggleStatistikDropdown = () => {
+    setShowStatistikDropdown(!showStatistikDropdown);
+    setShowKeuanganDropdown(false); 
+    setShowEkonomiDropdown(false); 
+  };
+
+   ///FETCHING DROPDOWN PARENT
+   const [parent, setParent] = useState(null);
+   const [inputValueParent, setInputValueParent] = useState("");
+   const [selectedParent, setSelectedParent] = useState("");
+   const [openParent, setOpenParent] = useState(false);
+   const [getInfoParent, setGetInfoParent] = useState(null);
+ 
+   ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
+   function updatePilihan(item, choosed) {
+     if (item.toLowerCase() !== choosed.toLowerCase()) {
+       setSelectedParent(item);
+       setOpenParent(false);
+       setInputValueParent("");
+       fetch(
+         "https://api.otonometer.neracaruang.com/api/sektor/2020?lang=id"
+       )
+         .then((response) => response.json())
+         .then((data) => {
+           setParent(data.data);
+           console.log(parent)
+         });
+     }
+   }
+  
 
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
@@ -263,6 +243,9 @@ const Jelajahmain = () => {
                 }`}
                 onClick={() => {
                   updateKota(provinces?.nama, selected, provinces.id);
+                  sessionStorage.setItem("idprovinsi", provinces.id);
+                  sessionStorage.setItem("namaprovinsi", provinces.nama);
+                  setGetInfoProvinsi(provinces.id);
                 }}
               >
                 {provinces?.nama}
@@ -274,7 +257,9 @@ const Jelajahmain = () => {
         {/* FETCHING KOTA */}
         <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
           <div
-            onClick={() => setOpenCity(!openCity)}
+            onClick={() => {
+              setOpenCity(!openCity);
+            }}
             className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
           >
             {selectedCity
@@ -314,6 +299,25 @@ const Jelajahmain = () => {
             className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
               ${openCity ? "max-h-[240px]" : "max-h-[0]"}`}
           >
+            <li
+              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-secondary
+                ${
+                  "semua" === selectedCity?.toLowerCase() &&
+                  "bg-secondary text-white"
+                }
+                `}
+              onClick={() => {
+                sessionStorage.setItem("namawilayah", "Semua");
+                setInfoDaerah("Semua");
+                console.log(infoDaerah);
+                setSelectedCity("Semua");
+                setDataranicon("Semua");
+                updatePeta(getInfoProvinsi);
+                setOpenCity(false);
+              }}
+            >
+              Semua
+            </li>
             {cities?.map((regencies) => (
               <li
                 key={regencies?.nama}
@@ -332,7 +336,10 @@ const Jelajahmain = () => {
                     regencies?.nama?.toLowerCase() !==
                     selectedCity.toLowerCase()
                   ) {
+                    sessionStorage.setItem("namawilayah", regencies.nama);
                     setSelectedCity(regencies?.nama);
+                    sessionStorage.setItem("idkota", regencies.id);
+                    sessionStorage.setItem("namakota", regencies.nama);
                     setOpenCity(false);
                     setInputValueofCity("");
                     updatePeta(regencies.id);
@@ -445,15 +452,13 @@ const Jelajahmain = () => {
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>168</p>
+          <p>{luaswilayah}</p>
           <p>km²</p>
         </div>
         <div className="flex gap-[10px]">
           <div className="hover-container">
             <img src={dataranicon} alt="" className="w-20" />
-            <span className="hover-text w-[150%] mb-[10px]">
-              {datarannama}
-            </span>
+            <span className="hover-text w-[150%] mb-[10px]">{datarannama}</span>
           </div>
           <a href="/Jelajah-Profil">
             <img src={people} alt="" className="w-20" />
@@ -464,35 +469,126 @@ const Jelajahmain = () => {
           </div>
         </div>
         <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>2.453</p>
+          <p>{jumlahpenduduk}</p>
           <p>10³ Jiwa</p>
         </div>
       </div>
 
       {/* OPSI */}
       <div className="flex mt-[24px] gap-[60px]">
-        <button className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center ">
+        {/* TOMBOL KEUANGAN */}
+        <button
+          className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
+          onClick={toggleKeuanganDropdown}
+        >
           <p>KEUANGAN</p>
         </button>
-        <button className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center ">
+
+        {/* TOMBOL EKONOMI */}
+        <button
+          className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
+          onClick={toggleEkonomiDropdown}
+        >
           <p>EKONOMI</p>
         </button>
-        <button className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center">
+
+        {/* TOMBOL STATISTIK */}
+        <button
+          className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
+          onClick={toggleStatistikDropdown}
+        >
           <p>STATISTIK</p>
         </button>
       </div>
-      {/* DROPDOWN */}
-      <div className="flex mt-[28px] gap-[60px]">
-        <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-          <p>Belanja</p>
-        </button>
-        <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-          <p>Operasi</p>
-        </button>
-        <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-          <p>Pilih</p>
-        </button>
-      </div>
+
+      {/* DROPDOWN "KEUANGAN" */}
+      {showKeuanganDropdown && (
+        <div className="flex flex-col mt-[30px] gap-y-[10px]">
+        {/* FETCHING PARENT */}
+        <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+          <div
+            onClick={() => setOpenParent(!openParent)}
+            className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+          >
+            {selectedParent
+              ? selectedParent?.length > 20
+                ? selectedParent?.substring(0, 20) + "..."
+                : selectedParent
+              : "Pilih"}
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              color="#24445A"
+              className={`ml-[20px] w-[10px] h-[20px] ${
+                openParent && "rotate-180"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${openParent ? "max-h-auto" : "hidden"}`}
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              color="#24445A"
+              style={{ opacity: "40%" }}
+              className="w-[10px] h-[20px] opacity-75"
+            />
+            <input
+              type="text"
+              value={inputValueParent}
+              onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+              placeholder="Cari Provinsi"
+              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+            />
+          </div>
+          <ul
+            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${openParent ? "max-h-[240px]" : "max-h-[0]"}`}
+          >
+            {parent?.map((parents) => (
+              <li
+                key={parents?.nama}
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${
+                  parents?.nama?.toLowerCase() === selectedParent?.toLowerCase() &&
+                  "bg-secondary text-white"
+                }
+                ${
+                  parents?.nama?.toLowerCase().startsWith(inputValueParent)
+                    ? "block"
+                    : "hidden"
+                }`}
+                onClick={() => {
+                  updatePilihan(parents?.nama, selectedParent, parents.id);
+                  setGetInfoParent(parents.id);
+                }}
+              >
+                {parents?.nama}
+              </li>
+            ))}
+          </ul>
+        </div>
+        </div>
+      )}
+
+      {/* DROPDOWN "EKONOMI" */}
+      {showEkonomiDropdown && (
+        <div className="flex flex-col mt-[30px] gap-y-[10px]">
+          <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
+            <p>Pilih</p>
+          </button>
+        </div>
+      )}
+
+      {/* DROPDOWN "STATISTIK" */}
+      {showStatistikDropdown && (
+        <div className="flex flex-col mt-[30px] gap-y-[10px]">
+          <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
+            <p>ASA</p>
+          </button>
+        </div>
+      )}
+
       {/* SWITCH */}
       <div className="flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px] text-[20px]">
         <p className={activeTab === "nasional" ? "inactive-text" : ""}>
