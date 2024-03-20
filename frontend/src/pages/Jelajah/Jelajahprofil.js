@@ -263,6 +263,48 @@ const Jelajahprofil = () => {
 
   ///UPDATE DPRD
 
+  const [ketuadprd, setKetuadprd] = useState(null);
+  const [wakildprd, setWakildprd] = useState(null);
+  const [tlketuadprd, setTlketuadprd] = useState(null);
+  const [taketuadprd, setTaketuadprd] = useState(null);
+  const [fotoketuadprd, setFotoketuadprd] = useState(null);
+  const [jabatanketuadprd, setJabatanketuadprd] = useState(null);
+  const [fotopartaiketuadprd, setFotopartaiketuadprd] = useState(null);
+  const [tlwakilketuadprd, setTlwakilketuadprd] = useState(null);
+  const [tawakilketuadprd, setTawakilketuadprd] = useState(null);
+  const [fotowakilketuadprd, setFotowakilketuadprd] = useState(null);
+  const [jabatanwakilketuadprd, setJabatanwakilketuadprd] = useState(null);
+  const [fotopartaiwakilketuadprd, setFotopartaiwakilketuadprd] = useState(null);
+
+  function updateDPRD(wilayah_id, tahun){
+    fetch("https://api.otonometer.neracaruang.com/api/dewan?wilayah_id=" + wilayah_id + "&tahun=" + tahun )
+    .then((response) => response.json())
+      .then((result) => {
+        if (result.data && result.data.ketua && result.data.ketua.length > 0) {
+          setKetuadprd(result.data.ketua[0].nama_lengkap);
+          setTlketuadprd(result.data.ketua[0].tahun_lantik);
+          setTaketuadprd(result.data.ketua[0].tahun_akhir);
+          setFotoketuadprd(result.data.ketua[0].foto);
+          setJabatanketuadprd(result.data.ketua[0].jabatan_nama)
+          setFotopartaiketuadprd(result.data.ketua[0].partai_foto)
+        }
+        if (result.data && result.data.wakil && result.data.wakil.length > 0) {
+          setWakildprd(result.data.wakil[0].nama_lengkap);
+          setTlwakilketuadprd(result.data.wakil[0].tahun_lantik);
+          setTawakilketuadprd(result.data.wakil[0].tahun_akhir);
+          setFotowakilketuadprd(result.data.wakil[0].foto);
+          setJabatanwakilketuadprd(result.data.wakil[0].jabatan_nama)
+          setFotopartaiwakilketuadprd(result.data.wakil[0].partai_foto)
+        }
+        console.log(result.data);
+      });
+  }
+  useEffect(() => {
+    if(sessionStorage.getItem("idkota") !== null) {
+      updateDPRD( sessionStorage.getItem("idkota"),2020);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
 
@@ -397,6 +439,7 @@ const Jelajahprofil = () => {
                     setInputValueofCity("");
                     updatePeta(regencies.id);
                     updatePejabat(regencies.id, 2020);
+                    updateDPRD(regencies.id, 2020);
                   }
                 }} 
               >
@@ -543,43 +586,43 @@ const Jelajahprofil = () => {
             <div className="flex flex-col">
               <div className="overlay-container">
                 <Circleimage
-                  src={dprd}
+                  src={fotoketuadprd}
                   alt="User Profile"
                   size="400px"
                   className="base-image"
                 />
                 <img
-                  src={partai}
+                  src={fotopartaiketuadprd}
                   alt=""
                   className="flex items-center overlay-image"
                 />
               </div>
               <p className="text-center mt-[50px] text-[25px] text-[#064878] font-semibold">
-                H. Tedy Rusmawan
+                {ketuadprd}
               </p>
               <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
-                (2019-2024)
+                ({tlketuadprd}-{taketuadprd})
               </p>
             </div>
             <div className="flex flex-col">
               <div className="overlay-container">
                 <Circleimage
-                  src={dprd}
+                  src={fotowakilketuadprd}
                   alt="User Profile"
                   size="400px"
                   className="base-image"
                 />
                 <img
-                  src={partai}
+                  src={fotopartaiwakilketuadprd}
                   alt=""
                   className="flex items-center overlay-image"
                 />
               </div>
               <p className="text-center mt-[50px] text-[25px] text-[#064878] font-semibold">
-                H. Tedy Rusmawan
+                {wakildprd}
               </p>
               <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
-                (2019-2024)
+              ({tlwakilketuadprd}-{tawakilketuadprd})
               </p>
             </div>
           </div>
