@@ -49,3 +49,31 @@ select:focus {
   background: #24445A;
   border-radius: 100px;
 }
+
+
+/* SLIDER DASHBOARD */
+.item{
+  min-width: 18rem;
+  min-height: 18rem;
+  padding: 10px;
+  border: #24445A;
+  border-radius: 9999px;
+  border: 10px solid #EFF7FB;
+  margin: 5px;
+}
+
+.item img{
+  width: 100%;
+  height: 100%;
+  border-radius: 2rem;
+  pointer-events: none;
+}
+
+.inner-karousel{
+  display: flex;
+}
+
+.slidernya{
+  cursor: grab;
+  overflow: hidden;
+}
