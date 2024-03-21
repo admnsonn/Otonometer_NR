@@ -162,17 +162,23 @@ const Jelajahprofil = () => {
   }, [sessionStorage.getItem("idprovinsi")]);
   
   ///FETCHING DROPDOWN TAHUN
-  const [years, setYears] = useState(null);
+  const [years, setYears] = useState([]);
   const [inputValueofYears, setInputValueofYears] = useState("");
   const [selectedYears, setSelectedYears] = useState("");
   const [openYears, setOpenYears] = useState(false);
-
   useEffect(() => {
     fetch("https://api.otonometer.neracaruang.com/api/year")
-      .then((response ) => response.json())
+      .then((response) => response.json())
       .then((data) => {
         setYears(data.data);
+        sessionStorage.setItem("yearss", data.data[0].tahun);
       });
+  }, []);
+  useEffect(() => {
+    const selectedYear = sessionStorage.getItem("yearss");
+    if (selectedYear) {
+      setSelectedYears(selectedYear);
+    }
   }, []);
 
 
@@ -448,52 +454,74 @@ const Jelajahprofil = () => {
         
         {/* FETCHING TAHUN */}
         <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
-          <div 
-            onClick={()=>setOpenYears(!openYears)}
-            
+          <div
+            onClick={() => setOpenYears(!openYears)}
             className="bg-[#ebebeb] w-full p-2 flex items-center justify-center rounded-[10px]"
-            >
-              {selectedYears 
-                ? selectedYears?.length > 12 
-                  ? selectedYears?.substring(0,13) + "..." 
-                  : selectedYears 
-                : "Tahun"}
-              {!selectedCity && (
-                <FontAwesomeIcon
-                icon={faChevronDown}
-                color="#24445A"
-                className={`ml-[20px] w-[10px] h-[20px] ${openYears && "rotate-180"}`}
-              />
-              )}
+          >
+            {selectedYears
+              ? selectedYears?.length > 12
+                ? selectedYears?.substring(0, 12) + "..."
+                : selectedYears
+              : "Tahun"}
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              color="#24445A"
+              className={`ml-[120px] w-[10px] h-[20px] ${
+                openYears && "rotate-180"
+              }`}
+            />
           </div>
-          <ul 
-            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
-              ${
-                openYears ? "max-h-[240px]" : "max-h-[0]"}`
+          <div
+            className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${openYears ? "max-h-auto" : "hidden"}`}
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              color="#24445A"
+              style={{ opacity: "40%" }}
+              className="w-[10px] h-[20px] opacity-75"
+            />
+            <input
+              type="text"
+              value={inputValueofCity}
+              onChange={(e) =>
+                setInputValueofYears(e.target.value.toLowerCase())
               }
-            >
-            {years?.map((regencies)=>(
-              <li 
-                key={regencies?.nama} 
+              placeholder="Cari Tahun"
+              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+            />
+          </div>
+          <ul
+            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
+              ${openYears ? "max-h-[240px]" : "max-h-[0]"}`}
+          >
+            {years?.map((tahunn) => (
+              <li
+                key={tahunn?.tahun}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${regencies?.nama?.toLowerCase() === selectedYears?.toLowerCase() && 'bg-secondary text-white'
+                ${
+                  tahunn?.tahun?.toLowerCase() ===
+                    selectedYears?.toLowerCase() && "bg-secondary text-white"
                 }
 
                 ${
-                  regencies?.nama?.toLowerCase().startsWith(inputValueofYears) 
+                  tahunn?.tahun?.toLowerCase().startsWith(inputValueofYears)
                     ? "block"
                     : "hidden"
                 }`}
-
-                onClick={()=>{
-                  if(regencies?.nama?.toLowerCase() !== selectedYears.toLowerCase()){
-                    setSelectedYears(regencies?.nama);
+                onClick={() => {
+                  if (
+                    tahunn?.tahun?.toLowerCase() !== selectedYears.toLowerCase()
+                  ) {
+                    setSelectedYears(tahunn?.tahun);
                     setOpenYears(false);
                     setInputValueofYears("");
+                    sessionStorage.setItem("yearss", tahunn?.tahun);
+                    
                   }
-                }}  
+                }}
               >
-                {regencies?.nama}
+                {tahunn?.tahun}
               </li>
             ))}
           </ul>
@@ -601,99 +629,8 @@ const Jelajahprofil = () => {
                 ({tlketuadprd}-{taketuadprd})
               </p>
             </div>
-            {/* <div className="flex flex-col">
-              <div className="overlay-container">
-                <Circleimage
-                  src={fotowakilketuadprd}
-                  alt="User Profile"
-                  size="400px"
-                  className="base-image"
-                />
-                <img
-                  src={fotopartaiwakilketuadprd}
-                  alt=""
-                  className="flex items-center overlay-image"
-                />
-              </div>
-              <p className="text-center mt-[50px] text-[25px] text-[#064878] font-semibold">
-                {wakildprd}
-              </p>
-              <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
-              ({tlwakilketuadprd}-{tawakilketuadprd})
-              </p>
-            </div> */}
+            
           </div>
-          {/* <div className="text-secondary text-center mt-[80px]">
-            <p className="text-[30px] font-bold">Alamat Kantor Pemerintah: </p>
-            <p className="text-[30px] font-medium">Jl. alalallalaalalalal </p>
-          </div> */}
-          {/* <div className="text-secondary text-center mt-[100px]">
-            <p className="text-[30px] font-bold">KOMISI A </p>
-          </div> */}
-            {/* <div className="flex gap-[60px] text-center mt-[40px] justify-center">
-              <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
-                <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
-                  (Jabatan)
-                </p>
-                <div className="flex justify-center mt-[15px]">
-                  <Circleimage src={dprd} alt="User Profile" size="150px" />
-                </div>
-                <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
-                  Yana Mulyana
-                </p>
-                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                  (NIP)
-                </p>
-                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                  (CONTACT)
-                </p>
-                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                  (E-MAIL)
-                </p>
-              </div>
-
-              <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
-                <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
-                  (Jabatan)
-                </p>
-                <div className="flex justify-center mt-[15px]">
-                  <Circleimage src={dprd} alt="User Profile" size="150px" />
-                </div>
-                <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
-                  Yana Mulyana
-                </p>
-                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                  (NIP)
-                </p>
-                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                  (CONTACT)
-                </p>
-                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                  (E-MAIL)
-                </p>
-              </div>
-
-              <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
-                <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
-                  (Jabatan)
-                </p>
-                <div className="flex justify-center mt-[15px]">
-                  <Circleimage src={dprd} alt="User Profile" size="150px" />
-                </div>
-                <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
-                  Yana Mulyana
-                </p>
-                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                  (NIP)
-                </p>
-                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                  (CONTACT)
-                </p>
-                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                  (E-MAIL)
-                </p>
-              </div>
-            </div> */}
         </div>
       )}
     </div>
