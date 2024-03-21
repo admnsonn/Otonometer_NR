@@ -123,6 +123,7 @@ const Jelajahprofil = () => {
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState(sessionStorage.getItem("namaprovinsi"));
   const [openProvinsi, setOpenProvinsi] = useState(false);
+  const [wilayahID, setWilayahID] = useState(null);
   useEffect(() => {
     fetch("https://api.otonometer.neracaruang.com/api/provinces")
       .then((response) => response.json())
@@ -200,7 +201,13 @@ const Jelajahprofil = () => {
     redirect: "follow"
   };
   function updatePeta(wilayah_id){
-    fetch("https://api.otonometer.neracaruang.com/api/wilayah-info?lang=en&wilayah_id=" + wilayah_id, requestOptions)
+    fetch(
+      "https://api.otonometer.neracaruang.com/api/wilayah-info?lang=en&wilayah_id=" +
+        wilayah_id +
+        "&tahun=" +
+        sessionStorage.getItem("yearss"),
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         setPeta(result.data.peta);
@@ -375,6 +382,7 @@ const Jelajahprofil = () => {
                 }`}
                 onClick={()=>{
                   updateKota(provinces?.nama,selected,provinces.id)
+                  setWilayahID(provinces.id);
                 }}  
               >
                 {provinces?.nama}
@@ -443,6 +451,7 @@ const Jelajahprofil = () => {
                     updatePeta(regencies.id);
                     updatePejabat(regencies.id, 2020);
                     updateDPRD(regencies.id, 2020);
+                    setWilayahID(regencies.id);
                   }
                 }} 
               >
@@ -517,7 +526,7 @@ const Jelajahprofil = () => {
                     setOpenYears(false);
                     setInputValueofYears("");
                     sessionStorage.setItem("yearss", tahunn?.tahun);
-                    
+                    updatePeta(wilayahID);
                   }
                 }}
               >
