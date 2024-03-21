@@ -161,9 +161,6 @@ const Jelajahprofil = () => {
     }
   }, [sessionStorage.getItem("idprovinsi")]);
   
-    
-
-
   ///FETCHING DROPDOWN TAHUN
   const [years, setYears] = useState(null);
   const [inputValueofYears, setInputValueofYears] = useState("");
@@ -604,7 +601,7 @@ const Jelajahprofil = () => {
                 ({tlketuadprd}-{taketuadprd})
               </p>
             </div>
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <div className="overlay-container">
                 <Circleimage
                   src={fotowakilketuadprd}
@@ -624,79 +621,79 @@ const Jelajahprofil = () => {
               <p className="text-center mt-[10px] text-[25px] text-[#064878] font-semibold">
               ({tlwakilketuadprd}-{tawakilketuadprd})
               </p>
-            </div>
+            </div> */}
           </div>
-          <div className="text-secondary text-center mt-[80px]">
+          {/* <div className="text-secondary text-center mt-[80px]">
             <p className="text-[30px] font-bold">Alamat Kantor Pemerintah: </p>
             <p className="text-[30px] font-medium">Jl. alalallalaalalalal </p>
-          </div>
-          <div className="text-secondary text-center mt-[100px]">
+          </div> */}
+          {/* <div className="text-secondary text-center mt-[100px]">
             <p className="text-[30px] font-bold">KOMISI A </p>
-          </div>
-          <div className="flex gap-[60px] text-center mt-[40px] justify-center">
-            <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
-              <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
-                (Jabatan)
-              </p>
-              <div className="flex justify-center mt-[15px]">
-                <Circleimage src={dprd} alt="User Profile" size="150px" />
+          </div> */}
+            {/* <div className="flex gap-[60px] text-center mt-[40px] justify-center">
+              <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
+                <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
+                  (Jabatan)
+                </p>
+                <div className="flex justify-center mt-[15px]">
+                  <Circleimage src={dprd} alt="User Profile" size="150px" />
+                </div>
+                <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
+                  Yana Mulyana
+                </p>
+                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                  (NIP)
+                </p>
+                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                  (CONTACT)
+                </p>
+                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                  (E-MAIL)
+                </p>
               </div>
-              <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
-                Yana Mulyana
-              </p>
-              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                (NIP)
-              </p>
-              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                (CONTACT)
-              </p>
-              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                (E-MAIL)
-              </p>
-            </div>
 
-            <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
-              <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
-                (Jabatan)
-              </p>
-              <div className="flex justify-center mt-[15px]">
-                <Circleimage src={dprd} alt="User Profile" size="150px" />
+              <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
+                <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
+                  (Jabatan)
+                </p>
+                <div className="flex justify-center mt-[15px]">
+                  <Circleimage src={dprd} alt="User Profile" size="150px" />
+                </div>
+                <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
+                  Yana Mulyana
+                </p>
+                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                  (NIP)
+                </p>
+                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                  (CONTACT)
+                </p>
+                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                  (E-MAIL)
+                </p>
               </div>
-              <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
-                Yana Mulyana
-              </p>
-              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                (NIP)
-              </p>
-              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                (CONTACT)
-              </p>
-              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                (E-MAIL)
-              </p>
-            </div>
 
-            <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
-              <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
-                (Jabatan)
-              </p>
-              <div className="flex justify-center mt-[15px]">
-                <Circleimage src={dprd} alt="User Profile" size="150px" />
+              <div className="bg-[#24445A] w-[60%] h-[400px] rounded-lg">
+                <p className="text-[25px] font-bold text-[#FFFFFF] mt-[25px]">
+                  (Jabatan)
+                </p>
+                <div className="flex justify-center mt-[15px]">
+                  <Circleimage src={dprd} alt="User Profile" size="150px" />
+                </div>
+                <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
+                  Yana Mulyana
+                </p>
+                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                  (NIP)
+                </p>
+                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                  (CONTACT)
+                </p>
+                <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
+                  (E-MAIL)
+                </p>
               </div>
-              <p className="text-[20px] font-bold text-[#FFFFFF] mt-[25px]">
-                Yana Mulyana
-              </p>
-              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                (NIP)
-              </p>
-              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                (CONTACT)
-              </p>
-              <p className="text-[15px] font-bold text-[#FFFFFF] mt-[5px]">
-                (E-MAIL)
-              </p>
-            </div>
-          </div>
+            </div> */}
         </div>
       )}
     </div>
