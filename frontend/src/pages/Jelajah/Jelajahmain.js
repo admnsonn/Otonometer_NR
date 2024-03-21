@@ -20,11 +20,12 @@ const Jelajahmain = () => {
 
   const toggleTab = () => {
     setActiveTab(activeTab === "provinsi" ? "nasional" : "provinsi");
+    Kategori();
   };
 
-  const SwitchBtn = ({ selected, onSelect }) => (
-    <div className="switch" onClick={onSelect}>
-      <input type="checkbox" id="toggle" checked={selected === "nasional"} />
+  const SwitchBtn = ({ switcher, setSwitcher }) => (
+    <div className="switch" onClick={setSwitcher}>
+      <input type="checkbox" id="toggle" checked={switcher === "nasional"} />
       <label htmlFor="toggle" className="slider"></label>
     </div>
   );
@@ -36,6 +37,7 @@ const Jelajahmain = () => {
   const [openProvinsi, setOpenProvinsi] = useState(false);
   const [getInfoProvinsi, setGetInfoProvinsi] = useState(null);
   const [wilayahID, setWilayahID] = useState(null);
+  const [is_province, askIsProvince] = useState()
 
   ///FETCHING DROPDOWN KOTA
   const [cities, setCity] = useState(null);
@@ -229,6 +231,53 @@ const Jelajahmain = () => {
       });
   }
 
+
+
+  ///FETCHING PERINGKAT JELAJAH
+  const [bidang, setBidang] = useState("4");
+  const [rankData, setRankData ] = useState(null);
+  const [dataChart, setDataChart ] = useState("");
+  
+  function Kategori(){
+    var params = new URLSearchParams()
+    params.append("tahun",selectedYears)
+    params.append("id_wilayah",wilayahID)
+    params.append("bidang",bidang)
+    params.append("is_province",is_province)
+    params.append("province_rank", activeTab === "provinsi" ? true : false)
+    params.append("perkapita", true)
+
+    fetch("https://api.otonometer.neracaruang.com/api/jelajah?"+ params.toString(), requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        var data = result.data.rank;
+        var highestValue = data[0].nilai;
+        var elementChart = []
+        
+        for(var i = 0; i < data.length; i++){
+          data[i].persentase = Math.round(data[i].nilai/highestValue*100);
+          var angka = data[i].persentase
+          elementChart.push(
+          <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
+            <div className="w-[195px] text-left">
+              <p className="font-bold text-secondary text-[24px] uppercase">
+              {data[i].nama}
+              </p>
+            </div>
+
+            <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
+              <div className={`bg-secondary rounded-full border-2`} style={{width:angka+"%"}}>
+                <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{data[i].nilai}</p>
+              </div>
+            </div>
+            <p className="text-right font-bold text-third text-[24px]">#{data[i].rank}</p>
+          </div>
+          )
+        }
+        setDataChart(elementChart);
+        setRankData(data);
+      })
+  }
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
       <img
@@ -372,9 +421,10 @@ const Jelajahmain = () => {
                 setSelectedCity("Semua");
                 setDataranicon("Semua");
                 setWilayahID(getInfoProvinsi);
-
+                setSelectedYears(sessionStorage.getItem("yearss"));
                 updatePeta(getInfoProvinsi);
                 setOpenCity(false);
+                askIsProvince(true);
               }}
             >
               Semua
@@ -406,6 +456,7 @@ const Jelajahmain = () => {
                     updatePeta(regencies.id);
                     setWilayahID(regencies.id);
                     setSelectedYears(sessionStorage.getItem("yearss"));
+                    askIsProvince(false);
                   }
                 }}
               >
@@ -628,6 +679,7 @@ const Jelajahmain = () => {
                       updateSelectedd(1);
                       setSelectedKeuanganOption(parents?.nama);
                       setOpenParent(false);
+                      Kategori();
                     }}
                   >
                     {parents?.nama}
@@ -913,15 +965,15 @@ const Jelajahmain = () => {
         <p className={activeTab === "nasional" ? "inactive-text" : ""}>
           PROVINSI
         </p>
-        <SwitchBtn selected={activeTab} onSelect={toggleTab} />
+        <SwitchBtn switcher={activeTab} onSelect={toggleTab} />
         <p className={activeTab === "provinsi" ? "inactive-text" : ""}>
           NASIONAL
         </p>
       </div>
-      {/* TEXT */}
+      {/* PERINGKAT DAERAH */}
       <div className="text-secondary text-center mt-[48px]">
         <p className="text-[32px] font-extrabold text-secondary">
-          PERINGKAT KOTA BANDUNG
+          PERINGKAT {infoDaerah}
         </p>
         <p className="text-[24px] font-regular italic">
           (Rp10<sup>3</sup>/kapita)
@@ -930,7 +982,7 @@ const Jelajahmain = () => {
 
       {/* DATA */}
       {activeTab === "provinsi" && (
-        <div>
+        <div className="flex flex-col items-center justify-center">
           <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
             <div className="w-[195px]">
               <p className="font-bold text-secondary text-[24px]">JAWA BARAT</p>
@@ -941,6 +993,7 @@ const Jelajahmain = () => {
             </div>
             <p className="font-bold text-third text-[24px]">#12</p>
           </div>
+          {dataChart}
 
           <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
             <div className="w-[195px]">
@@ -952,54 +1005,6 @@ const Jelajahmain = () => {
               <div className="w-[100%] bg-secondary rounded-full">
                 <p className="px-2 font-bold text-[20px] text-white">100</p>
               </div>
-            </div>
-            <p className="font-bold text-third text-[24px]">#12</p>
-          </div>
-
-          <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
-            <div className="w-[195px]">
-              <p className="font-bold text-secondary text-[24px]">
-                KOTA CIREBON
-              </p>
-            </div>
-            <div className="w-[660px] border-2 rounded-full border-secondary">
-              <p className="px-2 font-bold text-[20px]">100</p>
-            </div>
-            <p className="font-bold text-third text-[24px]">#12</p>
-          </div>
-
-          <div className="flex mt-[30px] w-[1153px] items-center justify-center gap-[80px]">
-            <div className="w-[195px]">
-              <p className="font-bold text-secondary text-[24px]">
-                KOTA BANJAR
-              </p>
-            </div>
-            <div className="w-[660px] border-2 rounded-full border-secondary">
-              <p className="px-2 font-bold text-[20px]">100</p>
-            </div>
-            <p className="font-bold text-third text-[24px]">#12</p>
-          </div>
-
-          <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
-            <div className="w-[195px]">
-              <p className="font-bold text-secondary text-[24px]">
-                KOTA SUKABUMI
-              </p>
-            </div>
-            <div className="w-[660px] border-2 rounded-full border-secondary">
-              <p className="px-2 font-bold text-[20px]">100</p>
-            </div>
-            <p className="font-bold text-third text-[24px]">#12</p>
-          </div>
-
-          <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
-            <div className="w-[195px]">
-              <p className="font-bold text-secondary text-[24px]">
-                PANGANDARAN
-              </p>
-            </div>
-            <div className="w-[660px] border-2 rounded-full border-secondary">
-              <p className="px-2 font-bold text-[20px]">100</p>
             </div>
             <p className="font-bold text-third text-[24px]">#12</p>
           </div>
