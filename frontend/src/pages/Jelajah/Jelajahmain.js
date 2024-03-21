@@ -131,9 +131,12 @@ const Jelajahmain = () => {
 
   const [showKeuanganDropdown, setShowKeuanganDropdown] = useState(false);
   const [showKeuanganAnakan1, setshowKeuanganAnakan1] = useState(false);
+  const [showKeuanganOption2, setshowKeuanganOption2] = useState(false);
 
   const [selectedKeuanganOption, setSelectedKeuanganOption] = useState("Pilih");
   const [selectedKeuanganAnakanOption1, setselectedKeuanganAnakanOption1] =
+    useState("Pilih");
+  const [selectedKeuanganAnakanOption2, setselectedKeuanganAnakanOption2] =
     useState("Pilih");
 
   const toggleKeuanganDropdown = () => {
@@ -144,6 +147,11 @@ const Jelajahmain = () => {
   const toggleKeuanganAnakan1 = () => {
     setshowKeuanganAnakan1(!showKeuanganAnakan1);
     setOpenAnakan(!openAnakan);
+  };
+
+  const toggleKeuanganAnakan2 = () => {
+    setshowKeuanganOption2(!showKeuanganOption2);
+    setOpenAnakan1(!openAnakan1);
   };
 
   ///FETCHING DROPDOWN PARENT
@@ -159,6 +167,10 @@ const Jelajahmain = () => {
   const [selectedAnakan, setSelectedAnakan] = useState("");
   const [openAnakan, setOpenAnakan] = useState(false);
   const [inputValueAnakan, setInputValueAnakan] = useState("");
+  // Const Anakan1
+  const [selectedAnakan1, setSelectedAnakan1] = useState("");
+  const [openAnakan1, setOpenAnakan1] = useState(false);
+  const [inputValueAnakan1, setInputValueAnakan1] = useState("");
 
   function updateSektor() {
     fetch("https://api.otonometer.neracaruang.com/api/sektor/2020")
@@ -167,6 +179,7 @@ const Jelajahmain = () => {
         setSektor(result.data);
         setInputValueSektor("");
         setInputValueAnakan("");
+        setInputValueAnakan1("");
         console.log(result.data);
       });
   }
@@ -502,6 +515,7 @@ const Jelajahmain = () => {
               setDraft({ sektor: items.id });
               toggleKeuanganDropdown();
               toggleKeuanganAnakan1();
+              toggleKeuanganAnakan2();
             }}
           >
             <p>{items.nama}</p>
@@ -512,53 +526,53 @@ const Jelajahmain = () => {
       {/* DROPDOWN "KEUANGAN" */}
       <div>
         {showKeuanganDropdown && (
-            <div className="flex mt-[30px] gap-[60px]">
-              {/* // Dropdown 1: Keuangan */}
-              <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
-                <div
-                  onClick={() => setOpenSektor(!openSektor)}
-                  className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-                >
-                  {selectedKeuanganOption}{" "}
-                  <FontAwesomeIcon
-                    icon={faChevronDown}
-                    color="#24445A"
-                    className={`ml-[20px] w-[10px] h-[20px] ${
-                      openSektor && "rotate-180"
-                    }`}
-                  />
-                </div>
-                <div
-                  className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          <div className="flex mt-[30px] gap-[60px]">
+            {/* // Dropdown 1: Keuangan */}
+            <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+              <div
+                onClick={() => setOpenSektor(!openSektor)}
+                className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+              >
+                {selectedKeuanganOption}{" "}
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  color="#24445A"
+                  className={`ml-[20px] w-[10px] h-[20px] ${
+                    openSektor && "rotate-180"
+                  }`}
+                />
+              </div>
+              <div
+                className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
           ${openSektor ? "max-h-auto" : "hidden"}`}
-                >
-                  <FontAwesomeIcon
-                    icon={faSearch}
-                    color="#24445A"
-                    style={{ opacity: "40%" }}
-                    className="w-[10px] h-[20px] opacity-75"
-                  />
-                  <input
-                    type="text"
-                    value={inputValueSektor}
-                    onChange={(e) =>
-                      setInputValueSektor(e.target.value.toLowerCase())
-                    }
-                    placeholder="Cari"
-                    className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-                  />
-                </div>
-                <ul
-                  className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              >
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  color="#24445A"
+                  style={{ opacity: "40%" }}
+                  className="w-[10px] h-[20px] opacity-75"
+                />
+                <input
+                  type="text"
+                  value={inputValueSektor}
+                  onChange={(e) =>
+                    setInputValueSektor(e.target.value.toLowerCase())
+                  }
+                  placeholder="Cari"
+                  className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                />
+              </div>
+              <ul
+                className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
               ${openSektor ? "max-h-[240px]" : "max-h-[0]"}`}
-                >
-                  {sektorfilter
-                    ?.filter((prop) => prop.id == draft.sektor)
-                    .map((sektors) =>
-                      sektors.children.map((anakan) => (
-                        <li
-                          key={anakan?.nama}
-                          className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+              >
+                {sektorfilter
+                  ?.filter((prop) => prop.id == draft.sektor)
+                  .map((sektors) =>
+                    sektors.children.map((anakan) => (
+                      <li
+                        key={anakan?.nama}
+                        className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
                 ${
                   anakan?.nama?.toLowerCase() ===
                     selectedSektor?.toLowerCase() && "bg-secondary text-white"
@@ -568,69 +582,69 @@ const Jelajahmain = () => {
                     ? "block"
                     : "hidden"
                 }`}
-                          onClick={() => {
-                            // updateSelectedd(1);
-                            setSelectedKeuanganOption(anakan?.nama);
-                            setOpenSektor(false);
-                            setDraft({ [anakan.nama]: anakan.id });
-                          }}
-                        >
-                          {anakan?.nama}
-                        </li>
-                      ))
-                    )}
-                </ul>
-              </div>
-              
-              {showKeuanganAnakan1 && (
-                <div classNme="flex flex mt-[30px] gap-[60px]">
-                  {/* // Dropdown 1: Keuangan */}
-                  <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
-                    <div
-                      onClick={() => setOpenAnakan(!openAnakan)}
-                      className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-                    >
-                      {selectedKeuanganAnakanOption1}{" "}
-                      <FontAwesomeIcon
-                        icon={faChevronDown}
-                        color="#24445A"
-                        className={`ml-[20px] w-[10px] h-[20px] ${
-                          openAnakan && "rotate-180"
-                        }`}
-                      />
-                    </div>
-                    <div
-                      className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+                        onClick={() => {
+                          // updateSelectedd(1);
+                          setSelectedKeuanganOption(anakan?.nama);
+                          setOpenSektor(false);
+                          setDraft({ [anakan.nama]: anakan.id });
+                        }}
+                      >
+                        {anakan?.nama}
+                      </li>
+                    ))
+                  )}
+              </ul>
+            </div>
+
+            {showKeuanganAnakan1 && (
+              <div classNme="flex flex mt-[30px] gap-[60px]">
+                {/* // Dropdown 1: Keuangan */}
+                <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+                  <div
+                    onClick={() => setOpenAnakan(!openAnakan)}
+                    className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+                  >
+                    {selectedKeuanganAnakanOption1}{" "}
+                    <FontAwesomeIcon
+                      icon={faChevronDown}
+                      color="#24445A"
+                      className={`ml-[20px] w-[10px] h-[20px] ${
+                        openAnakan && "rotate-180"
+                      }`}
+                    />
+                  </div>
+                  <div
+                    className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
           ${openAnakan ? "max-h-auto" : "hidden"}`}
-                    >
-                      <FontAwesomeIcon
-                        icon={faSearch}
-                        color="#24445A"
-                        style={{ opacity: "40%" }}
-                        className="w-[10px] h-[20px] opacity-75"
-                      />
-                      <input
-                        type="text"
-                        value={inputValueAnakan}
-                        onChange={(e) =>
-                          setInputValueAnakan(e.target.value.toLowerCase())
-                        }
-                        placeholder="Cari"
-                        className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-                      />
-                    </div>
-                    <ul
-                      className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+                  >
+                    <FontAwesomeIcon
+                      icon={faSearch}
+                      color="#24445A"
+                      style={{ opacity: "40%" }}
+                      className="w-[10px] h-[20px] opacity-75"
+                    />
+                    <input
+                      type="text"
+                      value={inputValueAnakan}
+                      onChange={(e) =>
+                        setInputValueAnakan(e.target.value.toLowerCase())
+                      }
+                      placeholder="Cari"
+                      className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                    />
+                  </div>
+                  <ul
+                    className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
               ${openAnakan ? "max-h-[240px]" : "max-h-[0]"}`}
-                    >
-                      {sektorfilter
-                        ?.filter((prop) => prop.id == draft.sektor)
-                        .map((sektors) =>
-                          sektors.children.map((anakan) =>
-                            anakan?.children.map((anakan) => (
-                              <li
-                                key={anakan?.nama}
-                                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                  >
+                    {sektorfilter
+                      ?.filter((prop) => prop.id == draft.sektor)
+                      .map((sektors) =>
+                        sektors.children.map((anakan) =>
+                          anakan?.children.map((anakan) => (
+                            <li
+                              key={anakan?.nama}
+                              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
                 ${
                   anakan?.nama?.toLowerCase() ===
                     selectedAnakan?.toLowerCase() && "bg-secondary text-white"
@@ -640,26 +654,103 @@ const Jelajahmain = () => {
                     ? "block"
                     : "hidden"
                 }`}
+                              onClick={() => {
+                                // updateSelectedd(1);
+                                setselectedKeuanganAnakanOption1(anakan?.nama);
+                                setOpenAnakan(false);
+                                setDraft({ [anakan.nama]: anakan.id });
+                              }}
+                            >
+                              {anakan?.nama}
+                            </li>
+                          ))
+                        )
+                      )}
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {showKeuanganOption2 && (
+              <div classNme="flex flex mt-[30px] gap-[60px]">
+                {/* // Dropdown 1: Keuangan */}
+                <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+                  <div
+                    onClick={() => setOpenAnakan1(!openAnakan1)}
+                    className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+                  >
+                    {selectedKeuanganAnakanOption2}{" "}
+                    <FontAwesomeIcon
+                      icon={faChevronDown}
+                      color="#24445A"
+                      className={`ml-[20px] w-[10px] h-[20px] ${
+                        openAnakan1 && "rotate-180"
+                      }`}
+                    />
+                  </div>
+                  <div
+                    className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${openAnakan1 ? "max-h-auto" : "hidden"}`}
+                  >
+                    <FontAwesomeIcon
+                      icon={faSearch}
+                      color="#24445A"
+                      style={{ opacity: "40%" }}
+                      className="w-[10px] h-[20px] opacity-75"
+                    />
+                    <input
+                      type="text"
+                      value={inputValueAnakan1}
+                      onChange={(e) =>
+                        setInputValueAnakan1(e.target.value.toLowerCase())
+                      }
+                      placeholder="Cari"
+                      className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                    />
+                  </div>
+                  <ul
+                    className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${openAnakan1 ? "max-h-[240px]" : "max-h-[0]"}`}
+                  >
+                    {sektorfilter
+                      ?.filter((prop) => prop.id == draft.sektor)
+                      .map((sektors) =>
+                        sektors.children.map((anakan) =>
+                          anakan.children.map((anakan1) =>
+                            anakan1?.children.map((anakans) => (
+                              <li
+                                key={anakans?.nama}
+                                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${
+                  anakans?.nama?.toLowerCase() ===
+                    selectedAnakan1?.toLowerCase() && "bg-secondary text-white"
+                }
+                ${
+                  anakans?.nama?.toLowerCase().startsWith(inputValueAnakan1)
+                    ? "block"
+                    : "hidden"
+                }`}
                                 onClick={() => {
                                   // updateSelectedd(1);
-                                  setselectedKeuanganAnakanOption1(
-                                    anakan?.nama
+                                  setselectedKeuanganAnakanOption2(
+                                    anakans?.nama
                                   );
-                                  setOpenAnakan(false);
-                                  setDraft({ [anakan.nama]: anakan.id });
+                                  setOpenAnakan1(false);
+                                  setDraft({ [anakans.nama]: anakans.id });
                                 }}
                               >
-                                {anakan?.nama}
+                                {anakans?.nama}
                               </li>
                             ))
                           )
-                        )}
-                    </ul>
-                  </div>
+                        )
+                      )}
+                  </ul>
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* SWITCH */}
