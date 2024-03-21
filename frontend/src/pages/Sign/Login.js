@@ -5,7 +5,7 @@ import "../../style/Components.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import AppleIcon from "../../assets/icons/apel.svg";
 import GoogleIcon from "../../assets/icons/gugol.svg";
 import MicrosoftIcon from "../../assets/icons/microsoft.svg";
@@ -41,80 +41,47 @@ class Login extends React.Component {
     const isEmailValid = /\S+@\S+\.\S+/.test(email);
 
     if (isEmailValid) {
-      // let data = qs.stringify({
-      //   'email': this.state.email,
-      //   'password': this.state.password
-      // });
+      var data = new URLSearchParams();
+      //   // var data = new FormData();
+        data.append("email", this.state.email);
+        data.append("password", this.state.password);
+        console.log(data.toString());
 
-      // let config = {
-      //   method: 'post',
-      //   maxBodyLength: Infinity,
-      //   url: 'https://api.otonometer.neracaruang.com/api/login',
-      //   headers: { 
-      //     'Content-Type': 'application/x-www-form-urlencoded'
-      //   },
-      //   data : data
-      // };
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function(){
+            console.log(JSON.parse(this.responseText));
+            var response = JSON.parse(this.responseText)
 
-      // axios.request(config)
-      // .then((response) => {
-      //   console.log(JSON.stringify(response.data));
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      // });
-
-      var data = `email=${this.state.email}&password=${this.state.password}`;
-
-      var xhr = new XMLHttpRequest();
-      // xhr.withCredentials = true;
-
-      xhr.addEventListener("readystatechange", function() {
-        if(this.readyState === 4) {
-          console.log(this.responseText);
+            if(response.status){
+              sessionStorage.setItem("token", response.token);
+              Swal.fire({
+                iconHtml:'<img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" class="custom-icon" />',
+                title: "SUCCESS!",
+                text: "Berhasil Login!",
+                confirmButtonText: "Berhasil",
+                confirmButtonColor: "#27AE60",
+                customClass: {
+                  icon: "no-border",
+                  title: "title-icon",
+                  text: "text-icon",
+                  confirmButton: "confirm-icon",
+                },
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "/";
+                }
+              });
+            }else {
+              Swal.fire({
+                title: "Gagal Login",
+                text: response.message,
+                icon: "error"
+              });
+            }
         }
-      });
-
-      xhr.open("POST", "https://api.otonometer.neracaruang.com/api/login");
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.send(data);
-
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-      const urlencoded = new URLSearchParams();
-      urlencoded.append("email", this.state.email);
-      urlencoded.append("password", this.state.password);
-
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: "follow"
-      };
-
-      fetch("https://api.otonometer.neracaruang.com/api/login", requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
-
-      Swal.fire({
-        iconHtml:'<img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" class="custom-icon" />',
-        title: "SUCCESS!",
-        text: "Berhasil Login!",
-        confirmButtonText: "Berhasil",
-        confirmButtonColor: "#27AE60",
-        customClass: {
-          icon: "no-border",
-          title: "title-icon",
-          text: "text-icon",
-          confirmButton: "confirm-icon",
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "/";
-        }
-      });
+        xhr.open("POST","https://api.otonometer.neracaruang.com/api/login");
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send(data.toString());
     } else {
       Swal.fire({
         iconHtml:"<img src='https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihYZPXF44y7OB6l4YYsMNu3Ch8sD5wCW2oyOefMQuMpTcOkFPxlWVCcnvG0Jdp8pleEHWyc-DrJbERHmu8We62KV087J=w1920-h970'",
