@@ -37,7 +37,7 @@ const Jelajahmain = () => {
   const [openProvinsi, setOpenProvinsi] = useState(false);
   const [getInfoProvinsi, setGetInfoProvinsi] = useState(null);
   const [wilayahID, setWilayahID] = useState(null);
-  const [is_province, askIsProvince] = useState();
+  const [is_province, askIsProvince] = useState()
 
   ///FETCHING DROPDOWN KOTA
   const [cities, setCity] = useState(null);
@@ -159,6 +159,7 @@ const Jelajahmain = () => {
   ///FETCHING DROPDOWN PARENT
   const [sektor, setSektor] = useState([]);
   const [sektorfilter, setSektorFilter] = useState([]);
+
   const [draft, setDraft] = useState({});
   // Const Parent
   const [selectedSektor, setSelectedSektor] = useState("");
@@ -173,7 +174,6 @@ const Jelajahmain = () => {
   const [openAnakan1, setOpenAnakan1] = useState(false);
   const [inputValueAnakan1, setInputValueAnakan1] = useState("");
 
-  ///UPDATE SEKTOR
   function updateSektor() {
     fetch("https://api.otonometer.neracaruang.com/api/sektor/2020")
       .then((response) => response.json())
@@ -207,60 +207,50 @@ const Jelajahmain = () => {
 
   ///FETCHING PERINGKAT JELAJAH
   const [bidang, setBidang] = useState("4");
-  const [rankData, setRankData] = useState(null);
-  const [dataChart, setDataChart] = useState("");
+  const [rankData, setRankData ] = useState(null);
+  const [dataChart, setDataChart ] = useState("");
+  
+  function Kategori(){
+    var params = new URLSearchParams()
+    params.append("tahun",selectedYears)
+    params.append("id_wilayah",wilayahID)
+    params.append("bidang",bidang)
+    params.append("is_province",is_province)
+    params.append("province_rank", activeTab === "provinsi" ? true : false)
+    params.append("perkapita", true)
 
-  function Kategori() {
-    var params = new URLSearchParams();
-    params.append("tahun", selectedYears);
-    params.append("id_wilayah", wilayahID);
-    params.append("bidang", bidang);
-    params.append("is_province", is_province);
-    params.append("province_rank", activeTab === "provinsi" ? true : false);
-    params.append("perkapita", true);
-
-    fetch(
-      "https://api.otonometer.neracaruang.com/api/jelajah?" + params.toString(),
-      requestOptions
-    )
+    fetch("https://api.otonometer.neracaruang.com/api/jelajah?"+ params.toString(), requestOptions)
       .then((response) => response.json())
       .then((result) => {
         var data = result.data.rank;
         var highestValue = data[0].nilai;
-        var elementChart = [];
-
-        for (var i = 0; i < data.length; i++) {
-          data[i].persentase = Math.round((data[i].nilai / highestValue) * 100);
-          var angka = data[i].persentase;
+        var elementChart = []
+        
+        for(var i = 0; i < data.length; i++){
+          data[i].persentase = Math.round(data[i].nilai/highestValue*100);
+          var angka = data[i].persentase
           elementChart.push(
-            <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
-              <div className="w-[195px] text-left">
-                <p className="font-bold text-secondary text-[24px] uppercase">
-                  {data[i].nama}
-                </p>
-              </div>
-
-              <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                <div
-                  className={`bg-secondary rounded-full border-2`}
-                  style={{ width: angka + "%" }}
-                >
-                  <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
-                    {data[i].nilai}
-                  </p>
-                </div>
-              </div>
-              <p className="text-right font-bold text-third text-[24px]">
-                #{data[i].rank}
+          <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
+            <div className="w-[195px] text-left">
+              <p className="font-bold text-secondary text-[24px] uppercase">
+              {data[i].nama}
               </p>
             </div>
-          );
+
+            <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
+              <div className={`bg-secondary rounded-full border-2`} style={{width:angka+"%"}}>
+                <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{data[i].nilai}</p>
+              </div>
+            </div>
+            <p className="text-right font-bold text-third text-[24px]">#{data[i].rank}</p>
+          </div>
+          )
         }
         setDataChart(elementChart);
         setRankData(data);
-      });
+      })
   }
-  var data_Penduduk = jumlahpenduduk / 1000;
+  var data_Penduduk = jumlahpenduduk/1000;
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
       <img
@@ -540,10 +530,8 @@ const Jelajahmain = () => {
       </div>
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
-        <div className="text-[20px] text-[#24445A] mt-[5px]">
-          <p className="font-bold">
-            {Math.round(luaswilayah).toLocaleString().replace(/\,/g, ".")}
-          </p>
+        <div className="text-[20px] text-secondary mt-[5px]">
+          <p className="font-bold">{Math.round(luaswilayah).toLocaleString().replace(/\,/g, '.')}</p>
           <p className="font-regular">km²</p>
         </div>
         <div className="flex gap-[10px]">
@@ -560,9 +548,7 @@ const Jelajahmain = () => {
           </div>
         </div>
         <div className="text-[20px] text-secondary mt-[5px]">
-          <p className="font-bold">
-            {Math.round(data_Penduduk).toLocaleString().replace(/\,/g, ".")}
-          </p>
+          <p className="font-bold">{Math.round(data_Penduduk).toLocaleString().replace(/\,/g, '.')}</p>
           <p className="font-regular">10³ Jiwa</p>
         </div>
       </div>
@@ -580,6 +566,7 @@ const Jelajahmain = () => {
               toggleKeuanganDropdown();
               toggleKeuanganAnakan1();
               toggleKeuanganAnakan2();
+              
             }}
           >
             <p>{items.nama}</p>
@@ -587,11 +574,10 @@ const Jelajahmain = () => {
         ))}
       </div>
 
-       {/* DROPDOWN "KEUANGAN" */}
+      {/* DROPDOWN "KEUANGAN" */}
       <div>
         {showKeuanganDropdown && (
           <div className="flex mt-[30px] gap-[60px]">
-
             {/* // Dropdown 1: Keuangan */}
             <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
               <div
@@ -599,7 +585,7 @@ const Jelajahmain = () => {
                 className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
               >
                 {selectedKeuanganOption}{" "}
-
+                <FontAwesomeIcon
                   icon={faChevronDown}
                   color="#24445A"
                   className={`ml-[20px] w-[10px] h-[20px] ${
@@ -613,6 +599,9 @@ const Jelajahmain = () => {
               >
                 <FontAwesomeIcon
                   icon={faSearch}
+                  color="#24445A"
+                  style={{ opacity: "40%" }}
+                  className="w-[10px] h-[20px] opacity-75"
                 />
                 <input
                   type="text"
@@ -649,6 +638,7 @@ const Jelajahmain = () => {
                           setSelectedKeuanganOption(anakan?.nama);
                           setOpenSektor(false);
                           setDraft({ [anakan.nama]: anakan.id });
+                          Kategori();
                         }}
                       >
                         {anakan?.nama}
@@ -657,7 +647,6 @@ const Jelajahmain = () => {
                   )}
               </ul>
             </div>
-
 
             {showKeuanganAnakan1 && (
               <div classNme="flex flex mt-[30px] gap-[60px]">
@@ -733,6 +722,7 @@ const Jelajahmain = () => {
                 </div>
               </div>
             )}
+
             {showKeuanganOption2 && (
               <div classNme="flex flex mt-[30px] gap-[60px]">
                 {/* // Dropdown 1: Keuangan */}
@@ -808,71 +798,12 @@ const Jelajahmain = () => {
                         )
                       )}
                   </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               </div>
             )}
           </div>
         )}
-
+      </div>
 
       {/* SWITCH */}
       <div className="flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px] text-[20px]">
@@ -887,7 +818,7 @@ const Jelajahmain = () => {
       {/* PERINGKAT DAERAH */}
       <div className="text-secondary text-center mt-[48px]">
         <p className="text-[32px] font-extrabold text-secondary">
-          PERINGKAT {infoDaerah}
+          PERINGKAT KOTA BANDUNG
         </p>
         <p className="text-[24px] font-regular italic">
           (Rp10<sup>3</sup>/kapita)
@@ -912,7 +843,7 @@ const Jelajahmain = () => {
           <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
             <div className="w-[195px]">
               <p className="font-bold text-secondary text-[24px]">
-                KOTA BANDUNG
+              {infoDaerah}
               </p>
             </div>
             <div className="w-[660px] border-2 rounded-full border-secondary">
@@ -922,6 +853,7 @@ const Jelajahmain = () => {
             </div>
             <p className="font-bold text-third text-[24px]">#12</p>
           </div>
+
         </div>
       )}
 
