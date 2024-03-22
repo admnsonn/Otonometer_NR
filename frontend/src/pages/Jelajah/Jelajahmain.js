@@ -233,6 +233,8 @@ const Jelajahmain = () => {
 
 
 
+
+
   ///FETCHING PERINGKAT JELAJAH
   const [bidang, setBidang] = useState("4");
   const [rankData, setRankData ] = useState(null);
@@ -278,6 +280,7 @@ const Jelajahmain = () => {
         setRankData(data);
       })
   }
+  var data_Penduduk = jumlahpenduduk/1000;
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
       <img
@@ -557,9 +560,9 @@ const Jelajahmain = () => {
       </div>
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
-        <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>{luaswilayah}</p>
-          <p>km²</p>
+        <div className="text-[20px] text-[#24445A] mt-[5px]">
+          <p className="font-bold">{Math.round(luaswilayah).toLocaleString().replace(/\,/g, '.')}</p>
+          <p className="font-regular">km²</p>
         </div>
         <div className="flex gap-[10px]">
           <div className="hover-container">
@@ -574,9 +577,9 @@ const Jelajahmain = () => {
             <span className="hover-text w-[150%] mb-[10px]">{sektornama}</span>
           </div>
         </div>
-        <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>{jumlahpenduduk}</p>
-          <p>10³ Jiwa</p>
+        <div className="text-[20px] text-secondary mt-[5px]">
+          <p className="font-bold">{Math.round(data_Penduduk).toLocaleString().replace(/\,/g, '.')}</p>
+          <p className="font-regular">10³ Jiwa</p>
         </div>
       </div>
 
@@ -706,7 +709,7 @@ const Jelajahmain = () => {
                 </div>
                 <div
                   className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
-        ${openChild ? "max-h-auto" : "hidden"}`}
+                    ${openChild ? "max-h-auto" : "hidden"}`}
                 >
                   <FontAwesomeIcon
                     icon={faSearch}
