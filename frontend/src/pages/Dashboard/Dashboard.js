@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../../assets/biglogo.svg";
-import playstore from "../../assets/App Store Black Border.svg";
-import appstore from "../../assets/Google Play Black Border.svg";
+import playstore from "../../assets/Google Play Black Border.svg";
+import appstore from "../../assets/App Store Black Border.svg";
 import Carousel from "../../components/Carousel";
 import logo3d from "../../assets/About/logo3d.svg";
 import ombak from "../../assets/About/ombak.png";
@@ -55,8 +55,13 @@ const Dashboard = () => {
             kabupaten dan kota di Indonesia.
           </p>
           <div className="flex gap-[20px] mt-[30px] mx-auto xl:mx-0 xl:ml-[40px]">
-            <img src={appstore} alt="loading" className="hover:" />
-            <img src={playstore} alt="loading" className="hover:" />
+            <img src={appstore} alt="loading" className="hover:opacity-60 hover:cursor-pointer" />
+            <img 
+              src={playstore} alt="loading" 
+              className="hover:opacity-60 hover:cursor-pointer" 
+              onClick={() => {
+                window.open("https://play.google.com/store/apps/details?id=com.otonometer.neracaruang&pcampaignid=web_share","_blank");
+              }}/>
           </div>
         </div>
       </div>
