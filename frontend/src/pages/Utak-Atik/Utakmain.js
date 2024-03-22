@@ -1,92 +1,119 @@
-import React, { useState } from "react";
-import peta from "../../assets/petajelajah.png";
+import React, { useState,useEffect } from "react";
 import map from "../../assets/icons/peta.png";
 import geo from "../../assets/icons/geodating.svg";
 import people from "../../assets/icons/people.svg";
 import industri from "../../assets/icons/industri.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronDown,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import bulat from "../../assets/circ.svg";
 import "../../style/Components.css";
 
 const Utakmain = () => {
-  const [selectedOption, setSelectedOption] = useState("Provinsi");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const [selectedKota, setSelectedKota] = useState("Kota");
-  const [dropdownKota, setDropdownKota] = useState(false);
-
-  const [selectedTahun, setSelectedTahun] = useState("Tahun");
-  const [dropdownTahun, setDropdownTahun] = useState(false);
-
-  const handleDropdownClick = () => {
-    setDropdownOpen(!dropdownOpen);
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
   };
+  ///DROPDOWN PROVINSI
+  const [provincess, setProvinces] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [selected, setSelected] = useState("");
+  const [openProvinsi, setOpenProvinsi] = useState(false);
+  const [getInfoProvinsi, setGetInfoProvinsi] = useState(null);
+  const [wilayahID, setWilayahID] = useState(null);
+  const [is_province, askIsProvince] = useState()
+  useEffect(() => {
+    fetch("https://api.otonometer.neracaruang.com/api/provinces")
+      .then((response) => response.json())
+      .then((data) => {
+        setProvinces(data.data);
+      });
+  }, []);
 
-  const handleDropdownKota = () => {
-    setDropdownKota(!dropdownKota);
-  };
+  ///DROPDOWN KOTA
+  const [cities, setCity] = useState(null);
+  const [inputValueofCity, setInputValueofCity] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [openCity, setOpenCity] = useState(false);
 
-  const handleDropdownTahun = () => {
-    setDropdownTahun(!dropdownTahun);
-  };
+  ///UPDATE DATA KOTA BERDASARKAN DATA PROVINSI
+  function updateKota(item, choosed, id) {
+    if (item.toLowerCase() !== choosed.toLowerCase()) {
+      setSelected(item);
+      setOpenProvinsi(false);
+      setInputValue("");
+      fetch(
+        "https://api.otonometer.neracaruang.com/api/cities?province_id=" + id
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setCity(data.data);
+        });
+    }
+  }
 
-  const handleOptionClick = (option) => {
-    setSelectedOption(option);
-    setDropdownOpen(false);
-  };
+  ///UPDATE DATA LOKASI
+  const [peta, setPeta] = useState(null);
+  const [koordinatLokasi, setKoordinatLokasi] = useState(null);
+  const [infoDaerah, setInfoDaerah] = useState(null);
+  const [pinMap, setPinMap] = useState(null);
+  const [dataranicon, setDataranicon] = useState(null);
+  const [sektoricon, setSektoricon] = useState(null);
+  const [datarannama, setDatarannama] = useState(null);
+  const [sektornama, setSektornama] = useState(null);
+  const [luaswilayah, setLuaswilayah] = useState(null);
+  const [jumlahpenduduk, setJumlahpenduduk] = useState(null);
 
-  const handleOptionKota = (option) => {
-    setSelectedKota(option);
-    setDropdownKota(false);
-  };
+  var data_Penduduk = jumlahpenduduk/1000;
 
-  const handleOptionTahun = (option) => {
-    setSelectedTahun(option);
-    setDropdownTahun(false);
-  };
+  function updatePeta(wilayah_id) {
+    fetch(
+      "https://api.otonometer.neracaruang.com/api/wilayah-info?lang=en&wilayah_id=" +
+        wilayah_id +
+        "&tahun=" +
+        sessionStorage.getItem("yearss"),
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setPeta(result.data.peta);
+        if (sessionStorage.getItem("namawilayah") === "Semua") {
+          setDataranicon(
+            "https://storage.googleapis.com/otonometer-bucket/infografis/655fb32670807.icon_geo_dattinggi.png"
+          );
+        } else {
+          setDataranicon(result.data.dataran_icon);
+        }
+        setInfoDaerah(result.data.nama);
+        setSektoricon(result.data.wilayah_info.sektor_icon);
+        setKoordinatLokasi(result.data.longitude + ", " + result.data.latitude);
+        setDatarannama(result.data.dataran_nama);
+        setSektornama(result.data.wilayah_info.sektor_nama);
+        setLuaswilayah(result.data.wilayah_info.luas_wilayah);
+        setJumlahpenduduk(result.data.wilayah_info.jumlah_penduduk);
+        setPinMap(map);
+        console.log(infoDaerah);
+        console.log(datarannama);
+      });
+  }
 
-  const renderDropdownOptions = () => {
-    const options = ["Jawa Barat", "Jawa Tengah", "Jawa Timur"];
+  ///VARIABLE DROPDOWN TAHUN
+  const [years, setYears] = useState([]);
+  const [inputValueofYears, setInputValueofYears] = useState("");
+  const [selectedYears, setSelectedYears] = useState("");
+  const [openYears, setOpenYears] = useState(false);
 
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionClick(option)}
-        className="flex  w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
-
-  const renderDropdownKota = () => {
-    const options = ["Kota Bandung", "Kota Cirebon", "Kota Bekasi"];
-
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionKota(option)}
-        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
-
-  const renderDropdownTahun = () => {
-    const options = ["2022", "2021", "2020"];
-
-    return options.map((option, index) => (
-      <div
-        key={index}
-        onClick={() => handleOptionTahun(option)}
-        className="flex w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-      >
-        <p>{option}</p>
-      </div>
-    ));
-  };
+  useEffect(() => {
+    fetch("https://api.otonometer.neracaruang.com/api/year")
+      .then((response) => response.json())
+      .then((data) => {
+        setYears(data.data);
+        sessionStorage.setItem("yearss", data.data[0].tahun);
+      });
+  }, []);
 
   const Dropdown = ({ options, onSelect, label, dropdownClass }) => {
     const [selectedOption, setSelectedOption] = useState("");
@@ -322,7 +349,7 @@ const Utakmain = () => {
   };
 
   return (
-    <div className="flex flex-col mt-[50px] mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
+    <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
       <img
         src={bulat}
         alt=""
@@ -334,62 +361,260 @@ const Utakmain = () => {
       <h1 className="flex justify-center items-center text-secondary text-[34px] font-bold mt-[24px]">
         Utak-Atik Menyajikan Insight Tanpa Batas!
       </h1>
-
-      {/* Dropdown for Province, City, and Year */}
-      <div className=" flex gap-[50px] relative mt-[24px] mb-[24px]">
-        {/* Province Dropdown */}
-        <div
-          onClick={handleDropdownClick}
-          className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-        >
-          <p>{selectedOption}</p>
-          <FontAwesomeIcon
-            icon={faCaretDown}
-            color="#24445A"
-            className="ml-[20px]"
-          />
-        </div>
-        {dropdownOpen && (
-          <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px]">
-            {renderDropdownOptions()}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-[40px] gap-y-[10px] mt-[20px]">
+        {/* FETCHING PROVINSI */}
+        <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+          <div
+            onClick={() => setOpenProvinsi(!openProvinsi)}
+            className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+          >
+            {selected
+              ? selected?.length > 20
+                ? selected?.substring(0, 20) + "..."
+                : selected
+              : "Provinsi"}
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              color="#24445A"
+              className={`ml-[20px] w-[10px] h-[20px] ${
+                openProvinsi && "rotate-180"
+              }`}
+            />
           </div>
-        )}
-
-        {/* City Dropdown */}
-        <div
-          onClick={handleDropdownKota}
-          className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-        >
-          <p>{selectedKota}</p>
-          <FontAwesomeIcon
-            icon={faCaretDown}
-            color="#24445A"
-            className="ml-[20px]"
-          />
-        </div>
-        {dropdownKota && (
-          <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px] ml-[216px]">
-            {renderDropdownKota()}
+          <div
+            className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${openProvinsi ? "max-h-auto" : "hidden"}`}
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              color="#24445A"
+              style={{ opacity: "40%" }}
+              className="w-[10px] h-[20px] opacity-75"
+            />
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value.toLowerCase())}
+              placeholder="Cari Provinsi"
+              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+            />
           </div>
-        )}
-
-        {/* Year Dropdown */}
-        <div
-          onClick={handleDropdownTahun}
-          className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer"
-        >
-          <p>{selectedTahun}</p>
-          <FontAwesomeIcon
-            icon={faCaretDown}
-            color="#24445A"
-            className="ml-[20px]"
-          />
+          <ul
+            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${openProvinsi ? "max-h-[240px]" : "max-h-[0]"}`}
+          >
+            {provincess?.map((provinces) => (
+              <li
+                key={provinces?.nama}
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${
+                  provinces?.nama?.toLowerCase() === selected?.toLowerCase() &&
+                  "bg-secondary text-white"
+                }
+                ${
+                  provinces?.nama?.toLowerCase().startsWith(inputValue)
+                    ? "block"
+                    : "hidden"
+                }`}
+                onClick={() => {
+                  updateKota(provinces?.nama, selected, provinces.id);
+                  sessionStorage.setItem("idprovinsi", provinces.id);
+                  sessionStorage.setItem("namaprovinsi", provinces.nama);
+                  setGetInfoProvinsi(provinces.id);
+                  setWilayahID(provinces.id);
+                  sessionStorage.setItem("namawilayah", "Semua");
+                  setInfoDaerah("Semua");
+                  setSelectedCity("Semua");
+                  setDataranicon("Semua");
+                  setSelectedYears(sessionStorage.getItem("yearss"));
+                  updatePeta(provinces.id);
+                  askIsProvince(true);
+                }}
+              >
+                {provinces?.nama}
+              </li>
+            ))}
+          </ul>
         </div>
-        {dropdownTahun && (
-          <div className="absolute z-10 bg-white border border-gray-200 mt-2 rounded-md shadow-lg mt-[50px] ml-[434px]">
-            {renderDropdownTahun()}
+
+        {/* FETCHING KOTA */}
+        <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+          <div
+            onClick={() => {
+              setOpenCity(!openCity);
+            }}
+            className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+          >
+            {selectedCity
+              ? selectedCity?.length > 20
+                ? selectedCity?.substring(0, 20) + "..."
+                : selectedCity
+              : "Kota/Kabupaten"}
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              color="#24445A"
+              className={`ml-[20px] w-[10px] h-[20px] ${
+                openCity && "rotate-180"
+              }`}
+            />
           </div>
-        )}
+          <div
+            className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${openCity ? "max-h-auto" : "hidden"}`}
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              color="#24445A"
+              style={{ opacity: "40%" }}
+              className="w-[10px] h-[20px] opacity-75"
+            />
+            <input
+              type="text"
+              value={inputValueofCity}
+              onChange={(e) =>
+                setInputValueofCity(e.target.value.toLowerCase())
+              }
+              placeholder="Cari Kota/Kabupaten"
+              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+            />
+          </div>
+          <ul
+            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${openCity ? "max-h-[240px]" : "max-h-[0]"}`}
+          >
+            <li
+              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-secondary
+                ${
+                  "semua" === selectedCity?.toLowerCase() &&
+                  "bg-secondary text-white"
+                }
+                `}
+              onClick={() => {
+                sessionStorage.setItem("namawilayah", "Semua");
+                setInfoDaerah("Semua");
+                console.log(infoDaerah);
+                setSelectedCity("Semua");
+                setDataranicon("Semua");
+                setWilayahID(getInfoProvinsi);
+                setSelectedYears(sessionStorage.getItem("yearss"));
+                updatePeta(getInfoProvinsi);
+                setOpenCity(false);
+                askIsProvince(true);
+              }}
+            >
+              Semua
+            </li>
+            {cities?.map((regencies) => (
+              <li
+                key={regencies?.nama}
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${
+                  regencies?.nama?.toLowerCase() ===
+                    selectedCity?.toLowerCase() && "bg-secondary text-white"
+                }
+                ${
+                  regencies?.nama?.toLowerCase().startsWith(inputValueofCity)
+                    ? "block"
+                    : "hidden"
+                }`}
+                onClick={() => {
+                  if (
+                    regencies?.nama?.toLowerCase() !==
+                    selectedCity.toLowerCase()
+                  ) {
+                    sessionStorage.setItem("namawilayah", regencies.nama);
+                    setSelectedCity(regencies?.nama);
+                    sessionStorage.setItem("idkota", regencies.id);
+                    sessionStorage.setItem("namakota", regencies.nama);
+                    setOpenCity(false);
+                    setInputValueofCity("");
+                    updatePeta(regencies.id);
+                    setWilayahID(regencies.id);
+                    setSelectedYears(sessionStorage.getItem("yearss"));
+                    askIsProvince(false);
+                  }
+                }}
+              >
+                {regencies?.nama}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* FETCHING TAHUN */}
+        <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+          <div
+            onClick={() => setOpenYears(!openYears)}
+            className="bg-[#ebebeb] w-full p-2 flex items-center justify-center rounded-[10px]"
+          >
+            {selectedYears
+              ? selectedYears?.length > 12
+                ? selectedYears?.substring(0, 12) + "..."
+                : selectedYears
+              : "Tahun"}
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              color="#24445A"
+              className={`ml-[120px] w-[10px] h-[20px] ${
+                openYears && "rotate-180"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${openYears ? "max-h-auto" : "hidden"}`}
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              color="#24445A"
+              style={{ opacity: "40%" }}
+              className="w-[10px] h-[20px] opacity-75"
+            />
+            <input
+              type="text"
+              value={inputValueofCity}
+              onChange={(e) =>
+                setInputValueofYears(e.target.value.toLowerCase())
+              }
+              placeholder="Cari Tahun"
+              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+            />
+          </div>
+          <ul
+            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-auto 
+              ${openYears ? "max-h-[240px]" : "max-h-[0]"}`}
+          >
+            {years?.map((tahunn) => (
+              <li
+                key={tahunn?.tahun}
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${
+                  tahunn?.tahun?.toLowerCase() ===
+                    selectedYears?.toLowerCase() && "bg-secondary text-white"
+                }
+
+                ${
+                  tahunn?.tahun?.toLowerCase().startsWith(inputValueofYears)
+                    ? "block"
+                    : "hidden"
+                }`}
+                onClick={() => {
+                  if (
+                    tahunn?.tahun?.toLowerCase() !== selectedYears.toLowerCase()
+                  ) {
+                    setSelectedYears(tahunn?.tahun);
+                    setOpenYears(false);
+                    setInputValueofYears("");
+                    sessionStorage.setItem("yearss", tahunn?.tahun);
+                    updatePeta(wilayahID);
+                  }
+                }}
+              >
+                {tahunn?.tahun}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <img
@@ -397,28 +622,35 @@ const Utakmain = () => {
         alt=""
         className="flex items-center w-80 mb-[40px] mt-[20px]"
       />
-      <div className="flex mb-[10px] gap-[30px]">
-        <div className="">
-          <img src={map} alt="" className="flex w-6" />
-        </div>
-        <div className="text-[#064878] font-semibold mt-[5px] text-[20px]">
-          <p>-6.902186, 107.618756</p>
+      <div className="flex justify-between items-center gap-x-[40px]">
+        <img src={pinMap} alt="" className="flex w-6" />
+        <div className="text-secondary">
+          <h1 className="text-[24px] font-bold">{infoDaerah}</h1>
+          <p className="font-semibold text-[20px]">{koordinatLokasi}</p>
         </div>
       </div>
 
-      <div className="flex gap-[60px] mt-[40px] mb-[20px]">
-        <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>168</p>
-          <p>km²</p>
+      <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
+        <div className="text-[20px] text-secondary mt-[5px]">
+          <p className="font-bold">{Math.round(luaswilayah).toLocaleString().replace(/\,/g, '.')}</p>
+          <p className="font-regular">km²</p>
         </div>
         <div className="flex gap-[10px]">
-          <img src={geo} alt="" className="" />
-          <img src={people} alt="" className="" />
-          <img src={industri} alt="" className="" />
+          <div className="hover-container">
+            <img src={dataranicon} alt="" className="w-20" />
+            <span className="hover-text w-[150%] mb-[10px]">{datarannama}</span>
+          </div>
+          <a href="/Jelajah-Profil">
+            <img src={people} alt="" className="w-20" />
+          </a>
+          <div className="hover-container">
+            <img src={sektoricon} alt="" className="w-20" />
+            <span className="hover-text w-[150%] mb-[10px]">{sektornama}</span>
+          </div>
         </div>
-        <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>2.453</p>
-          <p>10³ Jiwa</p>
+        <div className="text-[20px] text-secondary mt-[5px]">
+          <p className="font-bold">{Math.round(data_Penduduk).toLocaleString().replace(/\,/g, '.')}</p>
+          <p className="font-regular">10³ Jiwa</p>
         </div>
       </div>
 
@@ -428,33 +660,6 @@ const Utakmain = () => {
           <h1 className="text-secondary text-[14px] font-semibold ml-[45px]">
             DATASET 1
           </h1>
-          {/* Dataset 1 Dropdown */}
-          {/* <div
-            onClick={handleDropdownDataset}
-            className="flex bg-secondary w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mt-[10px]"
-          >
-            <p>{selectedDataset}</p>
-            <FontAwesomeIcon
-              icon={faCaretDown}
-              color="white"
-              className="ml-[20px]"
-            />
-          </div>
-          {dropdownDataset && (
-            <div className="absolute z-20 bg-white border border-gray-200 rounded-md shadow-lg mt-2">
-              {renderDropdownDataset()}
-            </div>
-          )} */}
-
-          {/* Dataset 2 Dropdown */}
-          {/* {dropdownDataset2 && (
-            <div className="absolute z-20 bg-white border border-gray-200 rounded-md shadow-lg mt-2 ml-180">
-              {renderDropdownDataset2()}
-            </div>
-          )} */}
-          {/* Render checkboxes and Dataset 2 button based on selection */}
-          {/* {renderCheckboxOptions()}
-          {renderDataset2Button()} */}
           <Tesss />
         </div>
       </div>

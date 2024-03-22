@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 
 function Header(){
   return (
-    <header className='flex w-full items-center justify-center sticky bg-none flex-wrap my-[30px] sm:gap-x-[120px] md:gap-x-[120px] xl:gap-x-[210px]'>
+    <header className='flex w-full items-center justify-center sticky bg-none my-[30px] xl:gap-x-[210px] flex-wrap md:gap-x-[50px]'>
         <LogoHeader/>
         <Navbar/>
         <ButtonAuth/>
