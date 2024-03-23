@@ -17,7 +17,7 @@ import "../../style/Components.css";
 import { element } from "prop-types";
 
 const Jelajahmain = () => {
-  const [activeTab, setActiveTab] = useState("provinsi");
+  const [activeTab, setActiveTab] = useState("nasional");
 
   const toggleTab = () => {
     setActiveTab(activeTab === "provinsi" ? "nasional" : "provinsi");
@@ -25,7 +25,7 @@ const Jelajahmain = () => {
   };
 
   const SwitchBtn = ({ switcher, setSwitcher }) => (
-    <div className="switch" onClick={setSwitcher}>
+    <div id="switcher" className="hidden switch " onClick={setSwitcher}>
       <input type="checkbox" id="toggle" checked={switcher === "nasional"} />
       <label htmlFor="toggle" className="slider"></label>
     </div>
@@ -88,6 +88,7 @@ const Jelajahmain = () => {
   const [sektornama, setSektornama] = useState(null);
   const [luaswilayah, setLuaswilayah] = useState(null);
   const [jumlahpenduduk, setJumlahpenduduk] = useState(null);
+
 
   useEffect(() => {
     fetch("https://api.otonometer.neracaruang.com/api/provinces")
@@ -290,6 +291,9 @@ const Jelajahmain = () => {
   const [bidang, setBidang] = useState("4");
   const [rankData, setRankData] = useState(null);
   const [dataChart, setDataChart] = useState("");
+  const [dataChartNasional, setDataChartNasional] = useState("");
+  const [dataChartSelected, setDataChartSelected] = useState("");
+  const [angkaTertinggi, setAngkaTertinggi] = useState(0);
 
   function Kategori() {
     var params = new URLSearchParams();
@@ -308,38 +312,93 @@ const Jelajahmain = () => {
       .then((result) => {
         var data = result.data.rank;
         var highestValue = data[0].nilai;
+        setAngkaTertinggi(highestValue)
         var elementChart = [];
 
-        for (var i = 0; i < data.length; i++) {
-          data[i].persentase = Math.round((data[i].nilai / highestValue) * 100);
-          var angka = data[i].persentase;
-          elementChart.push(
-            <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
-              <div className="w-[195px] text-left">
-                <p className="font-bold text-secondary text-[24px] uppercase">
-                  {data[i].nama}
-                </p>
-              </div>
+        var nasionalisme = result.data.avg;
+        setDataChartNasional(nasionalisme);
+        var wilayahTerpilih = result.data.selected;
+        setDataChartSelected(wilayahTerpilih);
 
-              <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                <div
-                  className={`bg-secondary rounded-full border-2`}
-                  style={{ width: angka + "%" }}
-                >
-                  <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
-                    {data[i].nilai}
+        for (var i = 0; i < data.length; i++) {
+          data[i].persentase = Math.round((data[i].nilai / highestValue)*100);
+          var angka = data[i].persentase;
+
+          elementChart.push(
+            <div className="flex flex-col mt-[20px] w-[1153px] items-center justify-between px-[30px]">
+                <div className="w-[195px] text-left">
+                    <p className="font-bold text-secondary text-[24px] uppercase">
+                      {data[i].nama}
+                    </p>
+                  </div>
+                  <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
+                    <div
+                      className={`bg-secondary rounded-full border-2`}
+                      style={{ width: angka + "%" }}
+                    >
+                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                        {data[i].nilai}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-right font-bold text-third text-[24px]">
+                    #{data[i].rank}
                   </p>
-                </div>
               </div>
-              <p className="text-right font-bold text-third text-[24px]">
-                #{data[i].rank}
-              </p>
-            </div>
           );
         }
         setDataChart(elementChart);
         setRankData(data);
       });
+  }
+  
+  const Nasional =(nasionalisme,highestValue)=>{
+    var angkaNasional = Math.round((nasionalisme.nilai/highestValue)*100);
+    var convertAngkaNasional = angkaNasional;
+    return(
+      <div>
+        <div className="w-[195px] text-left">
+          <p className="font-bold text-secondary text-[24px] uppercase">
+            {nasionalisme.nama}
+          </p>
+        </div>
+        
+        <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
+          <div
+            className={`bg-secondary rounded-full border-2`}
+            style={{ width: convertAngkaNasional + "%" }}
+          >
+            <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+              {nasionalisme.nilai}
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  const Provinsi =(wilayahTerpilih,highestValue)=>{
+    var angkaProvinsi = Math.round((wilayahTerpilih.nilai/highestValue)*100);
+    var convertAngkaProvinsi = angkaProvinsi;
+    return(
+      <div>
+        <div className="w-[195px] text-left">
+          <p className="font-bold text-secondary text-[24px] uppercase">
+            {wilayahTerpilih.nama}
+          </p>
+        </div>
+        
+        <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
+          <div
+            className={`bg-secondary rounded-full border-2`}
+            style={{ width: convertAngkaProvinsi + "%" }}
+          >
+            <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+              {wilayahTerpilih.nilai}
+            </p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   function cobacoba(elm) {
@@ -348,6 +407,7 @@ const Jelajahmain = () => {
 
   var data_Penduduk = jumlahpenduduk / 1000;
   return (
+ 
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
       <img
         src={bulat}
@@ -430,6 +490,9 @@ const Jelajahmain = () => {
                   setSelectedYears(sessionStorage.getItem("yearss"));
                   updatePeta(provinces.id);
                   askIsProvince(true);
+                  setActiveTab("nasional")
+                  document.getElementById("switcher").classList.add("hidden")
+
                 }}
               >
                 {provinces?.nama}
@@ -501,6 +564,8 @@ const Jelajahmain = () => {
                 updatePeta(getInfoProvinsi);
                 setOpenCity(false);
                 askIsProvince(true);
+                setActiveTab("nasional");
+                    document.getElementById("switcher").classList.add("hidden")
               }}
             >
               Semua
@@ -533,6 +598,8 @@ const Jelajahmain = () => {
                     setWilayahID(regencies.id);
                     setSelectedYears(sessionStorage.getItem("yearss"));
                     askIsProvince(false);
+                    setActiveTab("provinsi")
+                    document.getElementById("switcher").classList.remove("hidden")
                   }
                 }}
               >
@@ -920,7 +987,7 @@ const Jelajahmain = () => {
       </div>
 
       {/* SWITCH */}
-      <div className="flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px] text-[20px]">
+      <div id="switcher" className="hidden flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px] text-[20px]">
         <p className={activeTab === "nasional" ? "inactive-text" : ""}>
           PROVINSI
         </p>
@@ -929,6 +996,7 @@ const Jelajahmain = () => {
           NASIONAL
         </p>
       </div>
+      
       {/* PERINGKAT DAERAH */}
       <div className="text-secondary text-center mt-[48px]">
         <p className="text-[32px] font-extrabold text-secondary">
@@ -938,6 +1006,8 @@ const Jelajahmain = () => {
           (Rp10<sup>3</sup>/kapita)
         </p>
       </div>
+      {Nasional(dataChartNasional,angkaTertinggi)}
+      {Provinsi(dataChartSelected,angkaTertinggi)}
 
       {/* DATA */}
       {activeTab === "provinsi" && (
@@ -952,6 +1022,7 @@ const Jelajahmain = () => {
             </div>
             <p className="font-bold text-third text-[24px]">#12</p>
           </div> */}
+          
           {dataChart}
 
           <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
@@ -1017,12 +1088,6 @@ const Jelajahmain = () => {
 
         </div>
       )}
-
-      <div>
-        <button id="coba" onClick={(elm) => cobacoba(elm)}>
-          <p>sdsdsds</p>
-        </button>
-      </div>
     </div>
   );
 };
