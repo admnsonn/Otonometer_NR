@@ -267,7 +267,8 @@ const Jelajahprofil = () => {
 
   useEffect(() => {
     if(sessionStorage.getItem("idkota") !== null) {
-      updatePejabat( sessionStorage.getItem("idkota"),2020);
+      updatePejabat( sessionStorage.getItem("idkota"),sessionStorage.getItem("yearss"));
+      setWilayahID(sessionStorage.getItem("idkota"));
     }
   }, []);
 
@@ -311,7 +312,8 @@ const Jelajahprofil = () => {
   }
   useEffect(() => {
     if(sessionStorage.getItem("idkota") !== null) {
-      updateDPRD( sessionStorage.getItem("idkota"),2020);
+      updateDPRD( sessionStorage.getItem("idkota"),sessionStorage.getItem("yearss"));
+      setWilayahID(sessionStorage.getItem("idkota"));
     }
   }, []);
 
@@ -527,6 +529,8 @@ const Jelajahprofil = () => {
                     setInputValueofYears("");
                     sessionStorage.setItem("yearss", tahunn?.tahun);
                     updatePeta(wilayahID);
+                    updatePejabat(wilayahID, tahunn.tahun);
+                    updateDPRD(wilayahID, tahunn.tahun);
                   }
                 }}
               >
