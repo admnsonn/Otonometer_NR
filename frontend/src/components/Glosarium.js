@@ -12,7 +12,7 @@ export default function Glosarium() {
           }
         `}
     </style>
-    <button className='fixed bottom-5 right-5 bg-secondary w-[40px] h-[40px] rounded-full shadow-lg'>
+    <button className='fixed bottom-5 right-5 bg-secondary w-[60px] h-[60px] rounded-full shadow-lg'>
         <p className='oleo-script-regular text-white text-center text-[24px]'>i</p>
     </button>
     </>
