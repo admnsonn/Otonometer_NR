@@ -12,6 +12,7 @@ import Jelajahprofilpage from "./pages/Jelajah/Jelajahprofilpage";
 import Utakpage from "./pages/Utak-Atik/Utakpage";
 import Berkacapage from "./pages/Berkaca/Berkacapage";
 import UtakGraphPage from "./pages/Utak-Atik/UtakGraphPage";
+import Arsippage from "./pages/Jelajah/arsippage";
 import HalamanMasuk from "./pages/auth/Masukpage";
 
 
@@ -32,6 +33,7 @@ const App = () => {
         <Route exact path="/Berkaca-Main" element={<Berkacamainpage />}></Route>
         <Route exact path="/Jelajah-Profil" element={<Jelajahprofilpage />}></Route>
         <Route exact path="/UtakGraph" element={<UtakGraphPage />}></Route>
+        <Route exact path="/Arsip" element={<Arsippage />}></Route>
       </Routes>
     </Router>
   );

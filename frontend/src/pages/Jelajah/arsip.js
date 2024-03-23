@@ -16,7 +16,7 @@ import "../../style/Switchbtn.css";
 import "../../style/Components.css";
 import { element } from "prop-types";
 
-const Jelajahmain = () => {
+const Arsip = () => {
   const [activeTab, setActiveTab] = useState("provinsi");
 
   const toggleTab = () => {
@@ -287,24 +287,9 @@ const Jelajahmain = () => {
   }
 
   ///FETCHING PERINGKAT JELAJAH
-<<<<<<< Updated upstream
-  const [bidang, setBidang] = useState("233");
-  const [rankData, setRankData ] = useState(null);
-  const [dataChart, setDataChart ] = useState("");
-  
-  function Kategori(){
-    var params = new URLSearchParams()
-    params.append("tahun",selectedYears)
-    params.append("id_wilayah",wilayahID)
-    params.append("bidang",bidang)
-    params.append("is_province",is_province)
-    params.append("province_rank", activeTab === "provinsi" ? true : false)
-    params.append("perkapita", true)
-=======
   const [bidang, setBidang] = useState("4");
   const [rankData, setRankData] = useState(null);
   const [dataChart, setDataChart] = useState("");
->>>>>>> Stashed changes
 
   function Kategori() {
     var params = new URLSearchParams();
@@ -329,67 +314,6 @@ const Jelajahmain = () => {
           data[i].persentase = Math.round((data[i].nilai / highestValue) * 100);
           var angka = data[i].persentase;
           elementChart.push(
-<<<<<<< Updated upstream
-          <section>
-            <div className="hidden md:hidden xl:block">
-              <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
-                <div className="w-[195px] text-left">
-                  <p className="font-bold text-secondary text-[24px] uppercase">
-                  {data[i].nama}
-                  </p>
-                </div>
-
-                <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                  <div className={`bg-secondary rounded-full border-2`} style={{width:angka+"%"}}>
-                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{data[i].nilai}</p>
-                  </div>
-                </div>
-                <p className="text-right font-bold text-third text-[24px]">#{data[i].rank}</p>
-              </div>
-            </div>
-
-            <div className="hidden md:block xl:hidden">
-              <div className="flex w-[700px] items-center justify-between px-[30px] mt-[20px]">
-                <div className="w-full">
-                  <div className="flex justify-between w-full">
-                    <p className="font-bold text-secondary text-[24px] uppercase">
-                      {data[i].nama}
-                    </p>
-                    <p className="text-right font-bold text-third text-[24px]">
-                      #{data[i].rank}
-                    </p>
-                  </div>
-                  <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                    <div className={`bg-secondary rounded-full border-2`} style={{width:angka+"%"}}>
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{data[i].nilai}</p>
-                    </div>
-                  </div>
-                </div>
-                </div>
-            </div>
-
-            <div className="md:hidden">
-              <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
-                <div className="w-full">
-                  <div className="flex justify-between w-full">
-                    <p className="font-bold text-secondary text-[24px] uppercase">
-                      {data[i].nama}
-                    </p>
-                    <p className="text-right font-bold text-third text-[24px]">
-                      #{data[i].rank}
-                    </p>
-                  </div>
-                  <div className="w-full border-solid border-2 rounded-full border-secondary">
-                    <div className={`bg-secondary rounded-full border-2`} style={{width:angka+"%"}}>
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{data[i].nilai}</p>
-                    </div>
-                  </div>
-                </div>
-                </div>
-            </div>
-          </section>
-          )
-=======
             <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
               <div className="w-[195px] text-left">
                 <p className="font-bold text-secondary text-[24px] uppercase">
@@ -412,7 +336,6 @@ const Jelajahmain = () => {
               </p>
             </div>
           );
->>>>>>> Stashed changes
         }
         setDataChart(elementChart);
         setRankData(data);
@@ -500,13 +423,6 @@ const Jelajahmain = () => {
                   sessionStorage.setItem("namaprovinsi", provinces.nama);
                   setGetInfoProvinsi(provinces.id);
                   setWilayahID(provinces.id);
-                  sessionStorage.setItem("namawilayah", "Semua");
-                  setInfoDaerah("Semua");
-                  setSelectedCity("Semua");
-                  setDataranicon("Semua");
-                  setSelectedYears(sessionStorage.getItem("yearss"));
-                  updatePeta(provinces.id);
-                  askIsProvince(true);
                 }}
               >
                 {provinces?.nama}
@@ -1001,7 +917,7 @@ const Jelajahmain = () => {
         <p className={activeTab === "nasional" ? "inactive-text" : ""}>
           PROVINSI
         </p>
-        <SwitchBtn switcher={activeTab} setSwitcher={toggleTab} />
+        <SwitchBtn switcher={activeTab} onSelect={toggleTab} />
         <p className={activeTab === "provinsi" ? "inactive-text" : ""}>
           NASIONAL
         </p>
@@ -1019,7 +935,7 @@ const Jelajahmain = () => {
       {/* DATA */}
       {activeTab === "provinsi" && (
         <div className="flex flex-col items-center justify-center">
-          {/* <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
+          <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
             <div className="w-[195px]">
               <p className="font-bold text-secondary text-[24px]">JAWA BARAT</p>
               <p className="font-bold text-third text-[20px]">(rata-rata)</p>
@@ -1028,53 +944,22 @@ const Jelajahmain = () => {
               <p className="px-2 font-bold text-[20px]">100</p>
             </div>
             <p className="font-bold text-third text-[24px]">#12</p>
-          </div> */}
+          </div>
           {dataChart}
 
-<<<<<<< Updated upstream
-          {/* <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
-            <div className="w-[195px] text-left">
-              <p className="font-bold text-secondary text-[24px] uppercase">
-              kota bandung
-=======
           <div className="flex mt-[20px] w-[1153px] items-center justify-center gap-[80px]">
             <div className="w-[195px]">
               <p className="font-bold text-secondary text-[24px]">
                 {infoDaerah}
->>>>>>> Stashed changes
               </p>
             </div>
-            <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-              <div className="w-[100%] bg-secondary rounded-full border-2">
-                <p className="px-2 font-bold text-[20px] text-white ml-[20px]">100</p>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <div className="w-[100%] bg-secondary rounded-full">
+                <p className="px-2 font-bold text-[20px] text-white">100</p>
               </div>
             </div>
-<<<<<<< Updated upstream
-            <p className="text-right font-bold text-third text-[24px]">#12</p>
-          </div> */}
-
-          {/* <div className="flex mt-[20px] w-[700px] items-center justify-between px-[30px]">
-            <div className="w-full">
-              <div className="flex justify-between w-full">
-                <p className="font-bold text-secondary text-[24px] uppercase">
-                kota bandung
-                </p>
-                <p className="text-right font-bold text-third text-[24px]">#12</p>
-              </div>
-              <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-              <div className="w-[100%] bg-secondary rounded-full border-2">
-                <p className="px-2 font-bold text-[20px] text-white ml-[20px]">100</p>
-                
-              </div>
-            </div>
-            </div>
-            
-          </div> */}
-
-=======
             <p className="font-bold text-third text-[24px]">#12</p>
           </div>
->>>>>>> Stashed changes
         </div>
       )}
 
@@ -1121,8 +1006,50 @@ const Jelajahmain = () => {
               />
             </button>
           </div>
-          {dataChart}
 
+          <div className="flex mt-[50px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">MAHAKAMULU</p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[30px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">KOTA JAMBI</p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[30px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                KOTA CIREBON
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
+
+          <div className="flex mt-[30px] w-[1153px] items-center justify-center gap-[80px]">
+            <div className="w-[195px]">
+              <p className="font-bold text-secondary text-[24px]">
+                KOTA BEKASI
+              </p>
+            </div>
+            <div className="w-[660px] border-2 rounded-full border-secondary">
+              <p className="px-2 font-bold text-[20px]">100</p>
+            </div>
+            <p className="font-bold text-third text-[24px]">#12</p>
+          </div>
         </div>
       )}
 
@@ -1135,4 +1062,4 @@ const Jelajahmain = () => {
   );
 };
 
-export default Jelajahmain;
+export default Arsip;
