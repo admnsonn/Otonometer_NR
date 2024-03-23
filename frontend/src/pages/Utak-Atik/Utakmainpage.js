@@ -1,6 +1,7 @@
 import Footer from "../../components/Footer"
 import Utakmain from "./Utakmain"
 import Header from "../../components/Header/Header"
+import Glosarium from "../../components/Glosarium"
 
 const Utakmainpage = () => {
   return (
@@ -8,6 +9,7 @@ const Utakmainpage = () => {
       <Header />
       <Utakmain />
       <Footer />
+      <Glosarium/>
     </div>
   )
 }
