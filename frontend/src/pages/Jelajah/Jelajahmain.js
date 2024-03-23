@@ -989,11 +989,11 @@ const Jelajahmain = () => {
       {/* SWITCH */}
       <div id="switcher" className="hidden flex gap-[50px] items-center justify-center text-[18px] font-semibold text-secondary mt-[48px] text-[20px]">
         <p className={activeTab === "nasional" ? "inactive-text" : ""}>
-          PROVINSI
+          NASIONAL
         </p>
         <SwitchBtn switcher={activeTab} setSwitcher={toggleTab} />
         <p className={activeTab === "provinsi" ? "inactive-text" : ""}>
-          NASIONAL
+          PROVINSI
         </p>
       </div>
       
