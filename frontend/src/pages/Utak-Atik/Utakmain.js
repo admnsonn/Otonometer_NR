@@ -1,8 +1,6 @@
 import React, { useState,useEffect } from "react";
 import map from "../../assets/icons/peta.png";
-import geo from "../../assets/icons/geodating.svg";
 import people from "../../assets/icons/people.svg";
-import industri from "../../assets/icons/industri.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
@@ -24,7 +22,6 @@ const Utakmain = () => {
   const [openProvinsi, setOpenProvinsi] = useState(false);
   const [getInfoProvinsi, setGetInfoProvinsi] = useState(null);
   const [wilayahID, setWilayahID] = useState(null);
-  const [is_province, askIsProvince] = useState()
   useEffect(() => {
     fetch("https://api.otonometer.neracaruang.com/api/provinces")
       .then((response) => response.json())
@@ -114,6 +111,7 @@ const Utakmain = () => {
         sessionStorage.setItem("yearss", data.data[0].tahun);
       });
   }, []);
+  
 
   const Dropdown = ({ options, onSelect, label, dropdownClass }) => {
     const [selectedOption, setSelectedOption] = useState("");
@@ -139,27 +137,6 @@ const Utakmain = () => {
             </option>
           ))}
         </select>
-      </div>
-    );
-  };
-
-  const CheckboxForm = ({ options, onCheck }) => {
-    const handleCheckboxChange = (e) => {
-      onCheck(e.target.name, e.target.checked);
-    };
-
-    return (
-      <div>
-        {options.map((option, index) => (
-          <div key={index}>
-            <input
-              type="checkbox"
-              name={option}
-              onChange={handleCheckboxChange}
-            />
-            <label>{option}</label>
-          </div>
-        ))}
       </div>
     );
   };
@@ -428,7 +405,6 @@ const Utakmain = () => {
                   setDataranicon("Semua");
                   setSelectedYears(sessionStorage.getItem("yearss"));
                   updatePeta(provinces.id);
-                  askIsProvince(true);
                 }}
               >
                 {provinces?.nama}
@@ -499,7 +475,6 @@ const Utakmain = () => {
                 setSelectedYears(sessionStorage.getItem("yearss"));
                 updatePeta(getInfoProvinsi);
                 setOpenCity(false);
-                askIsProvince(true);
               }}
             >
               Semua
@@ -531,7 +506,6 @@ const Utakmain = () => {
                     updatePeta(regencies.id);
                     setWilayahID(regencies.id);
                     setSelectedYears(sessionStorage.getItem("yearss"));
-                    askIsProvince(false);
                   }
                 }}
               >
@@ -632,7 +606,7 @@ const Utakmain = () => {
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
         <div className="text-[20px] text-secondary mt-[5px]">
-          <p className="font-bold">{Math.round(luaswilayah).toLocaleString().replace(/\,/g, '.')}</p>
+          <p className="font-bold">{Math.round(luaswilayah).toLocaleString().replace(/,/g, '.')}</p>
           <p className="font-regular">km²</p>
         </div>
         <div className="flex gap-[10px]">
@@ -649,7 +623,7 @@ const Utakmain = () => {
           </div>
         </div>
         <div className="text-[20px] text-secondary mt-[5px]">
-          <p className="font-bold">{Math.round(data_Penduduk).toLocaleString().replace(/\,/g, '.')}</p>
+          <p className="font-bold">{Math.round(data_Penduduk).toLocaleString().replace(/,/g, '.')}</p>
           <p className="font-regular">10³ Jiwa</p>
         </div>
       </div>
