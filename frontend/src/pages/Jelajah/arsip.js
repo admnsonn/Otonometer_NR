@@ -15,6 +15,7 @@ import bulat from "../../assets/circ.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
 import { element } from "prop-types";
+import { Search } from "lucide-react";
 
 const Arsip = () => {
   const [activeTab, setActiveTab] = useState("provinsi");
@@ -104,9 +105,9 @@ const Arsip = () => {
   function updatePeta(wilayah_id) {
     fetch(
       "https://api.otonometer.neracaruang.com/api/wilayah-info?lang=en&wilayah_id=" +
-        wilayah_id +
-        "&tahun=" +
-        sessionStorage.getItem("yearss"),
+      wilayah_id +
+      "&tahun=" +
+      sessionStorage.getItem("yearss"),
       requestOptions
     )
       .then((response) => response.json())
@@ -180,11 +181,12 @@ const Arsip = () => {
     fetch("https://api.otonometer.neracaruang.com/api/sektor/2020")
       .then((response) => response.json())
       .then((result) => {
-        var customdata = [];
-        result.data.forEach((element) => {
-          customdata[element.id] = element;
-        });
-        setSektor(customdata);
+        // var customdata = [];
+        // result.data.forEach((element) => {
+        //   customdata[element.id] = element;
+        // });
+        // setSektor(customdata);
+        setSektor(result.data)
         setInputValueSektor("");
         setInputValueAnakan("");
         setInputValueAnakan1("");
@@ -213,77 +215,127 @@ const Arsip = () => {
 
   function setcontentdropdwon(index, id, data) {
     data.forEach((element) => {
+      //search by id
       if (element.id == id) {
         // setDropdown(dropdown[]);
-        var list = dropdown;
+        // var list = [...dropdown];
+        var list = [];
+        for(var i = 0; i < dropdown.length; i++){
+          if(i < index){
+            list.push(dropdown[i])
+          }
+        }
+
+        var localstate = listkey;
+        localstate["setOpenSektor_" + element.id] = false
+        localstate["selectedKeuanganOption_" + element.id] = "Pilih"
+        localstate["searchSektor_" + element.id] = ""
+        localstate["selectedSektor_" + element.id] = ""
+        setListkey(localstate);
+        console.log("list key:")
+        console.log(listkey)
+
+        //get list children
         var listdropdown = [];
+        var listItemDropDown = [];
         element.children.forEach((sector) => {
+          listItemDropDown.push(sector);
           listdropdown.push(
+            // <React.Fragment>
             <li
               key={sector?.nama}
               className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px]
-              ${
-                sector?.nama?.toLowerCase() ===
-                  selectedSektor?.toLowerCase() && "bg-secondary text-white"
-              }
-              ${
-                sector?.nama?.toLowerCase().startsWith(inputValueSektor)
+              ${sector?.nama?.toLowerCase() ===
+                listkey["selectedSektor_" + element.id].toLowerCase() && "bg-secondary text-white"
+                }
+              ${sector?.nama?.toLowerCase().startsWith(listkey["searchSektor_" + element.id])
                   ? "block"
                   : "hidden"
-              }`}
-              onClick={() => {}}
+                }`}
+              onClick={() => { }}
             >
               {sector?.nama}
             </li>
+            // </React.Fragment>
           );
         });
-        setDropdown(list);
-        var localstate = listkey;
-        localstate["setOpenSektor_" + element.id] = false 
-        setListkey(listkey);
-        list[index] = (
-          <div>
-            <div
-              onClick={() => 
-                {
-                  setListkey(listkey["setOpenSektor_" + element.id])
-                }}
-              className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-            >
-              {selectedKeuanganOption}{" "}
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                color="#24445A"
-                className={`ml-[20px] w-[10px] h-[20px] ${
-                  openSektor && "rotate-180"
-                }`}
-              />
-            </div>
+        console.log("dropdown list")
+        console.log(listdropdown)
+        console.log(listdropdown.toString())
 
-            <div
-              className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
-          ${openSektor ? "max-h-auto" : "hidden"}`}
-            >
-              <FontAwesomeIcon
-                icon={faSearch}
-                color="#24445A"
-                style={{ opacity: "40%" }}
-                className="w-[10px] h-[20px] opacity-75"
-              />
-              <input
-                type="text"
-                value={inputValueSektor}
-                onChange={(e) =>
-                  setInputValueSektor(e.target.value.toLowerCase())
-                }
-                placeholder="Cari"
-                className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-              />
+        list[index] = {
+          view: (
+            <div classNme="flex flex mt-[30px] gap-[60px]">
+              <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+                <div
+                  onClick={() => {
+                    var states = listkey
+                    states["setOpenSektor_" + element.id] = !states["setOpenSektor_" + element.id]
+                    setListkey(states)
+                    console.log("setOpenSektor_" + element.id)
+                    console.log(listkey)
+                  }}
+                  className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+                >
+                  {listkey["selectedKeuanganOption_" + element.id]}{" "}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    color="#24445A"
+                    className={`ml-[20px] w-[10px] h-[20px] ${listkey["selectedKeuanganOption_" + element.id] && "rotate-180"
+                      }`}
+                  />
+                </div>
+
+                <div
+                  className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+              ${listkey["setOpenSektor_" + element.id] ? "max-h-auto" : "hidden"}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    color="#24445A"
+                    style={{ opacity: "40%" }}
+                    className="w-[10px] h-[20px] opacity-75"
+                  />
+                  <input
+                    type="text"
+                    value={inputValueSektor}
+                    onChange={(e) => {
+                      var states = listkey;
+                      states["searchSektor_" + element.id] = e.target.value.toLowerCase();
+                      setListkey(states);
+                    }}
+                    placeholder="Cari"
+                    className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                  />
+                </div>
+                <ul
+                  className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${listkey["setOpenSektor_" + element.id] ? "max-h-[240px]" : "max-h-[0]"}`}
+                >
+                  {/* {listdropdown.map((list) => {
+                <React.Fragment>{list}</React.Fragment>
+              })} */}
+                  {listdropdown}
+                </ul>
+              </div>
             </div>
-          </div>
-        );
+          ),
+          element: element,
+          sector: listItemDropDown,
+          index: index+1
+        }
+        // <React.Fragment>
+
+        // </React.Fragment>
+        // dropdown[index] = list[index]
+        console.log("list dropdown:")
+        console.log(list)
+        console.log(list.toString())
+        setDropdown(list);
+        // dropdown[index] = list[index]
       }
     });
+    console.log(dropdown)
   }
 
   ///FETCHING PERINGKAT JELAJAH
@@ -377,9 +429,8 @@ const Arsip = () => {
             <FontAwesomeIcon
               icon={faChevronDown}
               color="#24445A"
-              className={`ml-[20px] w-[10px] h-[20px] ${
-                openProvinsi && "rotate-180"
-              }`}
+              className={`ml-[20px] w-[10px] h-[20px] ${openProvinsi && "rotate-180"
+                }`}
             />
           </div>
           <div
@@ -408,15 +459,13 @@ const Arsip = () => {
               <li
                 key={provinces?.nama}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${
-                  provinces?.nama?.toLowerCase() === selected?.toLowerCase() &&
+                ${provinces?.nama?.toLowerCase() === selected?.toLowerCase() &&
                   "bg-secondary text-white"
-                }
-                ${
-                  provinces?.nama?.toLowerCase().startsWith(inputValue)
+                  }
+                ${provinces?.nama?.toLowerCase().startsWith(inputValue)
                     ? "block"
                     : "hidden"
-                }`}
+                  }`}
                 onClick={() => {
                   updateKota(provinces?.nama, selected, provinces.id);
                   sessionStorage.setItem("idprovinsi", provinces.id);
@@ -447,9 +496,8 @@ const Arsip = () => {
             <FontAwesomeIcon
               icon={faChevronDown}
               color="#24445A"
-              className={`ml-[20px] w-[10px] h-[20px] ${
-                openCity && "rotate-180"
-              }`}
+              className={`ml-[20px] w-[10px] h-[20px] ${openCity && "rotate-180"
+                }`}
             />
           </div>
           <div
@@ -478,9 +526,8 @@ const Arsip = () => {
           >
             <li
               className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-secondary
-                ${
-                  "semua" === selectedCity?.toLowerCase() &&
-                  "bg-secondary text-white"
+                ${"semua" === selectedCity?.toLowerCase() &&
+                "bg-secondary text-white"
                 }
                 `}
               onClick={() => {
@@ -502,15 +549,13 @@ const Arsip = () => {
               <li
                 key={regencies?.nama}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${
-                  regencies?.nama?.toLowerCase() ===
-                    selectedCity?.toLowerCase() && "bg-secondary text-white"
-                }
-                ${
-                  regencies?.nama?.toLowerCase().startsWith(inputValueofCity)
+                ${regencies?.nama?.toLowerCase() ===
+                  selectedCity?.toLowerCase() && "bg-secondary text-white"
+                  }
+                ${regencies?.nama?.toLowerCase().startsWith(inputValueofCity)
                     ? "block"
                     : "hidden"
-                }`}
+                  }`}
                 onClick={() => {
                   if (
                     regencies?.nama?.toLowerCase() !==
@@ -549,9 +594,8 @@ const Arsip = () => {
             <FontAwesomeIcon
               icon={faChevronDown}
               color="#24445A"
-              className={`ml-[120px] w-[10px] h-[20px] ${
-                openYears && "rotate-180"
-              }`}
+              className={`ml-[120px] w-[10px] h-[20px] ${openYears && "rotate-180"
+                }`}
             />
           </div>
           <div
@@ -582,16 +626,14 @@ const Arsip = () => {
               <li
                 key={tahunn?.tahun}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${
-                  tahunn?.tahun?.toLowerCase() ===
-                    selectedYears?.toLowerCase() && "bg-secondary text-white"
-                }
+                ${tahunn?.tahun?.toLowerCase() ===
+                  selectedYears?.toLowerCase() && "bg-secondary text-white"
+                  }
 
-                ${
-                  tahunn?.tahun?.toLowerCase().startsWith(inputValueofYears)
+                ${tahunn?.tahun?.toLowerCase().startsWith(inputValueofYears)
                     ? "block"
                     : "hidden"
-                }`}
+                  }`}
                 onClick={() => {
                   if (
                     tahunn?.tahun?.toLowerCase() !== selectedYears.toLowerCase()
@@ -660,15 +702,17 @@ const Arsip = () => {
           <button
             className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
             onClick={() => {
-              updateSektor(items.id);
-              updateFilter(items.id);
+              // updateSektor(items.id);
+              // updateFilter(items.id);
               setDraft({ sektor: items.id });
               toggleKeuanganDropdown();
               toggleKeuanganAnakan1();
               toggleKeuanganAnakan2();
               setShowKeuanganDropdown(true);
-              setshowKeuanganAnakan1(false);
-              setshowKeuanganOption2(false);
+              // setshowKeuanganAnakan1(false);
+              // setshowKeuanganOption2(false);
+              setcontentdropdwon(0, items.id, sektor)
+              console.log("kategori: " + items.nama)
             }}
           >
             <p>{items.nama}</p>
@@ -680,234 +724,114 @@ const Arsip = () => {
       <div>
         {/* Dropdown 1 */}
         {showKeuanganDropdown && (
-          <div className="flex mt-[30px] gap-[60px]">
-            {/* // Dropdown 1: Keuangan */}
-            <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
-              <div
-                onClick={() => setOpenSektor(!openSektor)}
-                className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-              >
-                {selectedKeuanganOption}{" "}
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  color="#24445A"
-                  className={`ml-[20px] w-[10px] h-[20px] ${
-                    openSektor && "rotate-180"
-                  }`}
-                />
-              </div>
+          <div classNme="flex flex mt-[30px] gap-[60px]">
+          {dropdown.map((item) => (
+            
+              <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+                <div
+                  onClick={() => {
+                    var states = listkey
+                    states["setOpenSektor_" + item.element.id] = !states["setOpenSektor_" + item.element.id]
+                    setListkey(states)
+                    console.log("setOpenSektor_" + item.element.id+":"+listkey["setOpenSektor_" + item.element.id])
+                    console.log(listkey)
 
-              <div
-                className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
-          ${openSektor ? "max-h-auto" : "hidden"}`}
-              >
-                <FontAwesomeIcon
-                  icon={faSearch}
-                  color="#24445A"
-                  style={{ opacity: "40%" }}
-                  className="w-[10px] h-[20px] opacity-75"
-                />
-                <input
-                  type="text"
-                  value={inputValueSektor}
-                  onChange={(e) =>
-                    setInputValueSektor(e.target.value.toLowerCase())
-                  }
-                  placeholder="Cari"
-                  className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-                />
-              </div>
+                    //get element search bar
+                    var searchs = document.getElementById(`search_sektor_${item.element.id}`);
+                    //get element fontawesome
+                    var fontawesome = document.getElementById(`fa_sektor_${item.element.id}`);
+                    //get element dropdown item
+                    var dropdowns = document.getElementById(`ul_sektor_${item.element.id}`)
+                    if(listkey["setOpenSektor_" + item.element.id]){
+                      //control search bar
+                      searchs.classList.remove("hidden")
+                      searchs.classList.add("max-h-auto")
 
-              <ul
-                className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
-              ${openSektor ? "max-h-[240px]" : "max-h-[0]"}`}
-              >
-                {sektorfilter
-                  ?.filter((prop) => prop.id == draft.sektor)
-                  .map((sektors) =>
-                    sektors.children.map((anakan) => (
-                      <li
-                        key={anakan?.nama}
-                        className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${
-                  anakan?.nama?.toLowerCase() ===
-                    selectedSektor?.toLowerCase() && "bg-secondary text-white"
-                }
-                ${
-                  anakan?.nama?.toLowerCase().startsWith(inputValueSektor)
-                    ? "block"
-                    : "hidden"
-                }`}
-                        onClick={() => {
-                          // updateSelectedd(1);
-                          setSelectedKeuanganOption(anakan?.nama);
-                          setOpenSektor(false);
-                          setDraft({ [anakan.nama]: anakan.id });
-                          Kategori();
-                          setshowKeuanganAnakan1(true);
-                        }}
-                      >
-                        {anakan?.nama}
-                      </li>
-                    ))
-                  )}
-              </ul>
-            </div>
+                      //control arrow fontawesome
+                      fontawesome.classList.add("rotate-180")
+                      
+                      //control dropdown
+                      dropdowns.classList.remove("max-h-[0]")
+                      dropdowns.classList.add("max-h-auto")
+                    }else {
+                      searchs.classList.remove("max-h-auto")
+                      searchs.classList.add("hidden")
 
-            {/* Dropdown 2 */}
-            {showKeuanganAnakan1 && (
-              <div classNme="flex flex mt-[30px] gap-[60px]">
-                {/* // Dropdown 1: Keuangan */}
-                <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
-                  <div
-                    onClick={() => setOpenAnakan(!openAnakan)}
-                    className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-                  >
-                    {selectedKeuanganAnakanOption1}{" "}
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      color="#24445A"
-                      className={`ml-[20px] w-[10px] h-[20px] ${
-                        openAnakan && "rotate-180"
+                      //control arrow fontawesome
+                      fontawesome.classList.remove("rotate-180")
+
+                      //control 
+                      dropdowns.classList.remove("max-h-auto")
+                      dropdowns.classList.add("max-h-[0]")
+                    }
+                  }}
+                  className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+                >
+                  {listkey["selectedKeuanganOption_" + item.element.id]}{" "}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    id={`fa_sektor_${item.element.id}`}
+                    color="#24445A"
+                    className={`ml-[20px] w-[10px] h-[20px] ${listkey["setOpenSektor_" + item.element.id] && "rotate-180"
                       }`}
-                    />
-                  </div>
-                  <div
-                    className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
-          ${openAnakan ? "max-h-auto" : "hidden"}`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      color="#24445A"
-                      style={{ opacity: "40%" }}
-                      className="w-[10px] h-[20px] opacity-75"
-                    />
-                    <input
-                      type="text"
-                      value={inputValueAnakan}
-                      onChange={(e) =>
-                        setInputValueAnakan(e.target.value.toLowerCase())
-                      }
-                      placeholder="Cari"
-                      className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-                    />
-                  </div>
-                  <ul
-                    className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
-              ${openAnakan ? "max-h-[240px]" : "max-h-[0]"}`}
-                  >
-                    {sektorfilter
-                      ?.filter((prop) => prop.id == draft.sektor)
-                      .map((sektors) =>
-                        sektors.children.map((anakan) =>
-                          anakan?.children.map((anakan) => (
-                            <li
-                              key={anakan?.nama}
-                              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${
-                  anakan?.nama?.toLowerCase() ===
-                    selectedAnakan?.toLowerCase() && "bg-secondary text-white"
-                }
-                ${
-                  anakan?.nama?.toLowerCase().startsWith(inputValueAnakan)
-                    ? "block"
-                    : "hidden"
-                }`}
-                              onClick={() => {
-                                setselectedKeuanganAnakanOption1(anakan?.nama);
-                                setOpenAnakan(false);
-                                setDraft({ [anakan.nama]: anakan.id });
-                                setshowKeuanganOption2(true);
-                              }}
-                            >
-                              {anakan?.nama}
-                            </li>
-                          ))
-                        )
-                      )}
-                  </ul>
+                  />
                 </div>
-              </div>
-            )}
 
-            {/* Dropdown 3 */}
-            {showKeuanganOption2 && (
-              <div classNme="flex flex mt-[30px] gap-[60px]">
-                {/* // Dropdown 1: Keuangan */}
-                <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
-                  <div
-                    onClick={() => setOpenAnakan1(!openAnakan1)}
-                    className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-                  >
-                    {selectedKeuanganAnakanOption2}{" "}
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      color="#24445A"
-                      className={`ml-[20px] w-[10px] h-[20px] ${
-                        openAnakan1 && "rotate-180"
-                      }`}
-                    />
-                  </div>
-                  <div
-                    className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
-          ${openAnakan1 ? "max-h-auto" : "hidden"}`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      color="#24445A"
-                      style={{ opacity: "40%" }}
-                      className="w-[10px] h-[20px] opacity-75"
-                    />
-                    <input
-                      type="text"
-                      value={inputValueAnakan1}
-                      onChange={(e) =>
-                        setInputValueAnakan1(e.target.value.toLowerCase())
-                      }
-                      placeholder="Cari"
-                      className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-                    />
-                  </div>
-                  <ul
-                    className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
-              ${openAnakan1 ? "max-h-[240px]" : "max-h-[0]"}`}
-                  >
-                    {sektorfilter
-                      ?.filter((prop) => prop.id == draft.sektor)
-                      .map((sektors) =>
-                        sektors.children.map((anakan) =>
-                          anakan.children.map((anakan1) =>
-                            anakan1?.children.map((anakans) => (
-                              <li
-                                key={anakans?.nama}
-                                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${
-                  anakans?.nama?.toLowerCase() ===
-                    selectedAnakan1?.toLowerCase() && "bg-secondary text-white"
-                }
-                ${
-                  anakans?.nama?.toLowerCase().startsWith(inputValueAnakan1)
-                    ? "block"
-                    : "hidden"
-                }`}
-                                onClick={() => {
-                                  setselectedKeuanganAnakanOption2(
-                                    anakans?.nama
-                                  );
-                                  setOpenAnakan1(false);
-                                  setDraft({ [anakans.nama]: anakans.id });
-                                }}
-                              >
-                                {anakans?.nama}
-                              </li>
-                            ))
-                          )
-                        )
-                      )}
-                  </ul>
+                <div
+                  id={`search_sektor_${item.element.id}`}
+                  className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+              ${listkey["setOpenSektor_" + item.element.id] ? "max-h-auto" : "hidden"}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    color="#24445A"
+                    style={{ opacity: "40%" }}
+                    className="w-[10px] h-[20px] opacity-75"
+                  />
+                  <input
+                    type="text"
+                    value={inputValueSektor}
+                    onChange={(e) => {
+                      var states = listkey;
+                      states["searchSektor_" + item.element.id] = e.target.value.toLowerCase();
+                      setListkey(states);
+                    }}
+                    placeholder="Cari"
+                    className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                  />
                 </div>
-              </div>
-            )}
+                <ul
+                  id={`ul_sektor_${item.element.id}`}
+                  className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${listkey["setOpenSektor_" + item.element.id] ? "max-h-[240px]" : "max-h-[0]"}`}
+                >
+                  <li className="p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] bg-secondary text-white">
+                    testing 1
+                  </li>
+                  <li className="p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] bg-secondary text-white">
+                    testing 2
+                  </li>
+                  {item.sector.map((sector) => (
+                    <li
+                      key={sector?.nama}
+                      className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px]
+                    ${sector?.nama?.toLowerCase() ===
+                        listkey["selectedSektor_" + item.element.id].toLowerCase() && "bg-secondary text-white"
+                        }
+                    ${sector?.nama?.toLowerCase().startsWith(listkey["searchSektor_" + item.element.id])
+                          ? "block"
+                          : "hidden"
+                        }`}
+                      onClick={() => { 
+                        setcontentdropdwon(item.index, sector.id, item.element.children)
+                      }}
+                    >
+                      {sector?.nama}
+                    </li>
+                  ))}
+                </ul>
+              </div> 
+          ))}
           </div>
         )}
       </div>
