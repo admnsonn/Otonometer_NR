@@ -11,6 +11,7 @@ import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
 import bulat from "../../assets/circ.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
+import { element } from "prop-types";
 
 const Jelajahmain = () => {
   const [activeTab, setActiveTab] = useState("nasional");
@@ -139,6 +140,9 @@ const Jelajahmain = () => {
     useState("Pilih");
 
   const toggleKeuanganDropdown = () => {
+    if (!showKeuanganDropdown) {
+      setSelectedKeuanganOption("Pilih");
+    }
     setShowKeuanganDropdown(!showKeuanganDropdown);
     setOpenSektor(!openSektor);
   };
@@ -226,7 +230,7 @@ const Jelajahmain = () => {
 
         var localstate = listkey;
         localstate["setOpenSektor_" + element.id] = false;
-        localstate["selectedKeuanganOption_" + element.id] = "Pilih";
+        localstate["selectedKeuanganOption_" + element.id] = element.nama;
         localstate["searchSektor_" + element.id] = "";
         localstate["selectedSektor_" + element.id] = "";
         setListkey(localstate);
@@ -281,7 +285,7 @@ const Jelajahmain = () => {
                   }}
                   className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
                 >
-                  {listkey["selectedKeuanganOption_" + element.id]}{" "}
+                  {listkey["selectedKeuanganOption_" + element.id]}{"Pilih"}
                   <FontAwesomeIcon
                     icon={faChevronDown}
                     color="#24445A"
@@ -736,8 +740,7 @@ const Jelajahmain = () => {
                   setActiveTab("nasional");
                   document.getElementById("switcher").classList.add("hidden");
                   sessionStorage.setItem("namakota", "Semua");
-                  sessionStorage.setItem("idkota", provinces.id );
-
+                  sessionStorage.setItem("idkota", provinces.id);
                 }}
               >
                 {provinces?.nama}
@@ -811,9 +814,8 @@ const Jelajahmain = () => {
                 askIsProvince(true);
                 setActiveTab("nasional");
                 document.getElementById("switcher").classList.add("hidden");
-                sessionStorage.setItem("idkota", wilayahID );
+                sessionStorage.setItem("idkota", wilayahID);
                 sessionStorage.setItem("namakota", "Semua");
-
               }}
             >
               Semua
@@ -987,7 +989,7 @@ const Jelajahmain = () => {
               // updateSektor(items.id);
               // updateFilter(items.id);
               setDraft({ sektor: items.id });
-              toggleKeuanganDropdown();
+              toggleKeuanganDropdown( );
               toggleKeuanganAnakan1();
               toggleKeuanganAnakan2();
               setShowKeuanganDropdown(true);
@@ -1005,107 +1007,108 @@ const Jelajahmain = () => {
       {/* DROPDOWN "KEUANGAN" */}
       <div className="flex mt-[30px]">
         {/* Dropdown 1 */}
-        {showKeuanganDropdown && dropdown.some(item => item.sector.length > 0) && (
-          <div className="flex flex-wrap space-x-0 md:flex-nowrap md:space-x-4">
-            {/* Tambahkan gap di sini */}
-            {dropdown.map((item) => (
-              <div
-                key={item.element.id}
-                className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer"
-              >
+        {showKeuanganDropdown &&
+          dropdown.some((item) => item.sector.length > 0) && (
+            <div className="flex flex-wrap space-x-0 md:flex-nowrap md:space-x-4">
+              {/* Tambahkan gap di sini */}
+              {dropdown.map((item) => (
                 <div
-                  onClick={() => {
-                    var states = listkey;
-                    states["setOpenSektor_" + item.element.id] =
-                      !states["setOpenSektor_" + item.element.id];
-                    setListkey(states);
-                    console.log(
-                      "setOpenSektor_" +
-                        item.element.id +
-                        ":" +
-                        listkey["setOpenSektor_" + item.element.id]
-                    );
-                    console.log(listkey);
-                    Kategori();
-                    setTestHandlePeringkatnya(true);
-
-                    //get element search bar
-                    var searchs = document.getElementById(
-                      `search_sektor_${item.element.id}`
-                    );
-                    //get element fontawesome
-                    var fontawesome = document.getElementById(
-                      `fa_sektor_${item.element.id}`
-                    );
-                    //get element dropdown item
-                    var dropdowns = document.getElementById(
-                      `ul_sektor_${item.element.id}`
-                    );
-                    if (listkey["setOpenSektor_" + item.element.id]) {
-                      //control search bar
-                      searchs.classList.remove("hidden");
-                      searchs.classList.add("max-h-auto");
-
-                      //control arrow fontawesome
-                      fontawesome.classList.add("rotate-180");
-
-                      //control dropdown
-                      dropdowns.classList.remove("max-h-[0]");
-                      dropdowns.classList.add("max-h-auto");
-                    } else {
-                      searchs.classList.remove("max-h-auto");
-                      searchs.classList.add("hidden");
-
-                      //control arrow fontawesome
-                      fontawesome.classList.remove("rotate-180");
-
-                      //control
-                      dropdowns.classList.remove("max-h-auto");
-                      dropdowns.classList.add("max-h-[0]");
-                    }
-                  }}
-                  className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+                  key={item.element.id}
+                  className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer"
                 >
-                  {listkey["selectedKeuanganOption_" + item.element.id]}{" "}
-                  <FontAwesomeIcon
-                    icon={faChevronDown}
-                    id={`fa_sektor_${item.element.id}`}
-                    color="#24445A"
-                    className={`ml-[20px] w-[10px] h-[20px] ${
-                      listkey["setOpenSektor_" + item.element.id] &&
-                      "rotate-180"
-                    }`}
-                  />
-                </div>
+                  <div
+                    onClick={() => {
+                      var states = listkey;
+                      states["setOpenSektor_" + item.element.id] =
+                        !states["setOpenSektor_" + item.element.id];
+                      setListkey(states);
+                      console.log(
+                        "setOpenSektor_" +
+                          item.element.id +
+                          ":" +
+                          listkey["setOpenSektor_" + item.element.id]
+                      );
+                      console.log(listkey);
+                      Kategori();
+                      setTestHandlePeringkatnya(true);
 
-                <div
-                  id={`search_sektor_${item.element.id}`}
-                  className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+                      //get element search bar
+                      var searchs = document.getElementById(
+                        `search_sektor_${item.element.id}`
+                      );
+                      //get element fontawesome
+                      var fontawesome = document.getElementById(
+                        `fa_sektor_${item.element.id}`
+                      );
+                      //get element dropdown item
+                      var dropdowns = document.getElementById(
+                        `ul_sektor_${item.element.id}`
+                      );
+                      if (listkey["setOpenSektor_" + item.element.id]) {
+                        //control search bar
+                        searchs.classList.remove("hidden");
+                        searchs.classList.add("max-h-auto");
+
+                        //control arrow fontawesome
+                        fontawesome.classList.add("rotate-180");
+
+                        //control dropdown
+                        dropdowns.classList.remove("max-h-[0]");
+                        dropdowns.classList.add("max-h-auto");
+                      } else {
+                        searchs.classList.remove("max-h-auto");
+                        searchs.classList.add("hidden");
+
+                        //control arrow fontawesome
+                        fontawesome.classList.remove("rotate-180");
+
+                        //control
+                        dropdowns.classList.remove("max-h-auto");
+                        dropdowns.classList.add("max-h-[0]");
+                      }
+                    }}
+                    className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+                  >
+                    {listkey["selectedKeuanganOption_" + item.element.id]}{" "}
+                    <FontAwesomeIcon
+                      icon={faChevronDown}
+                      id={`fa_sektor_${item.element.id}`}
+                      color="#24445A"
+                      className={`ml-[20px] w-[10px] h-[20px] ${
+                        listkey["setOpenSektor_" + item.element.id] &&
+                        "rotate-180"
+                      }`}
+                    />
+                  </div>
+
+                  <div
+                    id={`search_sektor_${item.element.id}`}
+                    className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
               ${
                 listkey["setOpenSektor_" + item.element.id]
                   ? "max-h-auto"
                   : "hidden"
               }`}
-                >
-                  <FontAwesomeIcon
-                    icon={faSearch}
-                    color="#24445A"
-                    style={{ opacity: "40%" }}
-                    className="w-[10px] h-[20px] opacity-75"
-                  />
-                  <input
-                    type="text"
-                    value={inputValueSektor}
-                    onChange={(e) => {
-                      var states = listkey;
-                      states["searchSektor_" + item.element.id] =
-                        e.target.value.toLowerCase();
-                      setListkey(states);
-                    }}
-                    placeholder="Cari"
-                    className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-                  />
-                </div>
+                  >
+                    <FontAwesomeIcon
+                      icon={faSearch}
+                      color="#24445A"
+                      style={{ opacity: "40%" }}
+                      className="w-[10px] h-[20px] opacity-75"
+                    />
+                    <input
+                      type="text"
+                      value={inputValueSektor}
+                      onChange={(e) => {
+                        var states = listkey;
+                        states["searchSektor_" + item.element.id] =
+                          e.target.value.toLowerCase();
+                        setListkey(states);
+                      }}
+                      placeholder="Cari"
+                      className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+                    />
+                  </div>
                   <ul
                     id={`ul_sektor_${item.element.id}`}
                     className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
@@ -1142,6 +1145,7 @@ const Jelajahmain = () => {
                                 sector.id,
                                 item.element.children
                               );
+                              setSelectedKeuanganOption(item.element.nama);
                             }}
                           >
                             {sector?.nama}
@@ -1149,10 +1153,10 @@ const Jelajahmain = () => {
                         )
                     )}
                   </ul>
-              </div>
-            ))}
-          </div>
-        )}
+                </div>
+              ))}
+            </div>
+          )}
       </div>
 
       {/* SWITCH */}
