@@ -355,7 +355,9 @@ const Jelajahmain = () => {
         console.log("list dropdown:");
         console.log(list);
         console.log(list.toString());
-        setDropdown(list);
+        if (listItemDropDown.length > 0) {
+          setDropdown(list);
+        }
         // dropdown[index] = list[index]
       }
       console.log("🚀 ~ data.forEach ~ listdropdown:", listdropdown);
@@ -1029,7 +1031,7 @@ const Jelajahmain = () => {
           dropdown.some((item) => item.sector.length > 0) && (
             <div className="flex flex-wrap space-x-0 md:flex-nowrap md:space-x-4">
               {/* Tambahkan gap di sini */}
-              {dropdown.map((item) => (
+              {dropdown.map((item) =>  (
                 <div
                   key={item.element.id}
                   className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer"
@@ -1170,6 +1172,7 @@ const Jelajahmain = () => {
             : "hidden"
         }`}
                             onClick={() => {
+
                               setcontentdropdwon(
                                 item.index,
                                 sector.id,
@@ -1180,8 +1183,8 @@ const Jelajahmain = () => {
                                 `label_sektor_${item.element.id}`
                               ).innerHTML = sector?.nama;
                               setBidang(sector.id);
-                            }}
-                            
+
+                            }}                
                           >
                             {sector?.nama}
                             {console.log(
