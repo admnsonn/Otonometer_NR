@@ -14,16 +14,17 @@ import "../../style/Components.css";
 import { element } from "prop-types";
 
 const Jelajahmain = () => {
-  const [activeTab, setActiveTab] = useState("nasional");
+  const [activeTab, setActiveTab] = useState("provinsi");
 
   const toggleTab = () => {
-    setActiveTab(activeTab === "provinsi" ? "nasional" : "provinsi");
+    setActiveTab(activeTab === "provinsi" ? "nasional" : "provinsi",()=>{
+    });
     Kategori();
   };
 
   const SwitchBtn = ({ switcher, setSwitcher }) => (
-    <div id="switcher" className="hidden switch " onClick={setSwitcher}>
-      <input type="checkbox" id="toggle" checked={switcher === "nasional"} />
+    <div id="switchernya" className="hidden switch " onClick={setSwitcher}>
+      <input type="checkbox" id="toggle" checked={switcher === "provinsi"} />
       <label htmlFor="toggle" className="slider"></label>
     </div>
   );
@@ -385,7 +386,7 @@ const Jelajahmain = () => {
   const [dataChartNasional, setDataChartNasional] = useState("");
   const [dataChartSelected, setDataChartSelected] = useState("");
   const [angkaTertinggi, setAngkaTertinggi] = useState(0);
-
+  
   function Kategori() {
     var params = new URLSearchParams();
     params.append("tahun", selectedYears);
@@ -761,7 +762,7 @@ const Jelajahmain = () => {
                   updatePeta(provinces.id);
                   askIsProvince(true);
                   setActiveTab("nasional");
-                  document.getElementById("switcher").classList.add("hidden");
+                  document.getElementById("switchernya").classList.add("hidden");
                   sessionStorage.setItem("namakota", "Semua");
                   sessionStorage.setItem("idkota", provinces.id);
                 }}
@@ -836,7 +837,7 @@ const Jelajahmain = () => {
                 setOpenCity(false);
                 askIsProvince(true);
                 setActiveTab("nasional");
-                document.getElementById("switcher").classList.add("hidden");
+                document.getElementById("switchernya").classList.add("hidden");
                 sessionStorage.setItem("idkota", wilayahID);
                 sessionStorage.setItem("namakota", "Semua");
               }}
@@ -873,7 +874,7 @@ const Jelajahmain = () => {
                     askIsProvince(false);
                     setActiveTab("provinsi");
                     document
-                      .getElementById("switcher")
+                      .getElementById("switchernya")
                       .classList.remove("hidden");
                   }
                 }}
@@ -1048,7 +1049,7 @@ const Jelajahmain = () => {
                           listkey["setOpenSektor_" + item.element.id]
                       );
                       console.log(listkey);
-                      Kategori();
+                      toggleTab()
                       setTestHandlePeringkatnya(true);
 
                       //get element search bar
@@ -1197,16 +1198,14 @@ const Jelajahmain = () => {
       </div>
 
       {/* SWITCH */}
-      <div
-        id="switcher"
-        className="hidden flex gap-[50px] items-center justify-center font-semibold text-secondary mt-[48px] text-[20px]"
-      >
-        <p className={activeTab === "nasional" ? "inactive-text" : ""}>
-          NASIONAL
-        </p>
-        <SwitchBtn switcher={activeTab} setSwitcher={toggleTab} />
+      <div id="switchernya" className="hidden flex gap-[50px] items-center justify-center font-semibold text-secondary mt-[48px] text-[20px]">
         <p className={activeTab === "provinsi" ? "inactive-text" : ""}>
           PROVINSI
+        </p>
+        
+        <SwitchBtn id="switchernya" switcher={activeTab} setSwitcher={toggleTab} />
+        <p className={activeTab === "nasional" ? "inactive-text" : ""}>
+          NASIONAL
         </p>
       </div>
       {/* PERINGKAT DAERAH */}
@@ -1218,61 +1217,25 @@ const Jelajahmain = () => {
           (Rp10<sup>3</sup>/kapita)
         </p>
       </div>
-
       {/* DATA */}
-      {activeTab === "provinsi" && (
-        <div
-          className={`flex flex-col items-center justify-center ${
-            testHandlePeringkatnya ? "false" : "hidden"
-          }`}
-        >
-          {Nasional(dataChartNasional, angkaTertinggi)}
-          {Provinsi(dataChartSelected, angkaTertinggi)}
-          <hr />
+      <div className={`flex flex-col items-center justify-center ${testHandlePeringkatnya ? 'false' : 'hidden'}`}>
+        {activeTab === "provinsi" &&(
+          <>
+          {Nasional(dataChartNasional,angkaTertinggi)}
+          {Provinsi(dataChartSelected,angkaTertinggi)}
+          <hr/>
           {dataChart}
-        </div>
-      )}
-
-      {activeTab === "nasional" && (
-        <div
-          className={`flex flex-col items-center justify-center ${
-            testHandlePeringkatnya ? "false" : "hidden"
-          }`}
-        >
-          {Nasional(dataChartNasional, angkaTertinggi)}
-          {Provinsi(dataChartSelected, angkaTertinggi)}
-          <hr />
-          {/* <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
-            <div className="w-[195px]">
-              <p className="font-bold text-secondary text-[24px]">INDONESIA</p>
-              <p className="font-bold text-third text-[20px]">(rata-rata)</p>
-            </div>
-            <div className="w-[660px] border-2 rounded-full border-secondary">
-              <p className="px-2 font-bold text-[20px]">100</p>
-            </div>
-            <p className="font-bold text-third text-[24px]">#12</p>
-          </div> */}
-          {/* <div className="flex mt-[50px] gap-[60px] justify-end">
-            <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-              <p>50</p>
-              <FontAwesomeIcon
-                icon={faCaretDown}
-                color="#24445A"
-                className="ml-[20px]"
-              />
-            </button>
-            <button className="flex bg-[#ebebeb] w-[167px] h-[41px] rounded-[10px] text-secondary border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg">
-              <p>TERBARU</p>
-              <FontAwesomeIcon
-                icon={faArrowDownShortWide}
-                color="#24445A"
-                className="ml-[20px]"
-              />
-            </button>
-          </div> */}
+          </>
+        )}
+        {activeTab === "nasional" &&(
+          <>
+          {Nasional(dataChartNasional,angkaTertinggi)}
+          {Provinsi(dataChartSelected,angkaTertinggi)}
+          <hr/>
           {dataChart}
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 };
