@@ -100,9 +100,9 @@ const Jelajahmain = () => {
   function updatePeta(wilayah_id) {
     fetch(
       "https://api.otonometer.neracaruang.com/api/wilayah-info?lang=en&wilayah_id=" +
-      wilayah_id +
-      "&tahun=" +
-      sessionStorage.getItem("yearss"),
+        wilayah_id +
+        "&tahun=" +
+        sessionStorage.getItem("yearss"),
       requestOptions
     )
       .then((response) => response.json())
@@ -142,12 +142,12 @@ const Jelajahmain = () => {
     setShowKeuanganDropdown(!showKeuanganDropdown);
     setOpenSektor(!openSektor);
   };
-  
+
   const toggleKeuanganAnakan1 = () => {
     setshowKeuanganAnakan1(!showKeuanganAnakan1);
     setOpenAnakan(!openAnakan);
   };
-  
+
   const toggleKeuanganAnakan2 = () => {
     setshowKeuanganOption2(!showKeuanganOption2);
     setOpenAnakan1(!openAnakan1);
@@ -184,7 +184,7 @@ const Jelajahmain = () => {
         //   customdata[element.id] = element;
         // });
         // setSektor(customdata);
-        setSektor(result.data)
+        setSektor(result.data);
         setInputValueSektor("");
         setInputValueAnakan("");
         setInputValueAnakan1("");
@@ -218,20 +218,20 @@ const Jelajahmain = () => {
         // setDropdown(dropdown[]);
         // var list = [...dropdown];
         var list = [];
-        for(var i = 0; i < dropdown.length; i++){
-          if(i < index){
-            list.push(dropdown[i])
+        for (var i = 0; i < dropdown.length; i++) {
+          if (i < index) {
+            list.push(dropdown[i]);
           }
         }
 
         var localstate = listkey;
-        localstate["setOpenSektor_" + element.id] = false
-        localstate["selectedKeuanganOption_" + element.id] = "Pilih"
-        localstate["searchSektor_" + element.id] = ""
-        localstate["selectedSektor_" + element.id] = ""
+        localstate["setOpenSektor_" + element.id] = false;
+        localstate["selectedKeuanganOption_" + element.id] = "Pilih";
+        localstate["searchSektor_" + element.id] = "";
+        localstate["selectedSektor_" + element.id] = "";
         setListkey(localstate);
-        console.log("list key:")
-        console.log(listkey)
+        console.log("list key:");
+        console.log(listkey);
 
         //get list children
         var listdropdown = [];
@@ -243,35 +243,41 @@ const Jelajahmain = () => {
             <li
               key={sector?.nama}
               className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px]
-              ${sector?.nama?.toLowerCase() ===
-                listkey["selectedSektor_" + element.id].toLowerCase() && "bg-secondary text-white"
-                }
-              ${sector?.nama?.toLowerCase().startsWith(listkey["searchSektor_" + element.id])
+              ${
+                sector?.nama?.toLowerCase() ===
+                  listkey["selectedSektor_" + element.id].toLowerCase() &&
+                "bg-secondary text-white"
+              }
+              ${
+                sector?.nama
+                  ?.toLowerCase()
+                  .startsWith(listkey["searchSektor_" + element.id])
                   ? "block"
                   : "hidden"
-                }`}
-              onClick={() => { }}
+              }`}
+              onClick={() => {}}
             >
               {sector?.nama}
             </li>
             // </React.Fragment>
           );
         });
-        console.log("dropdown list")
-        console.log(listdropdown)
-        console.log(listdropdown.toString())
+        console.log("dropdown list");
+        console.log(listdropdown);
+        console.log(listdropdown.toString());
 
         list[index] = {
           view: (
-            <div classNme="flex flex mt-[30px] gap-[60px]">
+            <div className="flex mt-[30px] justify-between">
               <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
                 <div
                   onClick={() => {
-                    var states = listkey
-                    states["setOpenSektor_" + element.id] = !states["setOpenSektor_" + element.id]
-                    setListkey(states)
-                    console.log("setOpenSektor_" + element.id)
-                    console.log(listkey)
+                    var states = listkey;
+                    states["setOpenSektor_" + element.id] =
+                      !states["setOpenSektor_" + element.id];
+                    setListkey(states);
+                    console.log("setOpenSektor_" + element.id);
+                    console.log(listkey);
                   }}
                   className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
                 >
@@ -279,14 +285,18 @@ const Jelajahmain = () => {
                   <FontAwesomeIcon
                     icon={faChevronDown}
                     color="#24445A"
-                    className={`ml-[20px] w-[10px] h-[20px] ${listkey["selectedKeuanganOption_" + element.id] && "rotate-180"
-                      }`}
+                    className={`ml-[20px] w-[10px] h-[20px] ${
+                      listkey["selectedKeuanganOption_" + element.id] &&
+                      "rotate-180"
+                    }`}
                   />
                 </div>
 
                 <div
                   className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
-              ${listkey["setOpenSektor_" + element.id] ? "max-h-auto" : "hidden"}`}
+              ${
+                listkey["setOpenSektor_" + element.id] ? "max-h-auto" : "hidden"
+              }`}
                 >
                   <FontAwesomeIcon
                     icon={faSearch}
@@ -299,7 +309,8 @@ const Jelajahmain = () => {
                     value={inputValueSektor}
                     onChange={(e) => {
                       var states = listkey;
-                      states["searchSektor_" + element.id] = e.target.value.toLowerCase();
+                      states["searchSektor_" + element.id] =
+                        e.target.value.toLowerCase();
                       setListkey(states);
                     }}
                     placeholder="Cari"
@@ -308,7 +319,11 @@ const Jelajahmain = () => {
                 </div>
                 <ul
                   className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
-              ${listkey["setOpenSektor_" + element.id] ? "max-h-[240px]" : "max-h-[0]"}`}
+              ${
+                listkey["setOpenSektor_" + element.id]
+                  ? "max-h-[240px]"
+                  : "max-h-[0]"
+              }`}
                 >
                   {/* {listdropdown.map((list) => {
                 <React.Fragment>{list}</React.Fragment>
@@ -320,20 +335,20 @@ const Jelajahmain = () => {
           ),
           element: element,
           sector: listItemDropDown,
-          index: index+1
-        }
+          index: index + 1,
+        };
         // <React.Fragment>
 
         // </React.Fragment>
         // dropdown[index] = list[index]
-        console.log("list dropdown:")
-        console.log(list)
-        console.log(list.toString())
+        console.log("list dropdown:");
+        console.log(list);
+        console.log(list.toString());
         setDropdown(list);
         // dropdown[index] = list[index]
       }
     });
-    console.log(dropdown)
+    console.log(dropdown);
   }
 
   ///FETCHING PERINGKAT JELAJAH
@@ -361,7 +376,7 @@ const Jelajahmain = () => {
       .then((result) => {
         var data = result.data.rank;
         var highestValue = data[0].nilai;
-        setAngkaTertinggi(highestValue)
+        setAngkaTertinggi(highestValue);
         var elementChart = [];
 
         var nasionalisme = result.data.avg;
@@ -370,198 +385,271 @@ const Jelajahmain = () => {
         setDataChartSelected(wilayahTerpilih);
 
         for (var i = 0; i < data.length; i++) {
-          data[i].persentase = Math.round(data[i].nilai/highestValue*100);
+          data[i].persentase = Math.round((data[i].nilai / highestValue) * 100);
           var angka = data[i].persentase;
           elementChart.push(
-          <section>
-            <div className="hidden md:hidden xl:block">
-              <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
-                <div className="w-[300px] text-left">
-                  <p className="font-bold text-secondary text-[24px] uppercase">
-                  {data[i].nama}
+            <section>
+              <div className="hidden md:hidden xl:block">
+                <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
+                  <div className="w-[300px] text-left">
+                    <p className="font-bold text-secondary text-[24px] uppercase">
+                      {data[i].nama}
+                    </p>
+                  </div>
+
+                  <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary p-[1px]">
+                    <div
+                      className={`bg-secondary rounded-full border-1 ${
+                        angka === 0 ? "" : "bg-none border-none"
+                      }`}
+                      style={{
+                        width: angka <= 5 && angka >= 1 ? "5%" : angka + "%",
+                      }}
+                    >
+                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                        {Math.round(data[i].nilai)
+                          .toLocaleString()
+                          .replace(/,/g, ".")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="w-[100px] text-right font-bold text-third text-[24px]">
+                    #{data[i].rank}
                   </p>
                 </div>
-
-                <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary p-[1px]">
-                  <div className={`bg-secondary rounded-full border-1 ${angka === 0 ? '' : 'bg-none border-none'}`} style={{ width: (angka <= 5 && angka >= 1) ? '5%' : angka + "%" }}>
-                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(data[i].nilai).toLocaleString().replace(/,/g, ".")}</p>
-                  </div>
-                </div>
-
-                <p className="w-[100px] text-right font-bold text-third text-[24px]">#{data[i].rank}</p>
               </div>
-            </div>
 
-            <div className="hidden md:block xl:hidden">
-              <div className="flex w-[700px] items-center justify-between px-[30px] mt-[20px]">
-                <div className="w-full">
-                  <div className="flex justify-between w-full">
-                    <p className="font-bold text-secondary text-[24px] uppercase">
-                      {data[i].nama}
-                    </p>
-                    <p className="text-right font-bold text-third text-[24px]">
-                      #{data[i].rank}
-                    </p>
-                  </div>
-                  <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                    <div className={`bg-secondary rounded-full border-2`} style={{width:angka+"%"}}>
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(data[i].nilai).toLocaleString().replace(/,/g, ".")}</p>
+              <div className="hidden md:block xl:hidden">
+                <div className="flex w-[700px] items-center justify-between px-[30px] mt-[20px]">
+                  <div className="w-full">
+                    <div className="flex justify-between w-full">
+                      <p className="font-bold text-secondary text-[24px] uppercase">
+                        {data[i].nama}
+                      </p>
+                      <p className="text-right font-bold text-third text-[24px]">
+                        #{data[i].rank}
+                      </p>
+                    </div>
+                    <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
+                      <div
+                        className={`bg-secondary rounded-full border-2`}
+                        style={{ width: angka + "%" }}
+                      >
+                        <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                          {Math.round(data[i].nilai)
+                            .toLocaleString()
+                            .replace(/,/g, ".")}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                </div>
-            </div>
+              </div>
 
-            <div className="md:hidden">
-              <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
-                <div className="w-full">
-                  <div className="flex justify-between w-full">
-                    <p className="font-bold text-secondary text-[24px] uppercase">
-                      {data[i].nama}
-                    </p>
-                    <p className="text-right font-bold text-third text-[24px]">
-                      #{data[i].rank}
-                    </p>
-                  </div>
-                  <div className="w-full border-solid border-2 rounded-full border-secondary">
-                    <div className={`bg-secondary rounded-full border-2`} style={{width:angka+"%"}}>
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(data[i].nilai)}</p>
+              <div className="md:hidden">
+                <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
+                  <div className="w-full">
+                    <div className="flex justify-between w-full">
+                      <p className="font-bold text-secondary text-[24px] uppercase">
+                        {data[i].nama}
+                      </p>
+                      <p className="text-right font-bold text-third text-[24px]">
+                        #{data[i].rank}
+                      </p>
+                    </div>
+                    <div className="w-full border-solid border-2 rounded-full border-secondary">
+                      <div
+                        className={`bg-secondary rounded-full border-2`}
+                        style={{ width: angka + "%" }}
+                      >
+                        <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                          {Math.round(data[i].nilai)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                </div>
-            </div>
-          </section>
+              </div>
+            </section>
           );
         }
         setDataChart(elementChart);
         setRankData(data);
       });
   }
-  const Nasional =(nasionalisme,highestValue)=>{
-    var angkaNasional = Math.round((nasionalisme.nilai/highestValue)*100);
+  const Nasional = (nasionalisme, highestValue) => {
+    var angkaNasional = Math.round((nasionalisme.nilai / highestValue) * 100);
     var convertAngkaNasional = angkaNasional;
-    return(
-        <section className="text-shadow">
-            <div className="hidden md:hidden xl:block">
-              <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
-                <div className="w-[300px] text-left">
-                  <p className="font-bold text-secondary text-[24px] uppercase">
+    return (
+      <section className="text-shadow">
+        <div className="hidden md:hidden xl:block">
+          <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
+            <div className="w-[300px] text-left">
+              <p className="font-bold text-secondary text-[24px] uppercase">
+                {nasionalisme.nama}
+              </p>
+            </div>
+
+            <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary">
+              <div
+                className={`bg-secondary rounded-full border-[1px] ${
+                  convertAngkaNasional ? 0 : "bg-none border-none"
+                }`}
+                style={{ width: convertAngkaNasional + "%" }}
+              >
+                <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                  {Math.round(nasionalisme.nilai)
+                    .toLocaleString()
+                    .replace(/,/g, ".")}
+                </p>
+              </div>
+            </div>
+            <p className="w-[100px] text-right font-bold text-third text-[24px]">
+              {" "}
+            </p>
+          </div>
+        </div>
+
+        <div className="hidden md:block xl:hidden">
+          <div className="flex w-[700px] items-center justify-between px-[30px] mt-[20px]">
+            <div className="w-full">
+              <div className="flex justify-between w-full">
+                <p className="font-bold text-secondary text-[24px] uppercase">
                   {nasionalisme.nama}
+                </p>
+                <p className="text-right font-bold text-third text-[24px]"> </p>
+              </div>
+              <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
+                <div
+                  className={`bg-secondary rounded-full border-2`}
+                  style={{ width: convertAngkaNasional + "%" }}
+                >
+                  <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                    {Math.round(nasionalisme.nilai)}
                   </p>
                 </div>
-
-                <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary">
-                  <div className={`bg-secondary rounded-full border-[1px] ${convertAngkaNasional ? 0 : 'bg-none border-none'}`} style={{width:convertAngkaNasional+"%"}}>
-                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(nasionalisme.nilai).toLocaleString().replace(/,/g, ".")}</p>
-                  </div>
-                </div>
-                <p className="w-[100px] text-right font-bold text-third text-[24px]"> </p>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div className="hidden md:block xl:hidden">
-              <div className="flex w-[700px] items-center justify-between px-[30px] mt-[20px]">
-                <div className="w-full">
-                  <div className="flex justify-between w-full">
-                    <p className="font-bold text-secondary text-[24px] uppercase">
-                      {nasionalisme.nama}
-                    </p>
-                    <p className="text-right font-bold text-third text-[24px]"> </p>
-                  </div>
-                  <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                    <div className={`bg-secondary rounded-full border-2`} style={{width:convertAngkaNasional+"%"}}>
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(nasionalisme.nilai)}</p>
-                    </div>
-                  </div>
+        <div className="md:hidden">
+          <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
+            <div className="w-full">
+              <div className="flex justify-between w-full">
+                <p className="font-bold text-secondary text-[24px] uppercase">
+                  {nasionalisme.nama}
+                </p>
+                <p className="text-right font-bold text-third text-[24px]"> </p>
+              </div>
+              <div className="w-full border-solid border-2 rounded-full border-secondary">
+                <div
+                  className={`bg-secondary rounded-full border-2`}
+                  style={{ width: convertAngkaNasional + "%" }}
+                >
+                  <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                    {Math.round(nasionalisme.nilai)}
+                  </p>
                 </div>
-                </div>
+              </div>
             </div>
-
-            <div className="md:hidden">
-              <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
-                <div className="w-full">
-                  <div className="flex justify-between w-full">
-                    <p className="font-bold text-secondary text-[24px] uppercase">
-                      {nasionalisme.nama}
-                    </p>
-                    <p className="text-right font-bold text-third text-[24px]"> </p>
-                  </div>
-                  <div className="w-full border-solid border-2 rounded-full border-secondary">
-                    <div className={`bg-secondary rounded-full border-2`} style={{width:convertAngkaNasional+"%"}}>
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(nasionalisme.nilai)}</p>
-                    </div>
-                  </div>
-                </div>
-                </div>
-            </div>
-        </section>
-    )
-  }
-  const Provinsi =(wilayahTerpilih,highestValue)=>{
-    var angkaProvinsi = Math.round((wilayahTerpilih.nilai/highestValue)*100);
+          </div>
+        </div>
+      </section>
+    );
+  };
+  const Provinsi = (wilayahTerpilih, highestValue) => {
+    var angkaProvinsi = Math.round(
+      (wilayahTerpilih.nilai / highestValue) * 100
+    );
     var convertAngkaProvinsi = angkaProvinsi;
-    return(
+    return (
       <section>
-            <div className="hidden md:hidden xl:block">
-              <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
-                <div className="w-[300px] text-left">
-                  <p className="font-bold text-secondary text-[24px] uppercase">
-                  {wilayahTerpilih.nama}
-                  </p>
-                </div>
+        <div className="hidden md:hidden xl:block">
+          <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
+            <div className="w-[300px] text-left">
+              <p className="font-bold text-secondary text-[24px] uppercase">
+                {wilayahTerpilih.nama}
+              </p>
+            </div>
 
-                <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary">
-                  <div className={`bg-secondary rounded-full border-[1px] ${convertAngkaProvinsi ? 0 : 'bg-none border-none'}`} style={{width:convertAngkaProvinsi+"%"}}>
-                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(wilayahTerpilih.nilai).toLocaleString().replace(/,/g, ".")}</p>
-                  </div>
-                </div>
-                <p className="w-[100px] text-right font-bold text-third text-[24px]">#{wilayahTerpilih.rank}</p>
+            <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary">
+              <div
+                className={`bg-secondary rounded-full border-[1px] ${
+                  convertAngkaProvinsi ? 0 : "bg-none border-none"
+                }`}
+                style={{ width: convertAngkaProvinsi + "%" }}
+              >
+                <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                  {Math.round(wilayahTerpilih.nilai)
+                    .toLocaleString()
+                    .replace(/,/g, ".")}
+                </p>
               </div>
             </div>
+            <p className="w-[100px] text-right font-bold text-third text-[24px]">
+              #{wilayahTerpilih.rank}
+            </p>
+          </div>
+        </div>
 
-            <div className="hidden md:block xl:hidden">
-              <div className="flex w-[700px] items-center justify-between px-[30px] mt-[20px]">
-                <div className="w-full">
-                  <div className="flex justify-between w-full">
-                    <p className="font-bold text-secondary text-[24px] uppercase">
-                      {wilayahTerpilih.nama}
-                    </p>
-                    <p className="text-right font-bold text-third text-[24px]"> </p>
-                  </div>
-                  <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                    <div className={`bg-secondary rounded-full border-2`} style={{width:convertAngkaProvinsi+"%"}}>
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(wilayahTerpilih.nilai)}</p>
-                    </div>
-                  </div>
-                  <p className="text-right font-bold text-third text-[24px]">#{wilayahTerpilih.rank}</p>
+        <div className="hidden md:block xl:hidden">
+          <div className="flex w-[700px] items-center justify-between px-[30px] mt-[20px]">
+            <div className="w-full">
+              <div className="flex justify-between w-full">
+                <p className="font-bold text-secondary text-[24px] uppercase">
+                  {wilayahTerpilih.nama}
+                </p>
+                <p className="text-right font-bold text-third text-[24px]"> </p>
+              </div>
+              <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
+                <div
+                  className={`bg-secondary rounded-full border-2`}
+                  style={{ width: convertAngkaProvinsi + "%" }}
+                >
+                  <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                    {Math.round(wilayahTerpilih.nilai)}
+                  </p>
                 </div>
-                </div>
+              </div>
+              <p className="text-right font-bold text-third text-[24px]">
+                #{wilayahTerpilih.rank}
+              </p>
             </div>
+          </div>
+        </div>
 
-            <div className="md:hidden">
-              <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
-                <div className="w-full">
-                  <div className="flex justify-between w-full">
-                    <p className="font-bold text-secondary text-[24px] uppercase">
-                      {wilayahTerpilih.nama}
-                    </p>
-                    <p className="text-right font-bold text-third text-[24px]"> </p>
-                  </div>
-                  <div className="w-full border-solid border-2 rounded-full border-secondary">
-                    <div className={`bg-secondary rounded-full border-2`} style={{width:convertAngkaProvinsi+"%"}}>
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(wilayahTerpilih.nilai)}</p>
-                    </div>
-                  </div>
-                  <p className="text-right font-bold text-third text-[24px]">#{wilayahTerpilih.rank}</p>
+        <div className="md:hidden">
+          <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
+            <div className="w-full">
+              <div className="flex justify-between w-full">
+                <p className="font-bold text-secondary text-[24px] uppercase">
+                  {wilayahTerpilih.nama}
+                </p>
+                <p className="text-right font-bold text-third text-[24px]"> </p>
+              </div>
+              <div className="w-full border-solid border-2 rounded-full border-secondary">
+                <div
+                  className={`bg-secondary rounded-full border-2`}
+                  style={{ width: convertAngkaProvinsi + "%" }}
+                >
+                  <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                    {Math.round(wilayahTerpilih.nilai)}
+                  </p>
                 </div>
-                </div>
+              </div>
+              <p className="text-right font-bold text-third text-[24px]">
+                #{wilayahTerpilih.rank}
+              </p>
             </div>
-        </section>
-    )
-  }
+          </div>
+        </div>
+      </section>
+    );
+  };
   var data_Penduduk = jumlahpenduduk / 1000;
-  const [testHandlePeringkatnya, setTestHandlePeringkatnya]= useState(false);
+  const [testHandlePeringkatnya, setTestHandlePeringkatnya] = useState(false);
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
       <img
@@ -592,8 +680,9 @@ const Jelajahmain = () => {
             <FontAwesomeIcon
               icon={faChevronDown}
               color="#24445A"
-              className={`ml-[20px] w-[10px] h-[20px] ${openProvinsi && "rotate-180"
-                }`}
+              className={`ml-[20px] w-[10px] h-[20px] ${
+                openProvinsi && "rotate-180"
+              }`}
             />
           </div>
           <div
@@ -622,13 +711,15 @@ const Jelajahmain = () => {
               <li
                 key={provinces?.nama}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${provinces?.nama?.toLowerCase() === selected?.toLowerCase() &&
+                ${
+                  provinces?.nama?.toLowerCase() === selected?.toLowerCase() &&
                   "bg-secondary text-white"
-                  }
-                ${provinces?.nama?.toLowerCase().startsWith(inputValue)
+                }
+                ${
+                  provinces?.nama?.toLowerCase().startsWith(inputValue)
                     ? "block"
                     : "hidden"
-                  }`}
+                }`}
                 onClick={() => {
                   updateKota(provinces?.nama, selected, provinces.id);
                   sessionStorage.setItem("idprovinsi", provinces.id);
@@ -642,8 +733,8 @@ const Jelajahmain = () => {
                   setSelectedYears(sessionStorage.getItem("yearss"));
                   updatePeta(provinces.id);
                   askIsProvince(true);
-                  setActiveTab("nasional")
-                  document.getElementById("switcher").classList.add("hidden")
+                  setActiveTab("nasional");
+                  document.getElementById("switcher").classList.add("hidden");
                 }}
               >
                 {provinces?.nama}
@@ -668,8 +759,9 @@ const Jelajahmain = () => {
             <FontAwesomeIcon
               icon={faChevronDown}
               color="#24445A"
-              className={`ml-[20px] w-[10px] h-[20px] ${openCity && "rotate-180"
-                }`}
+              className={`ml-[20px] w-[10px] h-[20px] ${
+                openCity && "rotate-180"
+              }`}
             />
           </div>
           <div
@@ -698,8 +790,9 @@ const Jelajahmain = () => {
           >
             <li
               className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-secondary
-                ${"semua" === selectedCity?.toLowerCase() &&
-                "bg-secondary text-white"
+                ${
+                  "semua" === selectedCity?.toLowerCase() &&
+                  "bg-secondary text-white"
                 }
                 `}
               onClick={() => {
@@ -714,7 +807,7 @@ const Jelajahmain = () => {
                 setOpenCity(false);
                 askIsProvince(true);
                 setActiveTab("nasional");
-                document.getElementById("switcher").classList.add("hidden")
+                document.getElementById("switcher").classList.add("hidden");
               }}
             >
               Semua
@@ -723,13 +816,15 @@ const Jelajahmain = () => {
               <li
                 key={regencies?.nama}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${regencies?.nama?.toLowerCase() ===
-                  selectedCity?.toLowerCase() && "bg-secondary text-white"
-                  }
-                ${regencies?.nama?.toLowerCase().startsWith(inputValueofCity)
+                ${
+                  regencies?.nama?.toLowerCase() ===
+                    selectedCity?.toLowerCase() && "bg-secondary text-white"
+                }
+                ${
+                  regencies?.nama?.toLowerCase().startsWith(inputValueofCity)
                     ? "block"
                     : "hidden"
-                  }`}
+                }`}
                 onClick={() => {
                   if (
                     regencies?.nama?.toLowerCase() !==
@@ -745,8 +840,10 @@ const Jelajahmain = () => {
                     setWilayahID(regencies.id);
                     setSelectedYears(sessionStorage.getItem("yearss"));
                     askIsProvince(false);
-                    setActiveTab("provinsi")
-                    document.getElementById("switcher").classList.remove("hidden")
+                    setActiveTab("provinsi");
+                    document
+                      .getElementById("switcher")
+                      .classList.remove("hidden");
                   }
                 }}
               >
@@ -770,8 +867,9 @@ const Jelajahmain = () => {
             <FontAwesomeIcon
               icon={faChevronDown}
               color="#24445A"
-              className={`ml-[120px] w-[10px] h-[20px] ${openYears && "rotate-180"
-                }`}
+              className={`ml-[120px] w-[10px] h-[20px] ${
+                openYears && "rotate-180"
+              }`}
             />
           </div>
           <div
@@ -802,14 +900,16 @@ const Jelajahmain = () => {
               <li
                 key={tahunn?.tahun}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
-                ${tahunn?.tahun?.toLowerCase() ===
-                  selectedYears?.toLowerCase() && "bg-secondary text-white"
-                  }
+                ${
+                  tahunn?.tahun?.toLowerCase() ===
+                    selectedYears?.toLowerCase() && "bg-secondary text-white"
+                }
 
-                ${tahunn?.tahun?.toLowerCase().startsWith(inputValueofYears)
+                ${
+                  tahunn?.tahun?.toLowerCase().startsWith(inputValueofYears)
                     ? "block"
                     : "hidden"
-                  }`}
+                }`}
                 onClick={() => {
                   if (
                     tahunn?.tahun?.toLowerCase() !== selectedYears.toLowerCase()
@@ -887,8 +987,8 @@ const Jelajahmain = () => {
               setShowKeuanganDropdown(true);
               // setshowKeuanganAnakan1(false);
               // setshowKeuanganOption2(false);
-              setcontentdropdwon(0, items.id, sektor)
-              console.log("kategori: " + items.nama)
+              setcontentdropdwon(0, items.id, sektor);
+              console.log("kategori: " + items.nama);
             }}
           >
             <p>{items.nama}</p>
@@ -897,50 +997,65 @@ const Jelajahmain = () => {
       </div>
 
       {/* DROPDOWN "KEUANGAN" */}
-      <div>
+      <div className="flex mt-[30px]">
         {/* Dropdown 1 */}
-        {showKeuanganDropdown && (
-          <div classNme="flex flex mt-[30px] gap-[60px]">
-          {dropdown.map((item) => (
-            
-              <div className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+        {showKeuanganDropdown && dropdown.some(item => item.sector.length > 0) && (
+          <div className="flex gap-[30px]">
+            {/* Tambahkan gap di sini */}
+            {dropdown.map((item) => (
+              <div
+                key={item.element.id}
+                className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer"
+              >
                 <div
                   onClick={() => {
-                    var states = listkey
-                    states["setOpenSektor_" + item.element.id] = !states["setOpenSektor_" + item.element.id]
-                    setListkey(states)
-                    console.log("setOpenSektor_" + item.element.id+":"+listkey["setOpenSektor_" + item.element.id])
-                    console.log(listkey)
+                    var states = listkey;
+                    states["setOpenSektor_" + item.element.id] =
+                      !states["setOpenSektor_" + item.element.id];
+                    setListkey(states);
+                    console.log(
+                      "setOpenSektor_" +
+                        item.element.id +
+                        ":" +
+                        listkey["setOpenSektor_" + item.element.id]
+                    );
+                    console.log(listkey);
                     Kategori();
                     setTestHandlePeringkatnya(true);
 
                     //get element search bar
-                    var searchs = document.getElementById(`search_sektor_${item.element.id}`);
+                    var searchs = document.getElementById(
+                      `search_sektor_${item.element.id}`
+                    );
                     //get element fontawesome
-                    var fontawesome = document.getElementById(`fa_sektor_${item.element.id}`);
+                    var fontawesome = document.getElementById(
+                      `fa_sektor_${item.element.id}`
+                    );
                     //get element dropdown item
-                    var dropdowns = document.getElementById(`ul_sektor_${item.element.id}`)
-                    if(listkey["setOpenSektor_" + item.element.id]){
+                    var dropdowns = document.getElementById(
+                      `ul_sektor_${item.element.id}`
+                    );
+                    if (listkey["setOpenSektor_" + item.element.id]) {
                       //control search bar
-                      searchs.classList.remove("hidden")
-                      searchs.classList.add("max-h-auto")
+                      searchs.classList.remove("hidden");
+                      searchs.classList.add("max-h-auto");
 
                       //control arrow fontawesome
-                      fontawesome.classList.add("rotate-180")
-                      
+                      fontawesome.classList.add("rotate-180");
+
                       //control dropdown
-                      dropdowns.classList.remove("max-h-[0]")
-                      dropdowns.classList.add("max-h-auto")
-                    }else {
-                      searchs.classList.remove("max-h-auto")
-                      searchs.classList.add("hidden")
+                      dropdowns.classList.remove("max-h-[0]");
+                      dropdowns.classList.add("max-h-auto");
+                    } else {
+                      searchs.classList.remove("max-h-auto");
+                      searchs.classList.add("hidden");
 
                       //control arrow fontawesome
-                      fontawesome.classList.remove("rotate-180")
+                      fontawesome.classList.remove("rotate-180");
 
-                      //control 
-                      dropdowns.classList.remove("max-h-auto")
-                      dropdowns.classList.add("max-h-[0]")
+                      //control
+                      dropdowns.classList.remove("max-h-auto");
+                      dropdowns.classList.add("max-h-[0]");
                     }
                   }}
                   className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
@@ -950,15 +1065,21 @@ const Jelajahmain = () => {
                     icon={faChevronDown}
                     id={`fa_sektor_${item.element.id}`}
                     color="#24445A"
-                    className={`ml-[20px] w-[10px] h-[20px] ${listkey["setOpenSektor_" + item.element.id] && "rotate-180"
-                      }`}
+                    className={`ml-[20px] w-[10px] h-[20px] ${
+                      listkey["setOpenSektor_" + item.element.id] &&
+                      "rotate-180"
+                    }`}
                   />
                 </div>
 
                 <div
                   id={`search_sektor_${item.element.id}`}
                   className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
-              ${listkey["setOpenSektor_" + item.element.id] ? "max-h-auto" : "hidden"}`}
+              ${
+                listkey["setOpenSektor_" + item.element.id]
+                  ? "max-h-auto"
+                  : "hidden"
+              }`}
                 >
                   <FontAwesomeIcon
                     icon={faSearch}
@@ -971,51 +1092,68 @@ const Jelajahmain = () => {
                     value={inputValueSektor}
                     onChange={(e) => {
                       var states = listkey;
-                      states["searchSektor_" + item.element.id] = e.target.value.toLowerCase();
+                      states["searchSektor_" + item.element.id] =
+                        e.target.value.toLowerCase();
                       setListkey(states);
                     }}
                     placeholder="Cari"
                     className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
                   />
                 </div>
-                <ul
-                  id={`ul_sektor_${item.element.id}`}
-                  className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
-              ${listkey["setOpenSektor_" + item.element.id] ? "max-h-[240px]" : "max-h-[0]"}`}
-                >
-                  <li className="p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] bg-secondary text-white">
-                    testing 1
-                  </li>
-                  <li className="p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] bg-secondary text-white">
-                    testing 2
-                  </li>
-                  {item.sector.map((sector) => (
-                    <li
-                      key={sector?.nama}
-                      className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px]
-                    ${sector?.nama?.toLowerCase() ===
-                        listkey["selectedSektor_" + item.element.id].toLowerCase() && "bg-secondary text-white"
-                        }
-                    ${sector?.nama?.toLowerCase().startsWith(listkey["searchSektor_" + item.element.id])
-                          ? "block"
-                          : "hidden"
-                        }`}
-                      onClick={() => { 
-                        setcontentdropdwon(item.index, sector.id, item.element.children)
-                      }}
-                    >
-                      {sector?.nama}
-                    </li>
-                  ))}
-                </ul>
-              </div> 
-          ))}
+                  <ul
+                    id={`ul_sektor_${item.element.id}`}
+                    className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${
+                listkey["setOpenSektor_" + item.element.id]
+                  ? "max-h-[240px]"
+                  : "max-h-[0]"
+              }`}
+                  >
+                    {item.sector.map(
+                      (sector) =>
+                        sector.nama.toLowerCase() !==
+                          listkey[
+                            "selectedSektor_" + item.element.id
+                          ].toLowerCase() && (
+                          <li
+                            key={sector?.nama}
+                            className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px]
+        ${
+          sector?.nama?.toLowerCase() ===
+            listkey["selectedSektor_" + item.element.id].toLowerCase() &&
+          "bg-secondary text-white"
+        }
+        ${
+          sector?.nama
+            ?.toLowerCase()
+            .startsWith(listkey["searchSektor_" + item.element.id])
+            ? "block"
+            : "hidden"
+        }`}
+                            onClick={() => {
+                              setcontentdropdwon(
+                                item.index,
+                                sector.id,
+                                item.element.children
+                              );
+                            }}
+                          >
+                            {sector?.nama}
+                          </li>
+                        )
+                    )}
+                  </ul>
+              </div>
+            ))}
           </div>
         )}
       </div>
 
       {/* SWITCH */}
-      <div id="switcher" className="hidden flex gap-[50px] items-center justify-center font-semibold text-secondary mt-[48px] text-[20px]">
+      <div
+        id="switcher"
+        className="hidden flex gap-[50px] items-center justify-center font-semibold text-secondary mt-[48px] text-[20px]"
+      >
         <p className={activeTab === "nasional" ? "inactive-text" : ""}>
           NASIONAL
         </p>
@@ -1033,22 +1171,30 @@ const Jelajahmain = () => {
           (Rp10<sup>3</sup>/kapita)
         </p>
       </div>
-      
+
       {/* DATA */}
       {activeTab === "provinsi" && (
-        <div className={`flex flex-col items-center justify-center ${testHandlePeringkatnya ? 'false' : 'hidden'}`}>
-          {Nasional(dataChartNasional,angkaTertinggi)}
-          {Provinsi(dataChartSelected,angkaTertinggi)}
-          <hr/>
+        <div
+          className={`flex flex-col items-center justify-center ${
+            testHandlePeringkatnya ? "false" : "hidden"
+          }`}
+        >
+          {Nasional(dataChartNasional, angkaTertinggi)}
+          {Provinsi(dataChartSelected, angkaTertinggi)}
+          <hr />
           {dataChart}
         </div>
       )}
 
       {activeTab === "nasional" && (
-        <div className={`flex flex-col items-center justify-center ${testHandlePeringkatnya ? 'false' : 'hidden'}`}>
-          {Nasional(dataChartNasional,angkaTertinggi)}
-          {Provinsi(dataChartSelected,angkaTertinggi)}
-          <hr/>
+        <div
+          className={`flex flex-col items-center justify-center ${
+            testHandlePeringkatnya ? "false" : "hidden"
+          }`}
+        >
+          {Nasional(dataChartNasional, angkaTertinggi)}
+          {Provinsi(dataChartSelected, angkaTertinggi)}
+          <hr />
           {/* <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
             <div className="w-[195px]">
               <p className="font-bold text-secondary text-[24px]">INDONESIA</p>
