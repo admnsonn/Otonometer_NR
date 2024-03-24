@@ -331,7 +331,7 @@ const Jelajahprofil = () => {
       setWilayahID(sessionStorage.getItem("idkota"));
     }
   }, []);
-
+  var data_Penduduk = jumlahpenduduk / 1000;
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
 
@@ -591,12 +591,13 @@ const Jelajahprofil = () => {
           </ul>
         </div>
       </div>
+      
       <img
         src={peta}
         alt=""
         className="flex items-center w-80 mb-[40px] mt-[20px]"
       />
-      
+
       <div className="flex justify-between items-center gap-x-[40px]">
         <img src={pinMap} alt="" className="flex w-6" />
         <div className="text-secondary">
@@ -606,16 +607,18 @@ const Jelajahprofil = () => {
       </div>
 
       <div className="flex gap-[60px] mt-[40px] mb-[20px] ml-[40px]">
-        <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>{luaswilayah}</p>
-          <p>km²</p>
+        <div className="text-[20px] text-secondary mt-[5px]">
+          <p className="font-bold">
+            {Math.round(luaswilayah).toLocaleString().replace(/,/g, ".")}
+          </p>
+          <p className="font-regular">km²</p>
         </div>
         <div className="flex gap-[10px]">
           <div className="hover-container">
             <img src={dataranicon} alt="" className="w-20" />
             <span className="hover-text w-[150%] mb-[10px]">{datarannama}</span>
           </div>
-          <a href="/Jelajah-Profil">
+          <a href="/Jelajah-Main">
             <img src={people} alt="" className="w-20" />
           </a>
           <div className="hover-container">
@@ -623,9 +626,11 @@ const Jelajahprofil = () => {
             <span className="hover-text w-[150%] mb-[10px]">{sektornama}</span>
           </div>
         </div>
-        <div className="text-[20px] font-bold italic text-[#24445A] mt-[5px]">
-          <p>{jumlahpenduduk}</p>
-          <p>10³ Jiwa</p>
+        <div className="text-[20px] text-secondary mt-[5px]">
+          <p className="font-bold">
+            {Math.round(data_Penduduk).toLocaleString().replace(/,/g, ".")}
+          </p>
+          <p className="font-regular">10³ Jiwa</p>
         </div>
       </div>
       {/* SWITCH */}
