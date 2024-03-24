@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import peta from "../../assets/petajelajah.png";
-import geo from "../../assets/icons/geodating.svg";
 import people from "../../assets/icons/people.svg";
-import industri from "../../assets/icons/industri.svg";
-import partai from "../../assets/icons/partai.svg";
-import pejabat from "../../assets/foto/pejabat1.svg";
-import dprd from "../../assets/foto/pejabat2.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
 import Circleimage from "../../components/Circleimage";
@@ -15,6 +9,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { faCaretDown, faChevronDown, faSearch } from "@fortawesome/free-solid-svg-icons";
 import map from "../../assets/icons/peta.png";
+import iconuser from "../../assets/icons/iconuser.png";
+import dattinggi from "../../assets/icons/dattinggi.png";
 
 const Jelajahprofil = () => {
   const [activeTab, setActiveTab] = useState("pemda");
@@ -216,8 +212,9 @@ const Jelajahprofil = () => {
     )
       .then((response) => response.json())
       .then((result) => {
+        
         setPeta(result.data.peta);
-        setDataranicon(result.data.dataran_icon);
+        setDataranicon(result.data.dataran_icon == "https://storage.googleapis.com/otonometer-bucket/"?dattinggi:result.data.dataran_icon );
         setSektoricon(result.data.wilayah_info.sektor_icon);
         setKoordinatLokasi(result.data.longitude + ", " + result.data.latitude);
         setInfoDaerah(result.data.nama);
@@ -228,6 +225,7 @@ const Jelajahprofil = () => {
         setPinMap(map);
         setNamawilayah(result.data.nama);
         console.log(result.data.peta);
+        console.log(result.data.dataran_icon)
       });
   }
 
@@ -257,14 +255,14 @@ const Jelajahprofil = () => {
           setNamaketua(result.data.ketua[0].nama_lengkap);
           setTlketua(result.data.ketua[0].tahun_lantik);
           setTaketua(result.data.ketua[0].tahun_akhir);
-          setFotoketua(result.data.ketua[0].foto);
+          setFotoketua(result.data.ketua[0].foto == "https://storage.googleapis.com/otonometer-bucket/"?iconuser:result.data.ketua[0].foto);
           setJabatanketua(result.data.ketua[0].jabatan_nama)
         }
         if (result.data && result.data.wakil && result.data.wakil.length > 0) {
           setNamawakil(result.data.wakil[0].nama_lengkap);
           setTlwakilketua(result.data.wakil[0].tahun_lantik);
           setTawakilketua(result.data.wakil[0].tahun_akhir);
-          setFotowakilketua(result.data.wakil[0].foto);
+          setFotowakilketua(result.data.wakil[0].foto == "https://storage.googleapis.com/otonometer-bucket/"?iconuser:result.data.wakil[0].foto ) ;
           setJabatanwakilketua(result.data.wakil[0].jabatan_nama)
         }
         console.log(result.data);
@@ -286,6 +284,8 @@ const Jelajahprofil = () => {
     }
     }
   }, []);
+
+ 
 
   ///UPDATE DPRD
 
@@ -310,7 +310,7 @@ const Jelajahprofil = () => {
           setKetuadprd(result.data.ketua[0].nama_lengkap);
           setTlketuadprd(result.data.ketua[0].tahun_lantik);
           setTaketuadprd(result.data.ketua[0].tahun_akhir);
-          setFotoketuadprd(result.data.ketua[0].foto);
+          setFotoketuadprd(result.data.ketua[0].foto == "https://storage.googleapis.com/otonometer-bucket/"?iconuser:result.data.ketua[0].foto);
           setJabatanketuadprd(result.data.ketua[0].jabatan_nama)
           setFotopartaiketuadprd(result.data.ketua[0].partai_foto)
         }
