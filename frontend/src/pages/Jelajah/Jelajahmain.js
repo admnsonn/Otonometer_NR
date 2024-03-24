@@ -1000,7 +1000,7 @@ const Jelajahmain = () => {
       <div className="flex mt-[30px]">
         {/* Dropdown 1 */}
         {showKeuanganDropdown && dropdown.some(item => item.sector.length > 0) && (
-          <div className="flex gap-[30px]">
+          <div className="flex flex-wrap space-x-0 md:flex-nowrap md:space-x-4">
             {/* Tambahkan gap di sini */}
             {dropdown.map((item) => (
               <div
