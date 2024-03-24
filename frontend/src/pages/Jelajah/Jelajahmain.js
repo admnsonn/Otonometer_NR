@@ -3,15 +3,12 @@ import map from "../../assets/icons/peta.png";
 import people from "../../assets/icons/people.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCaretDown,
   faChevronDown,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
 import bulat from "../../assets/circ.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
-import { element } from "prop-types";
 
 const Jelajahmain = () => {
   const [activeTab, setActiveTab] = useState("provinsi");
@@ -442,7 +439,7 @@ const Jelajahmain = () => {
                         width: angka <= 5 && angka >= 1 ? "5%" : angka + "%",
                       }}
                     >
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                      <p className="px-2 font-bold text-[20px] text-white ml-[20px] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                         {Math.round(data[i].nilai)
                           .toLocaleString()
                           .replace(/,/g, ".")}
@@ -484,7 +481,7 @@ const Jelajahmain = () => {
               </div>
 
               <div className="md:hidden">
-                <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
+                <div className="flex w-screen items-center justify-between px-[30px] mt-[20px]">
                   <div className="w-full">
                     <div className="flex justify-between w-full">
                       <p className="font-bold text-secondary text-[24px] uppercase">
@@ -518,7 +515,7 @@ const Jelajahmain = () => {
     var angkaNasional = Math.round((nasionalisme.nilai / highestValue) * 100);
     var convertAngkaNasional = angkaNasional;
     return (
-      <section className="text-shadow">
+      <section>
         <div className="hidden md:hidden xl:block">
           <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
             <div className="w-[300px] text-left">
@@ -534,7 +531,7 @@ const Jelajahmain = () => {
                 }`}
                 style={{ width: convertAngkaNasional + "%" }}
               >
-                <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                <p className="px-2 font-bold text-[20px] text-white ml-[20px] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                   {Math.round(nasionalisme.nilai)
                     .toLocaleString()
                     .replace(/,/g, ".")}
@@ -571,7 +568,7 @@ const Jelajahmain = () => {
         </div>
 
         <div className="md:hidden">
-          <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
+          <div className="flex w-screen items-center justify-between px-[30px] mt-[20px]">
             <div className="w-full">
               <div className="flex justify-between w-full">
                 <p className="font-bold text-secondary text-[24px] uppercase">
@@ -617,7 +614,7 @@ const Jelajahmain = () => {
                 }`}
                 style={{ width: convertAngkaProvinsi + "%" }}
               >
-                <p className="px-2 font-bold text-[20px] text-white ml-[20px]">
+                <p className="px-2 font-bold text-[20px] text-white ml-[20px] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
                   {Math.round(wilayahTerpilih.nilai)
                     .toLocaleString()
                     .replace(/,/g, ".")}
@@ -637,7 +634,9 @@ const Jelajahmain = () => {
                 <p className="font-bold text-secondary text-[24px] uppercase">
                   {wilayahTerpilih.nama}
                 </p>
-                <p className="text-right font-bold text-third text-[24px]"> </p>
+                <p className="text-right font-bold text-third text-[24px]">
+                #{wilayahTerpilih.rank}
+                </p>
               </div>
               <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
                 <div
@@ -649,21 +648,20 @@ const Jelajahmain = () => {
                   </p>
                 </div>
               </div>
-              <p className="text-right font-bold text-third text-[24px]">
-                #{wilayahTerpilih.rank}
-              </p>
             </div>
           </div>
         </div>
 
         <div className="md:hidden">
-          <div className="flex w-[300px] items-center justify-between px-[30px] mt-[20px]">
+          <div className="flex w-screen items-center justify-between px-[30px] mt-[20px]">
             <div className="w-full">
               <div className="flex justify-between w-full">
                 <p className="font-bold text-secondary text-[24px] uppercase">
                   {wilayahTerpilih.nama}
                 </p>
-                <p className="text-right font-bold text-third text-[24px]"> </p>
+                <p className="text-right font-bold text-third text-[24px]">
+                #{wilayahTerpilih.rank}
+                </p>
               </div>
               <div className="w-full border-solid border-2 rounded-full border-secondary">
                 <div
@@ -675,9 +673,6 @@ const Jelajahmain = () => {
                   </p>
                 </div>
               </div>
-              <p className="text-right font-bold text-third text-[24px]">
-                #{wilayahTerpilih.rank}
-              </p>
             </div>
           </div>
         </div>
