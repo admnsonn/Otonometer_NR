@@ -375,19 +375,20 @@ const Jelajahmain = () => {
           elementChart.push(
           <section>
             <div className="hidden md:hidden xl:block">
-              <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
-                <div className="w-[195px] text-left">
+              <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
+                <div className="w-[300px] text-left">
                   <p className="font-bold text-secondary text-[24px] uppercase">
                   {data[i].nama}
                   </p>
                 </div>
 
-                <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                  <div className={`bg-secondary rounded-full border-2`} style={{width:angka+"%"}}>
-                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(data[i].nilai)}</p>
+                <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary p-[1px]">
+                  <div className={`bg-secondary rounded-full border-1 ${angka === 0 ? '' : 'bg-none border-none'}`} style={{ width: (angka <= 5 && angka >= 1) ? '5%' : angka + "%" }}>
+                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(data[i].nilai).toLocaleString().replace(/,/g, ".")}</p>
                   </div>
                 </div>
-                <p className="text-right font-bold text-third text-[24px]">#{data[i].rank}</p>
+
+                <p className="w-[100px] text-right font-bold text-third text-[24px]">#{data[i].rank}</p>
               </div>
             </div>
 
@@ -404,7 +405,7 @@ const Jelajahmain = () => {
                   </div>
                   <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
                     <div className={`bg-secondary rounded-full border-2`} style={{width:angka+"%"}}>
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(data[i].nilai)}</p>
+                      <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(data[i].nilai).toLocaleString().replace(/,/g, ".")}</p>
                     </div>
                   </div>
                 </div>
@@ -443,19 +444,19 @@ const Jelajahmain = () => {
     return(
         <section className="text-shadow">
             <div className="hidden md:hidden xl:block">
-              <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
-                <div className="w-[195px] text-left">
+              <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
+                <div className="w-[300px] text-left">
                   <p className="font-bold text-secondary text-[24px] uppercase">
                   {nasionalisme.nama}
                   </p>
                 </div>
 
-                <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                  <div className={`bg-secondary rounded-full border-2`} style={{width:convertAngkaNasional+"%"}}>
-                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(nasionalisme.nilai)}</p>
+                <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary">
+                  <div className={`bg-secondary rounded-full border-[1px] ${convertAngkaNasional ? 0 : 'bg-none border-none'}`} style={{width:convertAngkaNasional+"%"}}>
+                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(nasionalisme.nilai).toLocaleString().replace(/,/g, ".")}</p>
                   </div>
                 </div>
-                <p className="text-right font-bold text-third text-[24px]"> </p>
+                <p className="w-[100px] text-right font-bold text-third text-[24px]"> </p>
               </div>
             </div>
 
@@ -503,19 +504,19 @@ const Jelajahmain = () => {
     return(
       <section>
             <div className="hidden md:hidden xl:block">
-              <div className="flex mt-[20px] w-[1153px] items-center justify-between px-[30px]">
-                <div className="w-[195px] text-left">
+              <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
+                <div className="w-[300px] text-left">
                   <p className="font-bold text-secondary text-[24px] uppercase">
                   {wilayahTerpilih.nama}
                   </p>
                 </div>
 
-                <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
-                  <div className={`bg-secondary rounded-full border-2`} style={{width:convertAngkaProvinsi+"%"}}>
-                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(wilayahTerpilih.nilai)}</p>
+                <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary">
+                  <div className={`bg-secondary rounded-full border-[1px] ${convertAngkaProvinsi ? 0 : 'bg-none border-none'}`} style={{width:convertAngkaProvinsi+"%"}}>
+                    <p className="px-2 font-bold text-[20px] text-white ml-[20px]">{Math.round(wilayahTerpilih.nilai).toLocaleString().replace(/,/g, ".")}</p>
                   </div>
                 </div>
-                <p className="text-right font-bold text-third text-[24px]">#{wilayahTerpilih.rank}</p>
+                <p className="w-[100px] text-right font-bold text-third text-[24px]">#{wilayahTerpilih.rank}</p>
               </div>
             </div>
 
@@ -1038,6 +1039,7 @@ const Jelajahmain = () => {
         <div className={`flex flex-col items-center justify-center ${testHandlePeringkatnya ? 'false' : 'hidden'}`}>
           {Nasional(dataChartNasional,angkaTertinggi)}
           {Provinsi(dataChartSelected,angkaTertinggi)}
+          <hr/>
           {dataChart}
         </div>
       )}
@@ -1046,6 +1048,7 @@ const Jelajahmain = () => {
         <div className={`flex flex-col items-center justify-center ${testHandlePeringkatnya ? 'false' : 'hidden'}`}>
           {Nasional(dataChartNasional,angkaTertinggi)}
           {Provinsi(dataChartSelected,angkaTertinggi)}
+          <hr/>
           {/* <div className="flex mt-[70px] w-[1153px] items-center justify-center gap-[80px]">
             <div className="w-[195px]">
               <p className="font-bold text-secondary text-[24px]">INDONESIA</p>
