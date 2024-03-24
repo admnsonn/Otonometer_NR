@@ -133,16 +133,16 @@ const Jelajahmain = () => {
   const [showKeuanganAnakan1, setshowKeuanganAnakan1] = useState(false);
   const [showKeuanganOption2, setshowKeuanganOption2] = useState(false);
 
-  const [selectedKeuanganOption, setSelectedKeuanganOption] = useState("Pilih");
-  const [selectedKeuanganAnakanOption1, setselectedKeuanganAnakanOption1] =
-    useState("Pilih");
-  const [selectedKeuanganAnakanOption2, setselectedKeuanganAnakanOption2] =
-    useState("Pilih");
+  const [selectedKeuanganOption, setSelectedKeuanganOption] = useState({});
+  console.log(
+    "🚀 ~ Jelajahmain ~ selectedKeuanganOption:",
+    selectedKeuanganOption
+  );
 
   const toggleKeuanganDropdown = () => {
-    if (!showKeuanganDropdown) {
-      setSelectedKeuanganOption("Pilih");
-    }
+    // if (!showKeuanganDropdown) {
+    //   setSelectedKeuanganOption("Pilih");
+    // }
     setShowKeuanganDropdown(!showKeuanganDropdown);
     setOpenSektor(!openSektor);
   };
@@ -176,6 +176,7 @@ const Jelajahmain = () => {
   const [inputValueAnakan1, setInputValueAnakan1] = useState("");
 
   const [dropdown, setDropdown] = useState([]);
+  console.log("🚀 ~ Jelajahmain ~ dropdown:", dropdown);
 
   const [listkey, setListkey] = useState({});
 
@@ -215,7 +216,11 @@ const Jelajahmain = () => {
       });
   }, []);
 
-  function setcontentdropdwon(index, id, data) {
+  var localstate = listkey;
+
+  function setcontentdropdwon(index, id, data, namas) {
+    console.log("🚀 ~ data.forEach ~ data:", data);
+    console.log("🚀 ~ data.forEach ~ dropdown:", dropdown);
     data.forEach((element) => {
       //search by id
       if (element.id == id) {
@@ -228,18 +233,19 @@ const Jelajahmain = () => {
           }
         }
 
-        var localstate = listkey;
         localstate["setOpenSektor_" + element.id] = false;
-        localstate["selectedKeuanganOption_" + element.id] = element.nama;
+        localstate["selectedKeuanganOption_" + element.id] = null;
         localstate["searchSektor_" + element.id] = "";
         localstate["selectedSektor_" + element.id] = "";
         setListkey(localstate);
-        console.log("list key:");
+        listkey["selectedKeuanganOption_" + element.id] = element.nama;
         console.log(listkey);
 
         //get list children
         var listdropdown = [];
+        console.log("🚀 ~ data.forEach ~ listdropdown:", listdropdown);
         var listItemDropDown = [];
+        console.log("🚀 ~ data.forEach ~ listItemDropDown:", listItemDropDown);
         element.children.forEach((sector) => {
           listItemDropDown.push(sector);
           listdropdown.push(
@@ -285,7 +291,8 @@ const Jelajahmain = () => {
                   }}
                   className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
                 >
-                  {listkey["selectedKeuanganOption_" + element.id]}{"Pilih"}
+                  {listkey["selectedKeuanganOption_" + element.id]}
+                  {"Pilih"}
                   <FontAwesomeIcon
                     icon={faChevronDown}
                     color="#24445A"
@@ -351,8 +358,24 @@ const Jelajahmain = () => {
         setDropdown(list);
         // dropdown[index] = list[index]
       }
+      console.log("🚀 ~ data.forEach ~ listdropdown:", listdropdown);
     });
     console.log(dropdown);
+  }
+
+  function updateOptions(id, data) {
+    console.log("🚀 ~ updateOptions ~ data:", data);
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      if (element.id === id) {
+        setSelectedKeuanganOption({
+          ...selectedKeuanganOption,
+          [element.nama + id]: element.nama,
+        });
+        setDraft({ ...draft, ["label" + index]: id });
+      }
+      console.log("🚀 ~ updateOptions ~ element:", element);
+    }
   }
 
   ///FETCHING PERINGKAT JELAJAH
@@ -986,20 +1009,15 @@ const Jelajahmain = () => {
           <button
             className="flex bg-third w-[167px] h-[40px] rounded-full text-secondary border-1 border-[f1f1f1] text-[14px] font-bold items-center justify-center "
             onClick={() => {
-              // updateSektor(items.id);
-              // updateFilter(items.id);
-              setDraft({ sektor: items.id });
-              toggleKeuanganDropdown( );
+              toggleKeuanganDropdown();
               toggleKeuanganAnakan1();
               toggleKeuanganAnakan2();
               setShowKeuanganDropdown(true);
-              // setshowKeuanganAnakan1(false);
-              // setshowKeuanganOption2(false);
               setcontentdropdwon(0, items.id, sektor);
               console.log("kategori: " + items.nama);
             }}
           >
-            <p>{items.nama}</p>
+            {items.nama}
           </button>
         ))}
       </div>
@@ -1016,6 +1034,7 @@ const Jelajahmain = () => {
                   key={item.element.id}
                   className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer"
                 >
+                  {console.log("🚀 ~ Jelajahmain ~ item:", item)}
                   <div
                     onClick={() => {
                       var states = listkey;
@@ -1069,7 +1088,18 @@ const Jelajahmain = () => {
                     }}
                     className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
                   >
-                    {listkey["selectedKeuanganOption_" + item.element.id]}{" "}
+                    {/* {item.sector.map(data => (
+                      
+                    ))} */}
+                    <p id={`label_sektor_${item.element.id}`}>
+                      {selectedKeuanganOption[
+                        item.element.nama + item.element.id
+                      ]
+                        ? selectedKeuanganOption[
+                            item.element.nama + item.element.id
+                          ]
+                        : "Pilih"}
+                    </p>
                     <FontAwesomeIcon
                       icon={faChevronDown}
                       id={`fa_sektor_${item.element.id}`}
@@ -1145,10 +1175,17 @@ const Jelajahmain = () => {
                                 sector.id,
                                 item.element.children
                               );
-                              setSelectedKeuanganOption(item.element.nama);
+                              updateOptions(sector.id, item.element.children);
+                              document.getElementById(
+                                `label_sektor_${item.element.id}`
+                              ).innerHTML = sector?.nama;
                             }}
                           >
                             {sector?.nama}
+                            {console.log(
+                              "🚀 ~ Jelajahmain ~ sector:",
+                              sector?.id
+                            )}
                           </li>
                         )
                     )}
