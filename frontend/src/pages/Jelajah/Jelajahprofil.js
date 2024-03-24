@@ -124,6 +124,11 @@ const Jelajahprofil = () => {
   const [selected, setSelected] = useState(sessionStorage.getItem("namaprovinsi"));
   const [openProvinsi, setOpenProvinsi] = useState(false);
   const [wilayahID, setWilayahID] = useState(null);
+  const [getInfoProvinsi, setGetInfoProvinsi] = useState(null);
+  const [is_province, askIsProvince] = useState();
+  var wilayah = "";
+  var provinsi = "";
+
   useEffect(() => {
     fetch("https://api.otonometer.neracaruang.com/api/provinces")
       .then((response) => response.json())
@@ -172,7 +177,7 @@ const Jelajahprofil = () => {
       .then((response) => response.json())
       .then((data) => {
         setYears(data.data);
-        sessionStorage.setItem("yearss", data.data[0].tahun);
+        // sessionStorage.setItem("yearss", data.data[0].tahun);
       });
   }, []);
   useEffect(() => {
@@ -196,6 +201,7 @@ const Jelajahprofil = () => {
   const [jumlahpenduduk, setJumlahpenduduk] = useState(null);
   const [namawilayah, setNamawilayah] = useState(null);
 
+  
   const requestOptions = {
     method: "GET",
     redirect: "follow"
@@ -267,8 +273,17 @@ const Jelajahprofil = () => {
 
   useEffect(() => {
     if(sessionStorage.getItem("idkota") !== null) {
+      wilayah = sessionStorage.getItem("idkota");
       updatePejabat( sessionStorage.getItem("idkota"),sessionStorage.getItem("yearss"));
       setWilayahID(sessionStorage.getItem("idkota"));
+    if(sessionStorage.getItem("idprovinsi") !== null){
+      provinsi = sessionStorage.getItem("idprovinsi");
+      setGetInfoProvinsi(sessionStorage.getItem("idprovinsi"))
+      console.log("idprovinsi = " + getInfoProvinsi);
+      console.log("idprovinsisession = " + sessionStorage.getItem("idprovinsi") )
+      console.log("provinsi = " + provinsi);
+      sessionStorage.setItem("Jelajahprofil_provinsi",sessionStorage.getItem("idprovinsi"));
+    }
     }
   }, []);
 
@@ -385,6 +400,15 @@ const Jelajahprofil = () => {
                 onClick={()=>{
                   updateKota(provinces?.nama,selected,provinces.id)
                   setWilayahID(provinces.id);
+                  setGetInfoProvinsi(provinces.id);
+                  setInfoDaerah("Semua");
+                  setSelectedCity("Semua");
+                  setDataranicon("Semua");
+                  provinsi = provinces.id;
+                  wilayah = provinces.id;
+                  console.log("provinsi = " + provinsi);
+                  console.log("namaprovinsi = " + provinces.nama);
+                  sessionStorage.setItem("Jelajahprofil_provinsi",provinces.id);
                 }}  
               >
                 {provinces?.nama}
@@ -434,6 +458,32 @@ const Jelajahprofil = () => {
                 openCity ? "max-h-[240px]" : "max-h-[0]"}`
               }
             >
+              <li
+              className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-secondary
+                ${"semua" === selectedCity?.toLowerCase() &&
+                "bg-secondary text-white"
+                }
+                `}
+              onClick={() => {
+                wilayah = provinsi;
+                sessionStorage.setItem("namawilayah", "Semua");
+                // setInfoDaerah("Semua");
+                console.log(infoDaerah);
+                setSelectedCity("Semua");
+                setDataranicon("Semua");
+                setWilayahID(getInfoProvinsi);
+                setSelectedYears(sessionStorage.getItem("yearss"));
+                updatePeta(sessionStorage.getItem("Jelajahprofil_provinsi"));
+                setOpenCity(false);
+                updatePejabat(sessionStorage.getItem("Jelajahprofil_provinsi"), selectedYears);
+                updateDPRD(sessionStorage.getItem("Jelajahprofil_provinsi"), selectedYears);
+                console.log("provinsi = " + provinsi);
+                sessionStorage.getItem("Jelajahprofil_provinsi");
+                
+              }}
+            >
+              Semua
+            </li>
             {cities?.map((regencies)=>(
               <li 
                 key={regencies?.nama} 
@@ -447,13 +497,14 @@ const Jelajahprofil = () => {
                 }`}
                 onClick={()=>{
                   if(regencies?.nama?.toLowerCase() !== selectedCity.toLowerCase()){
+                    wilayah = regencies.id;
                     setSelectedCity(regencies?.nama);
                     setOpenCity(false);
                     setInputValueofCity("");
-                    updatePeta(regencies.id);
-                    updatePejabat(regencies.id, 2020);
-                    updateDPRD(regencies.id, 2020);
-                    setWilayahID(regencies.id);
+                    updatePeta(wilayah);
+                    updatePejabat(wilayah, selectedYears);
+                    updateDPRD(wilayah, selectedYears);
+                    setWilayahID(wilayah);
                   }
                 }} 
               >
@@ -527,7 +578,7 @@ const Jelajahprofil = () => {
                     setSelectedYears(tahunn?.tahun);
                     setOpenYears(false);
                     setInputValueofYears("");
-                    sessionStorage.setItem("yearss", tahunn?.tahun);
+                    // sessionStorage.setItem("yearss", tahunn?.tahun);
                     updatePeta(wilayahID);
                     updatePejabat(wilayahID, tahunn.tahun);
                     updateDPRD(wilayahID, tahunn.tahun);

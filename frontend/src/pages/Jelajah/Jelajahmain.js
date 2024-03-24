@@ -735,6 +735,9 @@ const Jelajahmain = () => {
                   askIsProvince(true);
                   setActiveTab("nasional");
                   document.getElementById("switcher").classList.add("hidden");
+                  sessionStorage.setItem("namakota", "Semua");
+                  sessionStorage.setItem("idkota", provinces.id );
+
                 }}
               >
                 {provinces?.nama}
@@ -808,6 +811,9 @@ const Jelajahmain = () => {
                 askIsProvince(true);
                 setActiveTab("nasional");
                 document.getElementById("switcher").classList.add("hidden");
+                sessionStorage.setItem("idkota", wilayahID );
+                sessionStorage.setItem("namakota", "Semua");
+
               }}
             >
               Semua
