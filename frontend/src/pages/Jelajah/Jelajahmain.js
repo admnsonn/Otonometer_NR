@@ -1179,7 +1179,9 @@ const Jelajahmain = () => {
                               document.getElementById(
                                 `label_sektor_${item.element.id}`
                               ).innerHTML = sector?.nama;
+                              setBidang(sector.id);
                             }}
+                            
                           >
                             {sector?.nama}
                             {console.log(
