@@ -16,7 +16,7 @@ const Jelajah = () => {
             mt-[38px]
             flex 
             bg-[#24445A] 
-            hover:bg-secondary 
+            hover:bg-[#86BBD8]
             w-[105px] h-[39px] 
             rounded-[10px] 
             text-white 
