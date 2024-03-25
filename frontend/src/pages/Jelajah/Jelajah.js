@@ -15,7 +15,7 @@ const Jelajah = () => {
             className='
             mt-[38px]
             flex 
-            bg-third 
+            bg-[#24445A] 
             hover:bg-secondary 
             w-[105px] h-[39px] 
             rounded-[10px] 
