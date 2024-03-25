@@ -147,7 +147,7 @@ const Daftar = () => {
     
         if (otp) {
             try {
-              const response = await axios.post('https://api.otonometer.neracaruang.com/api/send-otp', { otp });
+              const response = await axios.post('https://api.otonometer.neracaruang.com/api/verify-otp', { otp });
               console.log('Response:', response.data);
               Swal.fire({
                 iconHtml: '<img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" class="custom-icon" />',
@@ -606,3 +606,4 @@ const Daftar = () => {
   };
   
   export default Daftar;
+  
