@@ -512,21 +512,21 @@ const Jelajahmain = () => {
               <div className="hidden md:hidden xl:block">
                 <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
                   <div className="w-[300px] text-left">
-                    <p className="font-bold text-secondary text-[24px] uppercase">
+                    <p className="font-bold text-[#247DBD] text-[24px] uppercase">
                       {data[i].nama}
                     </p>
                   </div>
 
                   <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary p-[1px]">
                     <div
-                      className={`bg-secondary rounded-full border-1 ${
+                      className={`bg-[#CDDBE3] rounded-full border-1 ${
                         angka === 0 ? "" : "bg-none border-none"
                       }`}
                       style={{
                         width: angka <= 5 && angka >= 1 ? "5%" : angka + "%",
                       }}
                     >
-                      <p className="px-2 font-bold text-[20px] text-white ml-[20px] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                      <p className="px-2 font-bold text-[20px] text-secondary ml-[20px]">
                         {Math.round(data[i].nilai)
                           .toLocaleString()
                           .replace(/,/g, ".")}
@@ -534,7 +534,7 @@ const Jelajahmain = () => {
                     </div>
                   </div>
 
-                  <p className="w-[100px] text-right font-bold text-third text-[24px]">
+                  <p className="w-[100px] text-right font-bold text-[#CDDBE3] text-[24px]">
                     #{data[i].rank}
                   </p>
                 </div>
@@ -605,9 +605,12 @@ const Jelajahmain = () => {
       <section>
         <div className="hidden md:hidden xl:block">
           <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
-            <div className="w-[300px] text-left">
-              <p className="font-bold text-secondary text-[24px] uppercase">
+            <div className="flex flex-col w-[300px] text-left">
+              <p className="font-bold text-[#247DBD] text-[24px] uppercase">
                 {nasionalisme.nama}
+              </p>
+              <p className="font-semibold text-[#247DBD] text-[14px] uppercase">
+                (rata-rata)
               </p>
             </div>
 
@@ -634,9 +637,12 @@ const Jelajahmain = () => {
         <div className="hidden md:block xl:hidden">
           <div className="flex w-[700px] items-center justify-between px-[30px] mt-[20px]">
             <div className="w-full">
-              <div className="flex justify-between w-full">
-                <p className="font-bold text-secondary text-[24px] uppercase">
+              <div className="flex flex-col justify-between w-full">
+                <p className="font-bold text-[#247DBD] text-[24px] uppercase">
                   {nasionalisme.nama}
+                </p>
+                <p className="font-semibold text-[#247DBD] text-[14px] uppercase">
+                  (rata-rata)
                 </p>
                 <p className="text-right font-bold text-third text-[24px]"> </p>
               </div>
@@ -657,9 +663,12 @@ const Jelajahmain = () => {
         <div className="md:hidden">
           <div className="flex w-screen items-center justify-between px-[30px] mt-[20px]">
             <div className="w-full">
-              <div className="flex justify-between w-full">
-                <p className="font-bold text-secondary text-[24px] uppercase">
+              <div className="flex flex-col justify-between w-full">
+                <p className="font-bold text-[#247DBD] text-[24px] uppercase">
                   {nasionalisme.nama}
+                </p>
+                <p className="font-semibold text-[#247DBD] text-[14px] uppercase">
+                  (rata-rata)
                 </p>
                 <p className="text-right font-bold text-third text-[24px]"> </p>
               </div>
@@ -685,23 +694,23 @@ const Jelajahmain = () => {
     );
     var convertAngkaProvinsi = angkaProvinsi;
     return (
-      <section>
+      <section className="mb-[50px]">
         <div className="hidden md:hidden xl:block">
           <div className="flex mt-[20px] w-full items-center justify-center px-[30px]">
             <div className="w-[300px] text-left">
-              <p className="font-bold text-secondary text-[24px] uppercase">
+              <p className="font-bold text-[#247DBD] text-[24px] uppercase">
                 {wilayahTerpilih.nama}
               </p>
             </div>
 
             <div className="w-[660px] border-solid border-[1px] rounded-full border-secondary">
               <div
-                className={`bg-secondary rounded-full border-[1px] ${
+                className={`bg-third rounded-full border-[1px] ${
                   convertAngkaProvinsi ? 0 : "bg-none border-none"
                 }`}
                 style={{ width: convertAngkaProvinsi + "%" }}
               >
-                <p className="px-2 font-bold text-[20px] text-white ml-[20px] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+                <p className="px-2 font-bold text-[20px] text-secondary ml-[20px]">
                   {Math.round(wilayahTerpilih.nilai)
                     .toLocaleString()
                     .replace(/,/g, ".")}
@@ -718,10 +727,10 @@ const Jelajahmain = () => {
           <div className="flex w-[700px] items-center justify-between px-[30px] mt-[20px]">
             <div className="w-full">
               <div className="flex justify-between w-full">
-                <p className="font-bold text-secondary text-[24px] uppercase">
+                <p className="font-bold text-[#247DBD] text-[24px] uppercase">
                   {wilayahTerpilih.nama}
                 </p>
-                <p className="text-right font-bold text-third text-[24px]">
+                <p className="text-right font-bold text-[#77C2F8] text-[24px]">
                   #{wilayahTerpilih.rank}
                 </p>
               </div>
