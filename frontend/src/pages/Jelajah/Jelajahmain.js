@@ -378,21 +378,17 @@ const Jelajahmain = () => {
     }
   }
 
+  const [selecteditems, setSelectedItems] = useState("");
+  
   function Labelsnama({ data }) {
     const [openitems, setOpenItems] = useState(false);
-    const [selecteditems, setSelectedItems] = useState("");
     const [inputvalueitems, setInputValueItems] = useState("");
     const [items, setItems] = useState(data.sector);
     console.log("loadcomponent");
     console.log(data);
-    useEffect(() => {
-      // console.log(selecteditems);
-    }, [selecteditems]);
     function handleClick(data, label) {
       setcontentdropdwon(data.index, label.id, data.element.children);
-      setBidang(label.id);
-      // setSelectedItems(label.nama);
-      setSelected(label.nama);
+      setSelectedItems(label.nama);
     }
     return (
       <div>
@@ -402,9 +398,7 @@ const Jelajahmain = () => {
             className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
           >
             <p id={`label_sektor_${data.element.id}`}>
-              {
-                data.select ?? "Pilih"
-              }
+              {data.select ?? "Pilih"}
             </p>
             <FontAwesomeIcon
               icon={faChevronDown}
@@ -441,7 +435,7 @@ const Jelajahmain = () => {
                 key={label?.nama}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
                 ${
-                  label?.nama?.toLowerCase() === selected?.toLowerCase() &&
+                  label?.nama?.toLowerCase() === selecteditems?.toLowerCase() &&
                   "bg-secondary text-white"
                 }
                 ${
@@ -450,7 +444,7 @@ const Jelajahmain = () => {
                     : "hidden"
                 }`}
                 onClick={() => {
-                  Setselecteddropdown(data.index-1, label.nama, selected);
+                  Setselecteddropdown(data.index - 1, label.nama, selecteditems);
                   handleClick(data, label);
                   setBidang(label.id);
                   setTestHandlePeringkatnya(true);
@@ -465,9 +459,9 @@ const Jelajahmain = () => {
     );
   }
 
-  function Setselecteddropdown(index, value){
-    var data = dropdown
-    data[index].select = value
+  function Setselecteddropdown(index, value) {
+    var data = dropdown;
+    data[index].select = value;
     setDropdown(data);
   }
 
