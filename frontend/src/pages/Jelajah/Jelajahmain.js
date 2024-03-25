@@ -4,6 +4,7 @@ import people from "../../assets/icons/people.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
+  faL,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import bulat from "../../assets/circ.svg";
@@ -14,8 +15,7 @@ const Jelajahmain = () => {
   const [activeTab, setActiveTab] = useState("provinsi");
 
   const toggleTab = () => {
-    setActiveTab(activeTab === "provinsi" ? "nasional" : "provinsi",()=>{
-    });
+    setActiveTab(activeTab === "provinsi" ? "nasional" : "provinsi", () => {});
     Kategori();
   };
 
@@ -216,7 +216,7 @@ const Jelajahmain = () => {
 
   var localstate = listkey;
 
-  function setcontentdropdwon(index, id, data, namas) {
+  function setcontentdropdwon(index, id, data) {
     console.log("🚀 ~ data.forEach ~ data:", data);
     console.log("🚀 ~ data.forEach ~ dropdown:", dropdown);
     data.forEach((element) => {
@@ -378,6 +378,98 @@ const Jelajahmain = () => {
     }
   }
 
+  function Labelsnama({ data }) {
+    const [openitems, setOpenItems] = useState(false);
+    const [selecteditems, setSelectedItems] = useState("");
+    const [inputvalueitems, setInputValueItems] = useState("");
+    const [items, setItems] = useState(data.sector);
+    console.log("loadcomponent");
+    console.log(data);
+    useEffect(() => {
+      // console.log(selecteditems);
+    }, [selecteditems]);
+    function handleClick(data, label) {
+      setcontentdropdwon(data.index, label.id, data.element.children);
+      setBidang(label.id);
+      setSelectedKeuanganOption(label.nama);
+    }
+    return (
+      <div>
+        <div className="w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer">
+          <div
+            onClick={() => setOpenItems(!openitems)}
+            className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+          >
+            <p id={`label_sektor_${data.element.id}`}>
+              {
+                data.select ?? "Pilih"
+              }
+            </p>
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              color="#24445A"
+              className={`ml-[20px] w-[10px] h-[20px] ${
+                openitems && "rotate-180"
+              }`}
+            />
+          </div>
+          <div
+            className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
+          ${openitems ? "max-h-auto" : "hidden"}`}
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              color="#24445A"
+              style={{ opacity: "40%" }}
+              className="w-[10px] h-[20px] opacity-75"
+            />
+            <input
+              type="text"
+              value={inputvalueitems}
+              onChange={(e) => setInputValueItems(e.target.value.toLowerCase())}
+              placeholder="Cari Provinsi"
+              className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
+            />
+          </div>
+          <ul
+            className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
+              ${openitems ? "max-h-[240px]" : "max-h-[0]"}`}
+          >
+            {items?.map((label) => (
+              <li
+                key={label?.nama}
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+                ${
+                  label?.nama?.toLowerCase() === selecteditems?.toLowerCase() &&
+                  "bg-secondary text-white"
+                }
+                ${
+                  label?.nama?.toLowerCase().startsWith(inputvalueitems)
+                    ? "block"
+                    : "hidden"
+                }`}
+                onClick={() => {
+                  Setselecteddropdown(data.index-1, label.nama);
+                  handleClick(data, label);
+                  setBidang(label.id);
+                  setTestHandlePeringkatnya(true);
+                }}
+              >
+                {label?.nama}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  function Setselecteddropdown(index, value){
+    var data = dropdown
+    data[index].select = value
+    setDropdown(data);
+  }
+
   ///FETCHING PERINGKAT JELAJAH
   const [bidang, setBidang] = useState(null);
   const [rankData, setRankData] = useState(null);
@@ -386,11 +478,11 @@ const Jelajahmain = () => {
   const [dataChartSelected, setDataChartSelected] = useState("");
   const [angkaTertinggi, setAngkaTertinggi] = useState(0);
   useEffect(() => {
-    console.log("BIDANGNYA :"+bidang)
-    if(bidang !== null){
+    console.log("BIDANGNYA :" + bidang);
+    if (bidang !== null) {
       Kategori();
     }
-  }, [bidang,activeTab]);
+  }, [bidang, activeTab]);
 
   function Kategori() {
     var params = new URLSearchParams();
@@ -635,7 +727,7 @@ const Jelajahmain = () => {
                   {wilayahTerpilih.nama}
                 </p>
                 <p className="text-right font-bold text-third text-[24px]">
-                #{wilayahTerpilih.rank}
+                  #{wilayahTerpilih.rank}
                 </p>
               </div>
               <div className="w-[660px] border-solid border-2 rounded-full border-secondary">
@@ -660,7 +752,7 @@ const Jelajahmain = () => {
                   {wilayahTerpilih.nama}
                 </p>
                 <p className="text-right font-bold text-third text-[24px]">
-                #{wilayahTerpilih.rank}
+                  #{wilayahTerpilih.rank}
                 </p>
               </div>
               <div className="w-full border-solid border-2 rounded-full border-secondary">
@@ -765,7 +857,9 @@ const Jelajahmain = () => {
                   updatePeta(provinces.id);
                   askIsProvince(true);
                   setActiveTab("nasional");
-                  document.getElementById("switchernya").classList.add("hidden");
+                  document
+                    .getElementById("switchernya")
+                    .classList.add("hidden");
                   sessionStorage.setItem("namakota", "Semua");
                   sessionStorage.setItem("idkota", provinces.id);
                 }}
@@ -1033,183 +1127,27 @@ const Jelajahmain = () => {
           dropdown.some((item) => item.sector.length > 0) && (
             <div className="flex flex-wrap space-x-0 md:flex-nowrap md:space-x-4">
               {/* Tambahkan gap di sini */}
-              {dropdown.map((item) =>  (
-                <div
-                  key={item.element.id}
-                  className="flex-col w-[250px] h-auto text-secondary font-medium text-[14px] cursor-pointer"
-                >
-                  {console.log("🚀 ~ Jelajahmain ~ item:", item)}
-                  <div
-                    onClick={() => {
-                      var states = listkey;
-                      states["setOpenSektor_" + item.element.id] =
-                        !states["setOpenSektor_" + item.element.id];
-                      setListkey(states);
-                      console.log(
-                        "setOpenSektor_" +
-                          item.element.id +
-                          ":" +
-                          listkey["setOpenSektor_" + item.element.id]
-                      );
-                      console.log(listkey);
-
-                      //get element search bar
-                      var searchs = document.getElementById(
-                        `search_sektor_${item.element.id}`
-                      );
-                      //get element fontawesome
-                      var fontawesome = document.getElementById(
-                        `fa_sektor_${item.element.id}`
-                      );
-                      //get element dropdown item
-                      var dropdowns = document.getElementById(
-                        `ul_sektor_${item.element.id}`
-                      );
-                      if (listkey["setOpenSektor_" + item.element.id]) {
-                        //control search bar
-                        searchs.classList.remove("hidden");
-                        searchs.classList.add("max-h-auto");
-
-                        //control arrow fontawesome
-                        fontawesome.classList.add("rotate-180");
-
-                        //control dropdown
-                        dropdowns.classList.remove("max-h-[0]");
-                        dropdowns.classList.add("max-h-auto");
-                      } else {
-                        searchs.classList.remove("max-h-auto");
-                        searchs.classList.add("hidden");
-
-                        //control arrow fontawesome
-                        fontawesome.classList.remove("rotate-180");
-
-                        //control
-                        dropdowns.classList.remove("max-h-auto");
-                        dropdowns.classList.add("max-h-[0]");
-                      }
-                    }}
-                    className="bg-[#ebebeb] w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-                  >
-                    {/* {item.sector.map(data => (
-                      
-                    ))} */}
-                    <p id={`label_sektor_${item.element.id}`}>
-                      {selectedKeuanganOption[
-                        item.element.nama + item.element.id
-                      ]
-                        ? selectedKeuanganOption[
-                            item.element.nama + item.element.id
-                          ]
-                        : "Pilih"}
-                    </p>
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      id={`fa_sektor_${item.element.id}`}
-                      color="#24445A"
-                      className={`ml-[20px] w-[10px] h-[20px] ${
-                        listkey["setOpenSektor_" + item.element.id] &&
-                        "rotate-180"
-                      }`}
-                    />
-                  </div>
-
-                  <div
-                    id={`search_sektor_${item.element.id}`}
-                    className={`flex items-center px-2 sticky top-0 bg-[#ebebeb] w-full mt-2 rounded-[10px]
-              ${
-                listkey["setOpenSektor_" + item.element.id]
-                  ? "max-h-auto"
-                  : "hidden"
-              }`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      color="#24445A"
-                      style={{ opacity: "40%" }}
-                      className="w-[10px] h-[20px] opacity-75"
-                    />
-                    <input
-                      type="text"
-                      value={inputValueSektor}
-                      onChange={(e) => {
-                        var states = listkey;
-                        states["searchSektor_" + item.element.id] =
-                          e.target.value.toLowerCase();
-                        setListkey(states);
-                      }}
-                      placeholder="Cari"
-                      className="text-secondary placeholder:text-opacity-75 p-2 outline-none w-full text-[12px] font-medium bg-[#ebebeb]"
-                    />
-                  </div>
-                  <ul
-                    id={`ul_sektor_${item.element.id}`}
-                    className={`bg-[#ebebeb] mt-2 rounded-[10px] max-h-60 overflow-y-scroll mini-scrollbar
-              ${
-                listkey["setOpenSektor_" + item.element.id]
-                  ? "max-h-[240px]"
-                  : "max-h-[0]"
-              }`}
-                  >
-                    {item.sector.map(
-                      (sector) =>
-                        sector.nama.toLowerCase() !==
-                          listkey[
-                            "selectedSektor_" + item.element.id
-                          ].toLowerCase() && (
-                          <li
-                            key={sector?.nama}
-                            className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px]
-                            ${
-                              sector?.nama?.toLowerCase() ===
-                                listkey["selectedSektor_" + item.element.id].toLowerCase() &&
-                              "bg-secondary text-white"
-                            }
-                            ${
-                              sector?.nama
-                                ?.toLowerCase()
-                                .startsWith(listkey["searchSektor_" + item.element.id])
-                                ? "block"
-                                : "hidden"
-                            }`}
-                            onClick={() => {
-
-                              setcontentdropdwon(
-                                item.index,
-                                sector.id,
-                                item.element.children
-                              );
-                              updateOptions(sector.id, item.element.children);
-                              document.getElementById(
-                                `label_sektor_${item.element.id}`
-                              ).innerHTML = sector?.nama;
-                              setBidang(sector.id);
-                              // toggleTab();
-                              setTestHandlePeringkatnya(true);
-
-                            }}                
-                          >
-                            {sector?.nama}
-                            {console.log(
-                              "🚀 ~ Jelajahmain ~ sector:",
-                              sector?.id
-                            )}
-                          </li>
-                        )
-                    )}
-                  </ul>
-                </div>
+              {dropdown.map((item) => (
+                <Labelsnama data={item} />
               ))}
             </div>
           )}
       </div>
 
       {/* SWITCH */}
-      <div id="switchernya" className="hidden flex gap-[50px] items-center justify-center font-semibold text-secondary mt-[48px] text-[20px]">
+      <div
+        id="switchernya"
+        className="hidden flex gap-[50px] items-center justify-center font-semibold text-secondary mt-[48px] text-[20px]"
+      >
         <p className={activeTab === "provinsi" ? "inactive-text" : ""}>
           NASIONAL
         </p>
-        
-        <SwitchBtn id="switchernya" switcher={activeTab} setSwitcher={toggleTab} />
+
+        <SwitchBtn
+          id="switchernya"
+          switcher={activeTab}
+          setSwitcher={toggleTab}
+        />
         <p className={activeTab === "nasional" ? "inactive-text" : ""}>
           PROVINSI
         </p>
@@ -1224,23 +1162,27 @@ const Jelajahmain = () => {
         </p>
       </div>
       {/* DATA */}
-      <div className={`flex flex-col items-center justify-center ${testHandlePeringkatnya ? 'false' : 'hidden'}`}>
-        {activeTab === "provinsi" &&(
+      <div
+        className={`flex flex-col items-center justify-center ${
+          testHandlePeringkatnya ? "false" : "hidden"
+        }`}
+      >
+        {activeTab === "provinsi" && (
           <>
-          {Nasional(dataChartNasional,angkaTertinggi)}
-          {Provinsi(dataChartSelected,angkaTertinggi)}
-          <hr/>
-          {dataChart}
-          {/* <Pagination/> */}
+            {Nasional(dataChartNasional, angkaTertinggi)}
+            {Provinsi(dataChartSelected, angkaTertinggi)}
+            <hr />
+            {dataChart}
+            {/* <Pagination/> */}
           </>
         )}
-        {activeTab === "nasional" &&(
+        {activeTab === "nasional" && (
           <>
-          {Nasional(dataChartNasional,angkaTertinggi)}
-          {Provinsi(dataChartSelected,angkaTertinggi)}
-          <hr/>
-          {dataChart}
-          {/* <Pagination/> */}
+            {Nasional(dataChartNasional, angkaTertinggi)}
+            {Provinsi(dataChartSelected, angkaTertinggi)}
+            <hr />
+            {dataChart}
+            {/* <Pagination/> */}
           </>
         )}
       </div>
