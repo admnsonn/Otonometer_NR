@@ -112,218 +112,325 @@ const Utakmain = () => {
       });
   }, []);
   
+  const [selectDataset1, setSelectedDataset1]= useState();
+  const [selectDataset2, setSelectedDataset2]= useState();
+  ///UNTUK ID MASING MASING
+  const [idParent, setIdParent]= useState();
+  const [idSelectFilter, setIdSelectFilter]= useState();
+  const [idChild, setIdChild]= useState();
 
-  const Dropdown = ({ options, onSelect, label, dropdownClass }) => {
-    const [selectedOption, setSelectedOption] = useState("");
 
-    const handleOptionChange = (e) => {
-      setSelectedOption(e.target.value);
-      onSelect(e.target.value);
-    };
+  const [parents, setParents] = useState(null);
+  const [openParents, setOpenParents] = useState(false);
+  const [selectedParents, setSelectedParents] = useState("");
+  useEffect(() => {
+    fetch("https://api.otonometer.neracaruang.com/api/filter-parent?lang=en")
+      .then((response) => response.json())
+      .then((data) => {
+        setParents(data.data);
+      });
+  }, []);
 
-    return (
-      <div
-        className={`flex ${dropdownClass} w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mt-[10px] mb-[10px]`}
-      >
-        <select
-          className={`bg-secondary ${dropdownClass} w-full h-full mx-[20px]`}
-          value={selectedOption}
-          onChange={handleOptionChange}
-        >
-          <option value="">Pilih</option>
-          {options.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
-  };
 
-  const Tesss = () => {
-    const [selectedData, setSelectedData] = useState("");
-    const [selectedSubData, setSelectedSubData] = useState("");
-    const [checkboxOptions, setCheckboxOptions] = useState([]);
-    const [selectedDataset2, setSelectedDataset2] = useState("");
+  function updateParents(item, choosed, id){
+    setSelectedParents(item);
+    setOpenParents(false);
+    fetch("https://api.otonometer.neracaruang.com/api/filter-select?parent_id="+id+"&lang=en")
+      .then((response) => response.json())
+      .then((data) => {
+        setSelectFilter(data.data);
+      });
+  }
+  const [selectFilter, setSelectFilter] = useState(null);
+  const [openSelectFilter, setOpenSelectFilter] = useState(false);
+  const [selectedSelectFilter, setSelectedSelectFilter] = useState("");
 
-    const handleDataSelect = (data) => {
-      setSelectedData(data);
-      setSelectedSubData("");
-      setCheckboxOptions([]);
-      setSelectedDataset2("");
-    };
+  const [selectedChild, setSelectedChild] = useState("")
 
-    const handleSubDataSelect = (subData) => {
-      setSelectedSubData(subData);
-      if (selectedData === "Keuangan") {
-        switch (subData) {
-          case "Pendapatan":
-            setCheckboxOptions([
-              "Semua",
-              "PAD",
-              "Transfer",
-              "Lain Transfer",
-              "Perimbangan",
-              "Lain Imbang",
-            ]);
-            break;
-          case "Belanja":
-            setCheckboxOptions([
-              "Semua",
-              "Operasi",
-              "Modal",
-              "Tak Terduga",
-              "Belanja Trf",
-              "B. Tidak Langsung",
-              "B. Langsung",
-            ]);
-            break;
-          case "Pembiayaan":
-            setCheckboxOptions(["Semua", "Penerimaan", "Pengeluaran"]);
-            break;
-          default:
-            setCheckboxOptions([]);
-        }
-      } else if (selectedData === "Ekonomi") {
-        switch (subData) {
-          case "PDRB - ADHB":
-          case "PDRB - ADHK":
-            setCheckboxOptions([
-              "Semua",
-              "Pertanian",
-              "Pertambangan",
-              "Industri",
-            ]);
-            break;
-          default:
-            setCheckboxOptions([]);
-        }
-      } else if (selectedData === "Statistik") {
-        switch (subData) {
-          case "Jumlah Penduduk":
-            setCheckboxOptions([
-              "Semua",
-              "Semua Umur",
-              "Perempuan",
-              "Laki-laki",
-            ]);
-            break;
-          default:
-            setCheckboxOptions([]);
-        }
-      }
-      return (
-        <div className="ml-[20px]">
-          <select onChange={(e) => handleSubDataSelect(e.target.value)}>
-            <option value="">Pilih Subdata</option>
-            <option value="Pendapatan">Pendapatan</option>
-            <option value="Belanja">Belanja</option>
-            <option value="Pembiayaan">Pembiayaan</option>
-          </select>
+  function updateSelectFilter(item, choosed, idanak, idbunda){
+    setSelectedSelectFilter(item);
+    setOpenSelectFilter(false);
+    fetch("https://api.otonometer.neracaruang.com/api/filter-child?satuan_id="+idanak+"&lang=en&parent_id="+idbunda)
+      .then((response) => response.json())
+      .then((data) => {
+        setSelectedChild(data.data);
+      });
+  }
 
-          <div>
-            {checkboxOptions.map((option, index) => (
-              <div key={index}>
-                <input
-                  type="checkbox"
-                  value={option}
-                  className="custom-checkbox"
-                />
-                <label>{option}</label>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    };
+  // const [selectFilter, setSelectFilter] = useState([]);
+  //   useEffect(() => {
+  //     fetch("https://api.otonometer.neracaruang.com/api/filter-select?parent_id=1&lang=en",requestOptions)
+  //       .then((response) => response.json())
+  //       .then((result) => {
+  //         setSelectFilter(result.data);
+  //       });
+  //   }, []);
+  // const [child, setChild] = useState([]);
+  //   useEffect(() => {
+  //     fetch("https://api.otonometer.neracaruang.com/api/filter-child?satuan_id=1&lang=en&parent_id=1",requestOptions)
+  //       .then((response) => response.json())
+  //       .then((result) => {
+  //         setChild(result.data[2].child);
+  //       });
+  //   }, []);
+  
+  // const Dropdown = ({ options, onSelect, label, dropdownClass }) => {
+  //   const [selectedOption, setSelectedOption] = useState("");
 
-    const handleCheckboxChange = (name, checked) => {
-      console.log(`${name} is ${checked ? "checked" : "unchecked"}`);
-    };
+  //   const handleOptionChange = (e) => {
+  //     setSelectedOption(e.target.value);
+  //     onSelect(e.target.value);
+  //   };
 
-    const handleDataset2Select = (data) => {
-      setSelectedDataset2(data);
-    };
+  //   return (
+  //     <div
+  //       className={`flex ${dropdownClass} w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mt-[10px] mb-[10px]`}
+  //     >
+  //       <select
+  //         className={`bg-secondary ${dropdownClass} w-full h-full mx-[20px]`}
+  //         value={selectedOption}
+  //         onChange={handleOptionChange}
+  //       >
+  //         <option value="">Pilih</option>
+  //         {options.map((option, index) => (
+  //           <option key={index} value={option}>
+  //             {option}
+  //           </option>
+  //         ))}
+  //       </select>
+  //     </div>
+  //   );
+  // };
 
-    const CheckboxForm = ({ options, onCheck }) => {
-      const handleCheckboxChange = (e) => {
-        onCheck(e.target.name, e.target.checked);
-      };
+  // const Tesss = () => {
+  //   const [selectedData, setSelectedData] = useState("");
+  //   const [selectedSubData, setSelectedSubData] = useState("");
+  //   const [checkboxOptions, setCheckboxOptions] = useState([]);
+  //   const [selectedDataset2, setSelectedDataset2] = useState("");
 
-      return (
-        <div
-          className="flex flex-col items-start"
-          style={{
-            boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.50)",
-            borderRadius: "5%",
-            border: "10px solid #FFFFFF",
-            paddingLeft: "30px",
-            paddingRight: "30px",
-            marginLeft: "250px",
-            marginTop: "-100px",
-          }}
-        >
-          {options.map((option, index) => (
-            <div key={index} className="flex items-center">
-              <input
-                type="checkbox"
-                name={option}
-                id={option}
-                onChange={handleCheckboxChange}
-                className="mr-4"
-              />
-              <label htmlFor={option}>{option}</label>
-            </div>
-          ))}
-        </div>
-      );
-    };
+  //   const handleDataSelect = (data) => {
+  //     setSelectedData(data);
+  //     setSelectedSubData("");
+  //     setCheckboxOptions([]);
+  //     setSelectedDataset2("");
+  //   };
 
-    return (
-      <div>
-        <Dropdown
-          options={["Keuangan", "Ekonomi", "Statistik"]}
-          onSelect={handleDataSelect}
-          label="Pilih"
-          dropdownClass="bg-secondary"
-        />
+  //   const handleSubDataSelect = (subData) => {
+  //     setSelectedSubData(subData);
+  //     if (idParent === 1) {
+  //       switch (subData) {
+  //         case "Pendapatan":
+  //           setCheckboxOptions([
+  //             "Semua",
+  //             "PAD",
+  //             "Transfer",
+  //             "Lain Transfer",
+  //             "Perimbangan",
+  //             "Lain Imbang",
+  //           ]);
+  //           break;
+  //         case "Belanja":
+  //           setCheckboxOptions([
+  //             "Semua",
+  //             "Operasi",
+  //             "Modal",
+  //             "Tak Terduga",
+  //             "Belanja Trf",
+  //             "B. Tidak Langsung",
+  //             "B. Langsung",
+  //           ]);
+  //           break;
+  //         case "Pembiayaan":
+  //           setCheckboxOptions(["Semua", "Penerimaan", "Pengeluaran"]);
+  //           break;
+  //         default:
+  //           setCheckboxOptions([]);
+  //       }
+  //     } else if (selectedData === "Ekonomi") {
+  //       switch (subData) {
+  //         case "PDRB - ADHB":
+  //         case "PDRB - ADHK":
+  //           setCheckboxOptions([
+  //             "Semua",
+  //             "Pertanian",
+  //             "Pertambangan",
+  //             "Industri",
+  //           ]);
+  //           break;
+  //         default:
+  //           setCheckboxOptions([]);
+  //       }
+  //     } else if (selectedData === "Statistik") {
+  //       switch (subData) {
+  //         case "Jumlah Penduduk":
+  //           setCheckboxOptions([
+  //             "Semua",
+  //             "Semua Umur",
+  //             "Perempuan",
+  //             "Laki-laki",
+  //           ]);
+  //           break;
+  //         default:
+  //           setCheckboxOptions([]);
+  //       }
+  //     }
+  //     return (
+  //       <div className="ml-[20px]">
+  //         <select onChange={(e) => handleSubDataSelect(e.target.value)}>
+  //           <option value="">Pilih Subdata</option>
+  //           <option value="Pendapatan">Pendapatan</option>
+  //           <option value="Belanja">Belanja</option>
+  //           <option value="Pembiayaan">Pembiayaan</option>
+  //         </select>
 
-        {selectedData && (
-          <Dropdown
-            options={
-              selectedData === "Keuangan"
-                ? ["Pendapatan", "Belanja", "Pembiayaan"]
-                : selectedData === "Ekonomi"
-                ? ["PDRB - ADHB", "PDRB - ADHK"]
-                : selectedData === "Statistik"
-                ? ["Jumlah Penduduk"]
-                : []
-            }
-            onSelect={handleSubDataSelect}
-            label="Select a sub-data category"
-            dropdownClass="bg-third text-secondary"
-          />
-        )}
+  //         <div>
+  //           {checkboxOptions.map((option, index) => (
+  //             <div key={index}>
+  //               <input
+  //                 type="checkbox"
+  //                 value={option}
+  //                 className="custom-checkbox"
+  //               />
+  //               <label>{option}</label>
+  //             </div>
+  //           ))}
+  //         </div>
+  //       </div>
+  //     );
+  //   };
 
-        {selectedSubData && (
-          <CheckboxForm
-            options={checkboxOptions}
-            onCheck={handleCheckboxChange}
-          />
-        )}
+  //   const handleCheckboxChange = (name, checked) => {
+  //     console.log(`${name} is ${checked ? "checked" : "unchecked"}`);
+  //   };
 
-        {selectedSubData && selectedDataset2 && (
-          <Dropdown
-            options={["Keuangan", "Ekonomi", "Statistik"]}
-            onSelect={handleDataset2Select}
-            label="Pilih Dataset 2"
-            dropdownClass="bg-secondary"
-          />
-        )}
-      </div>
-    );
-  };
+  //   const handleDataset2Select = (data) => {
+  //     setSelectedDataset2(data);
+  //   };
+
+  //   const CheckboxForm = ({ options, onCheck }) => {
+  //     const handleCheckboxChange = (e) => {
+  //       onCheck(e.target.name, e.target.checked);
+  //     };
+
+  //     return (
+  //       <div
+  //         className="flex flex-col items-start"
+  //         style={{
+  //           boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.50)",
+  //           borderRadius: "5%",
+  //           border: "10px solid #FFFFFF",
+  //           paddingLeft: "30px",
+  //           paddingRight: "30px",
+  //           marginLeft: "250px",
+  //           marginTop: "-100px",
+  //         }}
+  //       >
+  //         {options.map((option, index) => (
+  //           <div key={index} className="flex items-center">
+  //             <input
+  //               type="checkbox"
+  //               name={option}
+  //               id={option}
+  //               onChange={handleCheckboxChange}
+  //               className="mr-4"
+  //             />
+  //             <label htmlFor={option}>{option}</label>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     );
+  //   };
+
+  //   return (
+  //     <div>
+  //       <Dropdown
+  //         options={["Keuangan", "Ekonomi", "Statistik"]}
+  //         onSelect={handleDataSelect}
+  //         label="Pilih"
+  //         dropdownClass="bg-secondary"
+  //       />
+
+  //       {selectedData && (
+  //         <Dropdown
+  //           options={
+  //             selectedData === "Keuangan"
+  //               ? ["Pendapatan", "Belanja", "Pembiayaan"]
+  //               : selectedData === "Ekonomi"
+  //               ? ["PDRB - ADHB", "PDRB - ADHK"]
+  //               : selectedData === "Statistik"
+  //               ? ["Jumlah Penduduk"]
+  //               : []
+  //           }
+  //           onSelect={handleSubDataSelect}
+  //           label="Select a sub-data category"
+  //           dropdownClass="bg-third text-secondary"
+  //         />
+  //       )}
+
+  //       {selectedSubData && (
+  //         <CheckboxForm
+  //           options={checkboxOptions}
+  //           onCheck={handleCheckboxChange}
+  //         />
+  //       )}
+
+  //       {selectedSubData && selectedDataset2 && (
+  //         <Dropdown
+  //           options={["Keuangan", "Ekonomi", "Statistik"]}
+  //           onSelect={handleDataset2Select}
+  //           label="Pilih Dataset 2"
+  //           dropdownClass="bg-secondary"
+  //         />
+  //       )}
+  //     </div>
+  //   );
+  // };
+  
+  // const Dataset1 =()=>{
+  //   const [askPilih, setAskPilih] = useState(false);
+  //   const handleClick = () => {
+  //     setAskPilih(prevAskPilih => !prevAskPilih);
+  //   };
+  //   return(
+  //     <div>
+  //     {/* {parent?.map((data) => (
+  //       <div
+  //         key={data?.id}
+  //         className="flex bg-secondary w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg cursor-pointer mt-[10px] mb-[10px]"
+  //       >
+  //         <div className="text-white" onClick={handleClick}>
+  //           {
+  //             askPilih === false && <p>Pilih</p>
+  //           }
+  //           {
+  //             askPilih === true && <p>{data?.nama}</p>
+  //           }
+  //         </div>
+  //       </div>
+  //     ))} */}
+  //     {parent?.map((parentnya) => (
+  //       <li
+  //         key={parentnya?.nama}
+  //         className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
+  //         ${
+  //           parentnya?.nama?.toLowerCase() === selected?.toLowerCase() &&
+  //           "bg-secondary text-white"
+  //         }
+  //         ${
+  //           parentnya?.nama?.toLowerCase().startsWith(inputValue)
+  //             ? "block"
+  //             : "hidden"
+  //         }`}
+  //         onClick={() => {
+  //         }}
+  //       >
+  //         {parentnya?.nama}
+  //       </li>
+  //     ))}
+  //   </div>
+  //   )
+  // }
+
 
   return (
     <div className="flex flex-col mb-[150px] justify-center items-center max-lg:[1920px] mt-[80px]">
@@ -628,13 +735,90 @@ const Utakmain = () => {
         </div>
       </div>
 
-      {/* Dropdowns for Dataset 1 and Dataset 2 */}
+      {/* DROPDOWN DATASET 1 */}
       <div className="flex gap-[80px] mt-[40px]">
         <div className="">
           <h1 className="text-secondary text-[14px] font-semibold ml-[45px]">
             DATASET 1
           </h1>
-          <Tesss />
+          <div className="w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer uppercase" id="parentDropdown">
+            <div
+              onClick={() => setOpenParents(!openParents)}
+              className="bg-secondary w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+            >
+              {selectedParents
+                ? selectedParents?.length > 20
+                  ? selectedParents?.substring(0, 20) + "..."
+                  : selectedParents
+                : "Pilih"}
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                color="white"
+                className={`ml-[20px] w-[10px] h-[20px] ${
+                  openParents && "rotate-180"
+                }`}
+              />
+            </div>
+            <ul
+              className={`bg-secondary mt-2 rounded-[10px] max-h-60 overflow-y-auto
+                ${openParents ? "max-h-[240px]" : "max-h-[0]"}`}
+            >
+              {parents?.map((parentnya) => (
+                <li
+                  key={parentnya?.nama}
+                  className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-center`}
+                  onClick={() => {
+                    updateParents(parentnya.nama, selectedParents, parentnya.id)
+                    sessionStorage.setItem("idprovinsi", parentnya.id);
+                    sessionStorage.setItem("namaParent", parentnya.nama);
+                    setIdParent(parentnya.id);
+                    if (parentnya.id !== null) {
+                      document.getElementById("anakanparent").classList.remove("hidden")
+                    }
+                  }}
+                >
+                  {parentnya?.nama}
+                </li>
+              ))}
+            </ul>
+            {/* DROPDOWN ANAKAN PARENT */}
+            <div id="anakanparent" className="hidden w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer">
+              <div
+                onClick={() => setOpenSelectFilter(!openSelectFilter)}
+                className="bg-third w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+              >
+                {selectedSelectFilter
+                  ? selectedSelectFilter?.length > 20
+                    ? selectedSelectFilter?.substring(0, 20) + "..."
+                    : selectedSelectFilter
+                  : "Pilih"}
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  color="white"
+                  className={`ml-[20px] w-[10px] h-[20px] ${
+                    openSelectFilter && "rotate-180"
+                  }`}
+                />
+            </div>
+
+              <ul
+                className={`bg-third mt-2 rounded-[10px] max-h-60 overflow-y-auto
+                ${openSelectFilter ? "max-h-[240px]" : "max-h-[0]"}`}
+              >
+                {selectFilter?.map((filternya) => (
+                  <li
+                    key={filternya?.id}
+                    className={`p-2 text-[12px] hover:bg-[#a4b6b9] hover:text-secondary rounded-[10px] text-center`}
+                    onClick={() => {
+                      updateSelectFilter(filternya.nama, selectedSelectFilter, idParent, filternya.idw)
+                    }}
+                  >
+                    {filternya?.nama}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
