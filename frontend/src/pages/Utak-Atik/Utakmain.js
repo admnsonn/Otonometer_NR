@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import bulat from "../../assets/circ.svg";
 import "../../style/Components.css";
+import Timeseries from '../../components/Grafik/Timeseries'
 
 const Utakmain = () => {
 
@@ -820,6 +821,10 @@ const Utakmain = () => {
             </div>
           </div>
         </div>
+        
+      </div>
+      <div className="mt-[100px]">
+        <Timeseries/>
       </div>
     </div>
   );

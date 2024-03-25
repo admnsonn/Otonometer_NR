@@ -79,7 +79,7 @@ function Timeseries(){
   return (
     <section className='w-full'>
         <div className='flex bg-white w-[450px] h-[450px] text-secondary rounded-[25px] grappp'>
-          <div className='w-full h-[320px] mt-[90px] overflow-x-auto mx-[20px]'>
+          <div className='w-full h-[320px] mt-[90px] mx-[20px] overflow-y-auto mini-scrollbar'>
             <AreaChart data={data}
               width={700} height={300}
               margin={{ top: 5, right: 40, left: 0, bottom: 5 }} >
