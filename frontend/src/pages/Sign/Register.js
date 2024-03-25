@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Illustration from "../../assets/Auth/ilustrasi.jpg";
 import DatePicker from "react-datepicker"; // Import komponen datepicker
 import Swal from "sweetalert2";
@@ -19,48 +19,61 @@ import NeracaIcon from "../../assets/icons/neracaruang.svg";
 import { Link } from "react-router-dom";
 import '../../style/BtnLoginRegist.css';
 
-class Register extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      nama: "",
-      password: "",
-      konfirm: "",
-      showPassword: false, // State untuk mengontrol visibilitas password
-      step: 1, // Langkah saat ini dalam proses pendaftaran
-      title: "", // State untuk menyimpan gelar
-      birthDate: null, // State untuk menyimpan tanggal lahir
-      province: "", // State untuk menyimpan provinsi
-      district: "", // State untuk menyimpan kabupaten/kota
-      postalCode: "", // State untuk menyimpan kodepos
-    };
-  }
+const Register = () => {
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+    city_value:"",
+    city_id:"",
+    reference: "",
+    title: "",
+    dob: "",
+    postal_code: "",
+    showPassword: false,
+    step: 1,
+  });
+
+  const { name, email, password, confirm_password, city_value, city_id, reference, title, dob, postal_code, showPassword} = state;
+  
 
   // Handler untuk mengubah state saat input form berubah
-  handleChange = (e) => {
-    this.setState({
+  const handleChange = (e) => {
+    setState({
+      ...state,
       [e.target.name]: e.target.value,
     });
   };
 
+  // Handler untuk mengubah state saat tanggal lahir berubah
+  const handleDateChange = (date) => {
+    setState({
+      ...state,
+      dob: date,
+    });
+  };
+  
   // Handler untuk toggle visibilitas password
-  togglePasswordVisibility = () => {
-    this.setState((prevState) => ({
+  const togglePasswordVisibility = () => {
+    setState((prevState) => ({
+      ...prevState,
       showPassword: !prevState.showPassword,
     }));
   };
 
   // Handler untuk menangani submit form
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // Lakukan validasi jika diperlukan
     // Lakukan logika untuk menangani langkah selanjutnya dalam pendaftaran
-    this.setState({
-      step: this.state.step + 1, // Pindah ke langkah selanjutnya
+    setState({
+      ...state,
+      step: state.step + 1, // Pindah ke langkah selanjutnya
     });
   };
 
-  submitBerhasil = async () => {
+  const submitBerhasil = async () => {
     const { value: otp } = await Swal.fire({
       title: "Verifikasi Email Anda!",
       html: `
@@ -121,20 +134,21 @@ class Register extends React.Component {
     }
   };
 
-  render() {
-    const { step } = this.state;
-
+  
+    const { step } = state;
+    const hundredYearsAgo = new Date();
+    hundredYearsAgo.setFullYear(hundredYearsAgo.getFullYear() - 100);
     // Render form berdasarkan langkah saat ini
     let form;
 
     if (step === 1) {
       form = (
         <form
-          onSubmit={this.handleSubmit}
-          className="flex flex-col max-w-[400px] rounded px-8 pt-6 pb-8"
+          onSubmit={handleSubmit}
+          className="flex flex-col max-w-[450px] rounded px-8 pt-6 pb-8"
         >
-          <div className="ml-[11px] my-[20px]">
-            <h1 className="text-6xl font-bold mb-4 text-left text-secondary">
+          <div className="my-[10px]">
+          <h1 className="text-6xl font-bold mb-4 text-left text-secondary">
               Daftar
             </h1>
             {/* Tulisan di bawah judul */}
@@ -143,8 +157,6 @@ class Register extends React.Component {
               <span className="font-bold">fitur lainnya</span> Otonometer
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center">
-          <div className="flex items-center justify-center">
             <div className="mb-4">
               <label
                 className="block text-secondary text-sm font-medium mb-[4px] text-[14px]"
@@ -153,28 +165,27 @@ class Register extends React.Component {
                 Email
               </label>
               <input
-                className="infield focus:outline-none focus:shadow-outline text-[14px] font-regular"
+                className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
                 id="email"
                 type="email"
                 placeholder="Email"
                 name="email"
-                value={this.state.email}
-                onChange={this.handleChange}
+                value={email}
+                onChange={handleChange}
                 required
               />
             </div>
-          </div>
           
           <div className="flex items-center justify-center">
             <button
-              className="button"
+              className="button rounded-[8px] h-[40px] w-full py-2 px-3"
               type="submit"
             >
               Daftar
             </button>
           </div>
           {/* Garis Atau */}
-          <div className="flex mt-4 w-[300px] justify-center items-center ">
+          <div className="flex mt-4 w-full py-2 px-3 justify-center items-center ">
             <hr
               className="flex-1 border-t-1 bg-infield mr-5"
               style={{ borderWidth: "1px" }}
@@ -187,7 +198,7 @@ class Register extends React.Component {
           </div>
           {/* Button Login dengan cara lain */}
           <div className="flex flex-col items-center mt-4 gap-y-[10px]">
-            {/* <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
+            <button className="border rounded-[8px] h-[40px] w-full py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline hover:bg-secondary hover:text-white font-regular text-[14px]">
               <div className="flex items-center justify-center gap-4">
                 <img src={NeracaIcon} alt="loading" className="hover:" />
                 <span className="">Masuk dengan Neraca Ruang</span>
@@ -213,8 +224,8 @@ class Register extends React.Component {
                 <img src={MicrosoftIcon} alt="loading" className="hover:" />
                 <span className="">Masuk dengan Microsoft</span>
               </div>
-            </button> */}
-            <button className="AnimateBTN">
+            </button>
+            {/* <button className="AnimateBTN">
               <span className="text">Daftar Dengan Neraca Ruang</span><span class="icon">
               <img src={NeracaIcon} alt="loading" className="hover:" />
               </span>
@@ -236,7 +247,7 @@ class Register extends React.Component {
               <span className="text">Daftar Dengan Microsoft</span><span class="icon">
               <img src={MicrosoftIcon} alt="loading" className="hover:" />
               </span>
-            </button>
+            </button> */}
           </div>
 
           <div className="flex items-center justify-center mt-4 font-regular text-[14px] text-secondary">
@@ -251,16 +262,15 @@ class Register extends React.Component {
               </Link>
             </span>
           </div>
-          </div>
         </form>
       );
     } else if (step === 2) {
       form = (
         <form
-          onSubmit={this.handleSubmit}
-          className="flex flex-col max-w-[400px] rounded px-8 pt-6 pb-8"
+          onSubmit={handleSubmit}
+          className="flex flex-col max-w-[450px] rounded px-8 pt-6 pb-8"
         >
-          <div className="ml-[11px] my-[20px]">
+          <div className="my-[10px]">
             <h1 className="text-6xl font-bold mb-4 text-left text-secondary">
               Daftar
             </h1>
@@ -270,7 +280,7 @@ class Register extends React.Component {
               <span className="font-bold">fitur lainnya</span> Otonometer
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col">
           <div className="mb-4 flex">
             <div className="gap-[10px]">
               <label
@@ -283,8 +293,8 @@ class Register extends React.Component {
                 className="border rounded-[8px] h-[40px] w-[80px] py-2 px-3 text-secondary leading-tight focus:outline-none focus:shadow-outline text-[14px] font-regular"
                 id="title"
                 name="title"
-                value={this.state.title}
-                onChange={this.handleChange}
+                value={title}
+                onChange={handleChange}
                 required
               >
                 <option value="">Pilih</option>
@@ -301,13 +311,13 @@ class Register extends React.Component {
                 Nama Lengkap
               </label>
               <input
-                className="w-[225px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] focus:outline-none focus:shadow-outline font-regular"
+                className="w-[300px] h-[40px] border rounded-[8px] text-secondary py-2 px-3 leading-tight text-[14px] focus:outline-none focus:shadow-outline font-regular"
                 id="nama"
                 type="nama"
                 placeholder="Nama Lengkap"
                 name="nama"
-                value={this.state.nama}
-                onChange={this.handleChange}
+                value={name}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -317,12 +327,19 @@ class Register extends React.Component {
               <div className="infield leading-tight focus:outline-none focus:shadow-outline font-regular">
                 <DatePicker
                   id="birthDate"
-                  // selected={this.state.birthDate}
-                  // onChange={this.handleDateChange}
-                  dateFormat="dd/MM/yy" // Format tanggal
+                  selected={dob}
+                  onChange={handleDateChange}
+                  dateFormat="yyyy/MM/dd" // Format tanggal
                   placeholderText="Pilih Tanggal" // Placeholder
+                  yearDropdownItemNumber={100}
+                  showYearDropdown
+                  scrollableYearDropdown
+                  scrollableMonthYearDropdown
+                  minDate={hundredYearsAgo}
+                  maxDate={new Date()}
+
                 />
-                <FontAwesomeIcon icon={faCalendar} className="text-gray-400 ml-[100px]" />
+                <FontAwesomeIcon icon={faCalendar} className="text-gray-400 ml-[170px]" />
               </div>
           </div>
           {/* <div className="mb-4">
@@ -355,8 +372,8 @@ class Register extends React.Component {
               className="infield font-regular cursor-pointer"
               id="province"
               name="province"
-              value={this.state.province}
-              onChange={this.handleChange}
+              value={city_id}
+              onChange={handleChange}
               required
             >
               <option value="">Pilih Provinsi</option>
@@ -376,8 +393,8 @@ class Register extends React.Component {
               className="infield font-regular cursor-pointer"
               id="district"
               name="district"
-              value={this.state.district}
-              onChange={this.handleChange}
+              value={city_value}
+              onChange={handleChange}
               required
             >
               <option value="">Pilih Kabupaten/Kota</option>
@@ -399,14 +416,14 @@ class Register extends React.Component {
               type="text"
               placeholder="Kode pos"
               name="postalCode"
-              value={this.state.postalCode}
-              onChange={this.handleChange}
+              value={postal_code}
+              onChange={handleChange}
               required
             />
           </div>
           <div className="flex items-center justify-center w-full sm:w-1/2 md:w-auto pr-2 h-[40px]">
             <button
-              className="button"
+              className="button rounded-[8px] h-[40px] w-full py-2 px-3"
               // style={{ backgroundColor: '#86BBD8' }}
               type="submit"
             >
@@ -435,10 +452,10 @@ class Register extends React.Component {
       // Contoh: else if (step === 3) { ... }
       form = (
         <form
-          onSubmit={this.handleSubmit}
-          className="flex flex-col max-w-[400px] rounded px-8 pt-6 pb-8"
+          onSubmit={handleSubmit}
+          className="flex flex-col max-w-[450px] rounded px-8 pt-6 pb-8"
         >
-          <div className="ml-[11px] my-[20px]">
+          <div className="my-[10px]">
             <h1 className="text-6xl font-bold mb-4 text-left text-secondary">
               Daftar
             </h1>
@@ -448,7 +465,7 @@ class Register extends React.Component {
               <span className="font-bold">fitur lainnya</span> Otonometer
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col">
           <div className="mb-[8px]">
             <div className="mb-[4px]">
               <label
@@ -460,20 +477,20 @@ class Register extends React.Component {
               <input
                 className="infield focus:outline-none focus:shadow-outline font-regular"
                 id="password"
-                type={this.state.showPassword ? "text" : "password"}
+                type={showPassword ? "text" : "password"}
                 placeholder="Masukkan Kata Sandi"
                 name="password"
-                value={this.state.password}
-                onChange={this.handleChange}
+                value={password}
+                onChange={handleChange}
                 required
               />
               <button
                 type="button"
-                onClick={this.togglePasswordVisibility}
-                className="absolute translate-x-[285px] translate-y-[-30px]"
+                onClick={togglePasswordVisibility}
+                className="absolute translate-x-[350px] translate-y-[-30px]"
               >
                 <FontAwesomeIcon
-                  icon={this.state.showPassword ? faEye : faEyeSlash}
+                  icon={showPassword ? faEye : faEyeSlash}
                   color="#24445A"
                 />
               </button>
@@ -490,20 +507,20 @@ class Register extends React.Component {
               <input
                 className="infield focus:outline-none focus:shadow-outline font-regular"
                 id="konfirm"
-                type={this.state.showPassword ? "text" : "password"}
+                type={showPassword ? "text" : "password"}
                 placeholder="Konfirmasi Kata Sandi"
                 name="konfirm"
-                value={this.state.konfirm}
-                onChange={this.handleChange}
+                value={confirm_password}
+                onChange={handleChange}
                 required
               />
               <button
                 type="button"
-                onClick={this.togglePasswordVisibility}
-                className="absolute translate-x-[285px] translate-y-[-30px]"
+                onClick={togglePasswordVisibility}
+                className="absolute translate-x-[350px] translate-y-[-30px]"
               >
                 <FontAwesomeIcon
-                  icon={this.state.showPassword ? faEye : faEyeSlash}
+                  icon={showPassword ? faEye : faEyeSlash}
                   color="#24445A"
                 />
               </button>
@@ -522,8 +539,8 @@ class Register extends React.Component {
               className="infield focus:outline-none focus:shadow-outline font-regular"
               id="province"
               name="province"
-              value={this.state.province}
-              onChange={this.handleChange}
+              value={reference}
+              onChange={handleChange}
               required
             >
               <option value="">Pilih</option>
@@ -534,10 +551,10 @@ class Register extends React.Component {
 
           <div className="flex items-center justify-center w-full sm:w-1/2 md:w-auto pr-2 h-[40px]">
             <button
-              className="button"
+              className="button rounded-[8px] h-[40px] w-full py-2 px-3"
               // style={{ backgroundColor: '#86BBD8' }}
               type="submit"
-              onClick={this.submitBerhasil}
+              onClick={submitBerhasil}
             >
               Daftar
             </button>
@@ -588,6 +605,5 @@ class Register extends React.Component {
       </div>
     );
   }
-}
 
 export default Register;
