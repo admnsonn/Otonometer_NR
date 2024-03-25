@@ -391,7 +391,8 @@ const Jelajahmain = () => {
     function handleClick(data, label) {
       setcontentdropdwon(data.index, label.id, data.element.children);
       setBidang(label.id);
-      setSelectedKeuanganOption(label.nama);
+      // setSelectedItems(label.nama);
+      setSelected(label.nama);
     }
     return (
       <div>
@@ -440,7 +441,7 @@ const Jelajahmain = () => {
                 key={label?.nama}
                 className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] 
                 ${
-                  label?.nama?.toLowerCase() === selecteditems?.toLowerCase() &&
+                  label?.nama?.toLowerCase() === selected?.toLowerCase() &&
                   "bg-secondary text-white"
                 }
                 ${
@@ -449,7 +450,7 @@ const Jelajahmain = () => {
                     : "hidden"
                 }`}
                 onClick={() => {
-                  Setselecteddropdown(data.index-1, label.nama);
+                  Setselecteddropdown(data.index-1, label.nama, selected);
                   handleClick(data, label);
                   setBidang(label.id);
                   setTestHandlePeringkatnya(true);
