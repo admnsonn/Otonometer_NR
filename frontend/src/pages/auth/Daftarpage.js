@@ -44,13 +44,12 @@ const Daftar = () => {
   }, []);
   const fetchCities = async (province_id) => {
     try {
-      const response = await axios.get(`https://api.otonometer.neracaruang.com/api/all_cities?`+ province_id);
+      const response = await axios.get(`https://api.otonometer.neracaruang.com/api/all_cities?province_id=${province_id}`);
       setFormData((prevState) => ({
         ...prevState,
         cities: response.data.data,
       }));
-      console.log(cities)
-      console.log(response.data.data)
+      console.log(response.data.data);
     } catch (error) {
       console.error("Fetching cities failed:", error);
     }
