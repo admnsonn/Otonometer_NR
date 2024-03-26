@@ -6,6 +6,9 @@ import bulat from "../../assets/bulat.svg";
 import "../../style/Switchbtn.css";
 import "../../style/Components.css";
 import Timeseries from '../../components/Grafik/Timeseries'
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // Komponen card baru
 const Card = ({ chartRef, note, legendData, expand, onExpand, onHide }) => {
@@ -243,6 +246,7 @@ const UtakGraph = () => {
     };
   }, []);  
 
+  
   return (
     <div className="flex flex-col mt-[50px] mb-[150px] justify-center items-center max-lg:[1920px]">
       <img src={bulat} alt="" className="fixed w-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] -z-10" />

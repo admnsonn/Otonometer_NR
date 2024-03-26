@@ -1,181 +1,226 @@
 import React, { useState, useEffect } from "react";
 import Illustration from "../../assets/Auth/ilustrasi.jpg";
-import DatePicker from "react-datepicker"; // Import komponen datepicker
+import DatePicker from "react-datepicker";
 import Swal from "sweetalert2";
 import "../../style/Components.css";
-import "react-datepicker/dist/react-datepicker.css"; // Import CSS untuk datepicker
+import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
   faEyeSlash,
   faCalendar,
-  faArrowAltCircleLeft,
   faArrowCircleLeft,
-} from "@fortawesome/free-solid-svg-icons"; // Import ikon kalender
+} from "@fortawesome/free-solid-svg-icons";
 import AppleIcon from "../../assets/icons/apple.svg";
 import GoogleIcon from "../../assets/icons/google.svg";
 import MicrosoftIcon from "../../assets/icons/microsoft.svg";
 import NeracaIcon from "../../assets/icons/neracaruang.svg";
 import { Link } from "react-router-dom";
-import '../../style/BtnLoginRegist.css';
-import axios from 'axios';
-
+import "../../style/BtnLoginRegist.css";
+import axios from "axios";
 
 const Daftar = () => {
-    const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirm_password: "",
-        // city_value:"",
-        // city_id:"",
-        reference: "",
-        title: "",
-        dob: "",
-        // postal_code: "",
-        showPassword: false,
-        step: 1,
-    });
-    const { email, title, dob, city_id, city_value, postal_code, showPassword, password, confirm_password, reference, name } = formData;
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+    reference: "",
+    title: "",
+    dob: "",
+    city_id: "",
+    city_value: "",
+    province : "",
+    showPassword: false,
+    otp: "",
+    provinces: [],
+    cities:[],
+  });
+  const { email, title, dob, showPassword, password, confirm_password, reference, name, otp, city_id, city_value, province, provinces, cities } = formData;
   
-    const handleChange = (e) => {
-        const { name: fieldName, value } = e.target;
-        setFormData((prevState) => ({
-          ...prevState,
-          [fieldName]: value
-        }));
-      };
-    const handleDateChange = (date) => {
-        setFormData(prevState => ({
-          ...prevState,
-          dob: date,
-        }));
-    };
-    const togglePasswordVisibility = () => {
-        setFormData((prevState) => ({
-          ...prevState,
-          showPassword: !prevState.showPassword,
-        }));
-    };
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        // Kirim data ke API berdasarkan langkah
-        if (step === 1) {
-          // Kirim email
-          const response = await axios.post('https://api.otonometer.neracaruang.com/api/register', { email: formData.email });
-          console.log('Email submitted:', response.data);
-          // Pindah ke langkah berikutnya
-          setStep(step + 1);
-        } else if (step === 2) {
-          // Kirim data nama, tanggal lahir, dan alamat
-          const response = await axios.post('https://api.otonometer.neracaruang.com/api/register', {
-            title: formData.title,
-            name: formData.name,
-            dob: formData.dob
-          });
-          console.log('Personal info submitted:', response.data);
-          // Pindah ke langkah berikutnya
-          setStep(step + 1);
-        } else if (step === 3) {
-          // Kirim password
-          if (password !== confirm_password) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Password dan konfirmasi password tidak cocok!',
-            });
-            return; 
-          }
-          // Kirim password
-          const response = await axios.post('https://api.otonometer.neracaruang.com/api/register', { password });
-          console.log('Password submitted:', response.data);
-          // Registrasi selesai
-          console.log('Registration completed!');
-          const generatedOTP = Math.floor(1000 + Math.random() * 9000);
-                setFormData(prevState => ({
-                    ...prevState,
-                    otp: generatedOTP
-                }));
-                console.log('Generated OTP:', generatedOTP);
-        }
-      } catch (error) {
-        console.error('Registration failed:', error);
-      }
-    };
-    
-    const submitBerhasil = async () => {
-        const { value: otp } = await Swal.fire({
-          title: "Verifikasi Email Anda!",
-          html: `
-          <div style="text-align: center; margin-bottom: 10px; font-size: 15px">Kode OTP</div>
-            <input id="otp1" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
-            <input id="otp2" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
-            <input id="otp3" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
-            <input id="otp4" class="swal2-input otp-input" maxlength="1" style="width: 3em; text-align: center;" />
-            <br>
-            <br>
-            <br>
-            <br>
-          `,
-          focusConfirm: false,
-          preConfirm: () => {
-            const otp1 = document.getElementById("otp1").value;
-            const otp2 = document.getElementById("otp2").value;
-            const otp3 = document.getElementById("otp3").value;
-            const otp4 = document.getElementById("otp4").value;
-    
-            if (!otp1 || !otp2 || !otp3 || !otp4) {
-              Swal.showValidationMessage("Semua field harus diisi");
-              return false;
-            }
-            const enteredOtp = otp1 + otp2 + otp3 + otp4;
-            return enteredOtp;
-          },
-          confirmButtonText: "Simpan",
-          confirmButtonColor: "#86BBD8",
-          cancelButtonText: "Batalkan",
-          cancelButtonColor: "#CD3838",
-          showCancelButton: true,
-          customClass: {
-            text: "text-icon",
-            confirmButton: "otp-button simpan-button",
-            cancelButton: "otp-button batalkan-button",
-          },
+  useEffect(() => {
+    fetchCities();
+  }, []);
+  const fetchCities = async (province_id) => {
+    try {
+      const response = await axios.get(`https://api.otonometer.neracaruang.com/api/all_cities?`+ province_id);
+      setFormData((prevState) => ({
+        ...prevState,
+        cities: response.data.data,
+      }));
+      console.log(cities)
+      console.log(response.data.data)
+    } catch (error) {
+      console.error("Fetching cities failed:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProvinces();
+  }, []);
+  
+  useEffect(() => {
+    console.log(provinces)
+  }, [provinces]
+  )
+  const fetchProvinces = async () => {
+    try {
+      const response = await axios.get("https://api.otonometer.neracaruang.com/api/provinces");
+      setFormData((prevState) => ({
+        ...prevState,
+        provinces: response.data.data,
+      }));
+      console.log(provinces)
+      console.log(response.data.data)
+    } catch (error) {
+      console.error("Fetching provinces failed:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name: fieldName, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [fieldName]: value,
+    }));
+  };
+  const handleChangeProvince = (e) => {
+  const selectedProvince = e.target.value;
+  setFormData((prevState) => ({
+    ...prevState,
+    province: selectedProvince,
+  }));
+  fetchCities(selectedProvince);
+};
+const handleChangeCities = (e) => {
+  const selectedCity = e.target.value;
+  setFormData((prevState) => ({
+    ...prevState,
+    city_id: selectedCity,
+  }));
+};
+  const handleDateChange = (date) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      dob: date,
+    }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setFormData((prevState) => ({
+      ...prevState,
+      showPassword: !prevState.showPassword,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (step === 1) {
+        const response = await axios.post("https://api.otonometer.neracaruang.com/api/register", {
+          email: formData.email,
         });
-    
-        if (otp) {
-            try {
-              const response = await axios.post('https://api.otonometer.neracaruang.com/api/verify-otp', { otp });
-              console.log('Response:', response.data);
-              Swal.fire({
-                iconHtml: '<img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" class="custom-icon" />',
-                title: "SUCCESS!",
-                text: "Berhasil Login!",
-                confirmButtonText: "Berhasil",
-                confirmButtonColor: "#27AE60",
-                customClass: {
-                  icon: "no-border",
-                  title: "title-icon",
-                  text: "text-icon",
-                  confirmButton: "confirm-icon",
-                },
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  window.location.href = "/Login";
-                }
-              });
-            } catch (error) {
-              console.error('Verifikasi OTP gagal:', error);
-              Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Verifikasi OTP gagal. Silakan coba lagi!',
-              });
-            }
-          }
-        };
+        console.log("Email submitted:", response.data);
+        setStep(step + 1);
+      } else if (step === 2) {
+        const response = await axios.post("https://api.otonometer.neracaruang.com/api/register", {
+          title: formData.title,
+          name: formData.name,
+          dob: formData.dob,
+        });
+        console.log("Personal info submitted:", response.data);
+        setStep(step + 1);
+      } else if (step === 3) {
+        if (password !== confirm_password) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Password dan konfirmasi password tidak cocok!",
+          });
+          return;
+        }
+        const response = await axios.post("https://api.otonometer.neracaruang.com/api/register", {
+          password,
+        });
+        console.log("Password submitted:", response.data);
+        setStep(step + 1);
+        sendOTP();
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
+  };
+
+  // Fungsi untuk mengirim OTP
+  const sendOTP = async () => {
+    try {
+      const response = await axios.post("https://api.otonometer.neracaruang.com/api/send-otp", { email });
+      console.log("OTP sent:", response.data);
+    } catch (error) {
+      console.error("Sending OTP failed:", error);
+    }
+  };
+
+  // Fungsi untuk memeriksa OTP
+  const checkOTP = async () => {
+    try {
+      const response = await axios.post("https://api.otonometer.neracaruang.com/api/check-otp", { email:email, otp:document.getElementById("otp").value } ,{headers:{"Content-Type" : 'application/x-www-form-urlencoded'}});
+      console.log("OTP checked:", response.data);
+      // Lakukan apa pun yang perlu Anda lakukan setelah memeriksa OTP berhasil
+    } catch (error) {
+      console.error("Checking OTP failed:", error);
+      // Tampilkan pesan kesalahan jika verifikasi gagal
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Verifikasi OTP gagal. Silakan coba lagi!",
+      });
+    }
+  };
+
+  const submitBerhasil = async () => {
+    const { value: enteredOTP } = await Swal.fire({
+      title: "Verifikasi Email Anda!",
+      html: `
+        <div style="text-align: center; margin-bottom: 10px; font-size: 15px">Kode OTP</div>
+        <input id="otp" class="swal2-input otp-input" maxlength="6" style="width: 12em; text-align: center;" />
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      `,
+      focusConfirm: false,
+      preConfirm: () => {
+        const enteredOTP = document.getElementById("otp").value;
+        if (!enteredOTP || enteredOTP.length !== 6 || !/^\d+$/.test(enteredOTP)) {
+          Swal.showValidationMessage("Kode OTP harus berupa 6 digit angka.");
+          return false;
+        }
+        return enteredOTP;
+      },
+      confirmButtonText: "Simpan",
+      confirmButtonColor: "#86BBD8",
+      cancelButtonText: "Batalkan",
+      cancelButtonColor: "#CD3838",
+      showCancelButton: true,
+      customClass: {
+        text: "text-icon",
+        confirmButton: "otp-button simpan-button",
+        cancelButton: "otp-button batalkan-button",
+      },
+    });
+
+    if (enteredOTP) {
+      setFormData((prevState) => ({
+        ...prevState,
+        otp: enteredOTP,
+      }));
+      checkOTP(); // Panggil fungsi checkOTP setelah pengguna memasukkan OTP
+    }
+  };
 
     const hundredYearsAgo = new Date();
     hundredYearsAgo.setFullYear(hundredYearsAgo.getFullYear() - 100);
@@ -362,7 +407,7 @@ const Daftar = () => {
                   </div>
               </div>
               {/* Dropdown untuk memilih provinsi */}
-              {/* <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
+              <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
                 <label
                   className="block text-secondary text-sm font-medium mb-[4px] text-[14px]"
                   htmlFor="province"
@@ -371,19 +416,22 @@ const Daftar = () => {
                 </label>
                 <select
                   className="infield font-regular cursor-pointer"
-                  id="province"
+                  id="id"
                   name="province"
-                  value={city_id}
-                  onChange={handleChange}
+                  value={province}
+                  onChange={handleChangeProvince}
                   required
                 >
                   <option value="">Pilih Provinsi</option>
-                  <option value="dummy">dummy</option>
-                  
-                </select>
-              </div> */}
+                        {provinces?.map((province) => (
+                          <option key={province.id} value={province.name}>
+                            {province.nama}
+                          </option>
+                        ))}
+                      </select>
+              </div>
               {/* Dropdown untuk memilih kabupaten/kota */}
-              {/* <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
+              <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
                 <label
                   className="block text-secondary text-sm font-medium mb-[4px] text-[14px]"
                   htmlFor="district"
@@ -392,16 +440,18 @@ const Daftar = () => {
                 </label>
                 <select
                   className="infield font-regular cursor-pointer"
-                  id="district"
-                  name="district"
-                  value={city_value}
-                  onChange={handleChange}
+                  id="id"
+                  name="city_id"
+                  value={city_id}
+                  onChange={handleChangeCities}
                   required
                 >
-                  <option value="">Pilih Kabupaten/Kota</option>
-                  <option value="dummy">dummy</option>
-                </select>
-              </div> */}
+                   <option value="">Pilih Kabupaten/Kota</option>
+                      {cities?.map((city) => (
+                        <option key={city.id} value={city.name}>{city.nama}</option> 
+                      ))}
+                    </select>
+              </div>
               {/* Field untuk mengisi kodepos */}
               {/* <div className="w-full sm:w-1/2 md:w-auto pr-2 mb-4">
                 <label
@@ -555,6 +605,7 @@ const Daftar = () => {
               // style={{ backgroundColor: '#86BBD8' }}
               type="submit"
               onClick={submitBerhasil}
+              
             >
               Daftar
             </button>
@@ -606,4 +657,3 @@ const Daftar = () => {
   };
   
   export default Daftar;
-  
