@@ -113,13 +113,10 @@ const Utakmain = () => {
       });
   }, []);
   
-  const [selectDataset1, setSelectedDataset1]= useState();
-  const [selectDataset2, setSelectedDataset2]= useState();
   ///UNTUK ID MASING MASING
-  const [idParent, setIdParent]= useState();
-  const [idSelectFilter, setIdSelectFilter]= useState();
-  const [idChild, setIdChild]= useState();
-
+  const [idParent, setIdParent] = useState();
+  const [idSelectFilter, setIdSelectFilter] = useState();
+  const [idChild, setIdChild] = useState();
 
   const [parents, setParents] = useState(null);
   const [openParents, setOpenParents] = useState(false);
@@ -131,10 +128,12 @@ const Utakmain = () => {
         setParents(data.data);
       });
   }, []);
+
   const [selectFilter, setSelectFilter] = useState(null);
   const [openSelectFilter, setOpenSelectFilter] = useState(false);
   const [selectedSelectFilter, setSelectedSelectFilter] = useState("");
-  function updateParents(item, choosed, id){
+
+  function updateParents(item, choosed, id) {
     setSelectedParents(item);
     setOpenParents(false);
     fetch("https://api.otonometer.neracaruang.com/api/filter-select?parent_id="+id+"&lang=en")
@@ -144,20 +143,21 @@ const Utakmain = () => {
         console.log("Pasti kamu memilih " + item)
       });
   }
-  const [childFilter, setChildFilter] = useState("")
-  const [selectedChild, setSelectedChild] = useState("")
+
+  const [childFilter, setChildFilter] = useState("");
+  const [selectedChild, setSelectedChild] = useState("");
   const [openChildFilter, setOpenChildFilter] = useState(false);
 
-  function updateSelectFilter(item, choosed, idanak, idbunda){
+  function updateSelectFilter(item, choosed, idanak, idbunda) {
     setSelectedSelectFilter(item);
     setOpenSelectFilter(false);
     fetch("https://api.otonometer.neracaruang.com/api/filter-child?satuan_id="+idanak+"&lang=en&parent_id="+idbunda)
       .then((response) => response.json())
       .then((data) => {
         setChildFilter(data.data);
-        console.log("Pasti kamu memilih anak " + item)
       });
   }
+
 
   // const [selectFilter, setSelectFilter] = useState([]);
   //   useEffect(() => {
@@ -738,132 +738,138 @@ const Utakmain = () => {
       </div>
 
       {/* DROPDOWN DATASET 1 */}
-      <div className="flex gap-[80px] mt-[40px]">
-        <div className="">
-          <h1 className="text-secondary text-[14px] font-semibold ml-[45px]">
-            DATASET 1
-          </h1>
-          <div className="w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer" id="parentDropdown">
+      <div className="flex gap-[80px] mt-[40px] h-auto">
+      <div className="">
+        <h1 className="text-secondary text-[14px] font-semibold ml-[45px]">
+          DATASET 1
+        </h1>
+        <div className="w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer" id="parentDropdown">
+          <div
+            onClick={() => setOpenParents(!openParents)}
+            className="bg-secondary w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+          >
+            {selectedParents
+              ? selectedParents?.length > 20
+                ? selectedParents?.substring(0, 20) + "..."
+                : selectedParents
+              : "Pilih"}
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              color="white"
+              className={`ml-[20px] w-[10px] h-[20px] ${
+                openParents && "rotate-180"
+              }`}
+            />
+          </div>
+          <ul
+            className={`bg-secondary mt-2 rounded-[10px] max-h-60 overflow-y-auto
+                ${openParents ? "max-h-[240px]" : "max-h-[0]"}`}
+          >
+            {parents?.map((parentnya) => (
+              <li
+                key={parentnya?.id}
+                className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-center`}
+                onClick={() => {
+                  updateParents(parentnya.nama, selectedParents, parentnya.id)
+                  sessionStorage.setItem("idParent", parentnya.id);
+                  sessionStorage.setItem("namaParent", parentnya.nama);
+                  setIdParent(parentnya.id);
+                  if (parentnya.id !== null) {
+                    document.getElementById("anakanparent").classList.remove("hidden")
+                  }
+                  console.log(parentnya.id);
+                }}
+              >
+                {parentnya?.nama}
+              </li>
+            ))}
+          </ul>
+          {/* DROPDOWN ANAKAN PARENT */}
+          <div id="anakanparent" className="hidden w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer">
             <div
-              onClick={() => setOpenParents(!openParents)}
-              className="bg-secondary w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+              onClick={() => setOpenSelectFilter(!openSelectFilter)}
+              className="bg-third w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
             >
-              {selectedParents
-                ? selectedParents?.length > 20
-                  ? selectedParents?.substring(0, 20) + "..."
-                  : selectedParents
+              {selectedSelectFilter
+                ? selectedSelectFilter?.length > 20
+                  ? selectedSelectFilter?.substring(0, 20) + "..."
+                  : selectedSelectFilter
                 : "Pilih"}
               <FontAwesomeIcon
                 icon={faChevronDown}
                 color="white"
                 className={`ml-[20px] w-[10px] h-[20px] ${
-                  openParents && "rotate-180"
+                  openSelectFilter && "rotate-180"
                 }`}
               />
             </div>
             <ul
-              className={`bg-secondary mt-2 rounded-[10px] max-h-60 overflow-y-auto
-                ${openParents ? "max-h-[240px]" : "max-h-[0]"}`}
+              className={`bg-third mt-2 rounded-[10px] max-h-60 overflow-y-auto
+                ${openSelectFilter ? "max-h-[240px]" : "max-h-[0]"}`}
             >
-              {parents?.map((parentnya) => (
+              {selectFilter?.map((filternya) => (
                 <li
-                  key={parentnya?.nama}
-                  className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-center`}
+                  key={filternya?.id}
+                  className={`p-2 text-[12px] hover:bg-[#a4b6b9] hover:text-secondary rounded-[10px] text-center`}
                   onClick={() => {
-                    updateParents(parentnya.nama, selectedParents, parentnya.id)
-                    sessionStorage.setItem("idParent", parentnya.id);
-                    sessionStorage.setItem("namaParent", parentnya.nama);
-                    setIdParent(parentnya.id);
-                    if (parentnya.id !== null) {
-                      document.getElementById("anakanparent").classList.remove("hidden")
+                    updateSelectFilter(filternya.nama, selectedSelectFilter, idParent, filternya.id)
+                    setIdParent(filternya.id);
+                    console.log(filternya.id);
+                    if (filternya.id !== null) {
+                      document.getElementById("anakanfilter").classList.remove("hidden")
                     }
                   }}
                 >
-                  {parentnya?.nama}
+                  {filternya?.nama}
                 </li>
               ))}
             </ul>
-            {/* DROPDOWN ANAKAN PARENT */}
-            <div id="anakanparent" className="hidden w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer">
-              <div
-                onClick={() => setOpenSelectFilter(!openSelectFilter)}
-                className="bg-third w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-              >
-                {selectedSelectFilter
-                  ? selectedSelectFilter?.length > 20
-                    ? selectedSelectFilter?.substring(0, 20) + "..."
-                    : selectedSelectFilter
-                  : "Pilih"}
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  color="white"
-                  className={`ml-[20px] w-[10px] h-[20px] ${
-                    openSelectFilter && "rotate-180"
-                  }`}
-                />
+          </div>
+          {/* ANAKAN FILTER */}
+          <div id="anakanfilter" className="hidden w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer">
+            <div
+              onClick={() => setOpenChildFilter(!openChildFilter)}
+              className="bg-third w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+            >
+              {selectedChild
+                ? selectedChild?.length > 20
+                  ? selectedChild?.substring(0, 20) + "..."
+                  : selectedChild
+                : "Pilih"}
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                color="white"
+                className={`ml-[20px] w-[10px] h-[20px] ${
+                  openChildFilter && "rotate-180"}`}
+                  />
+                </div>
+                <ul
+                  className={`bg-third mt-2 rounded-[10px] max-h-60 overflow-y-auto
+                    ${openChildFilter ? "max-h-[240px]" : "max-h-[0]"}`}
+                >
+                  {Array.isArray(childFilter) && childFilter.length > 0 ? (
+                    childFilter.map((anaknyafilter) => (
+                      <li
+                        key={anaknyafilter?.id}
+                        className={`p-2 text-[12px] hover:bg-[#a4b6b9] hover:text-secondary rounded-[10px] text-center`}
+                        onClick={() => {
+                          updateSelectFilter(anaknyafilter.nama, selectedChild, idParent, anaknyafilter.id)
+                        }}
+                      >
+                        {anaknyafilter?.nama}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="p-2 text-[12px] text-center">No child filters available</li>
+                  )}
+                </ul>
+              </div>
             </div>
-
-              <ul
-                className={`bg-third mt-2 rounded-[10px] max-h-60 overflow-y-auto
-                ${openSelectFilter ? "max-h-[240px]" : "max-h-[0]"}`}
-              >
-                {selectFilter?.map((filternya) => (
-                  <li
-                    key={filternya?.id}
-                    className={`p-2 text-[12px] hover:bg-[#a4b6b9] hover:text-secondary rounded-[10px] text-center`}
-                    onClick={() => {
-                      updateSelectFilter(filternya.nama, selectedSelectFilter, idParent, filternya.id)
-                    }}
-                  >
-                    {filternya?.nama}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {/* ANAKAN FILTER */}
-            {/* <div className="w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer">
-              <div
-                onClick={() => setOpenChildFilter(!openChildFilter)}
-                className="bg-third w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-              >
-                {selectedChild
-                  ? selectedChild?.length > 20
-                    ? selectedChild?.substring(0, 20) + "..."
-                    : selectedChild
-                  : "Pilih"}
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  color="white"
-                  className={`ml-[20px] w-[10px] h-[20px] ${
-                    openChildFilter && "rotate-180"
-                  }`}
-                />
-            </div>
-
-              <ul
-                className={`bg-third mt-2 rounded-[10px] max-h-60 overflow-y-auto
-                ${openChildFilter ? "max-h-[240px]" : "max-h-[0]"}`}
-              >
-                {childFilter?.map((anaknyafilter) => (
-                  <li
-                    key={anaknyafilter?.id}
-                    className={`p-2 text-[12px] hover:bg-[#a4b6b9] hover:text-secondary rounded-[10px] text-center`}
-                    onClick={() => {
-                      // updateSelectFilter(anaknyafilter.nama, selectedSelectFilter, idParent, filternya.id)
-                    }}
-                  >
-                    {anaknyafilter?.nama}
-                  </li>
-                ))}
-              </ul>
-            </div> */}
           </div>
         </div>
-        
-      </div>
-      <div className="mt-[100px]">
+      {/* <div className="mt-[100px]">
         <Timeseries/>
-      </div>
+      </div> */}
     </div>
   );
 };
