@@ -743,6 +743,7 @@ const Utakmain = () => {
         <h1 className="text-secondary text-[14px] font-semibold ml-[45px]">
           DATASET 1
         </h1>
+        <div className="flex gap-x-[20px]">
         <div className="w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer" id="parentDropdown">
           <div
             onClick={() => setOpenParents(!openParents)}
@@ -825,46 +826,32 @@ const Utakmain = () => {
               ))}
             </ul>
           </div>
-          {/* ANAKAN FILTER */}
-          <div id="anakanfilter" className="hidden w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer">
-            <div
-              onClick={() => setOpenChildFilter(!openChildFilter)}
-              className="bg-third w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
-            >
-              {selectedChild
-                ? selectedChild?.length > 20
-                  ? selectedChild?.substring(0, 20) + "..."
-                  : selectedChild
-                : "Pilih"}
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                color="white"
-                className={`ml-[20px] w-[10px] h-[20px] ${
-                  openChildFilter && "rotate-180"}`}
-                  />
-                </div>
-                <ul
-                  className={`bg-third mt-2 rounded-[10px] max-h-60 overflow-y-auto
-                    ${openChildFilter ? "max-h-[240px]" : "max-h-[0]"}`}
-                >
-                  {Array.isArray(childFilter) && childFilter.length > 0 ? (
-                    childFilter.map((anaknyafilter) => (
-                      <li
-                        key={anaknyafilter?.id}
-                        className={`p-2 text-[12px] hover:bg-[#a4b6b9] hover:text-secondary rounded-[10px] text-center`}
-                        onClick={() => {
-                          updateSelectFilter(anaknyafilter.nama, selectedChild, idParent, anaknyafilter.id)
-                        }}
-                      >
-                        {anaknyafilter?.nama}
-                      </li>
-                    ))
-                  ) : (
-                    <li className="p-2 text-[12px] text-center">No child filters available</li>
-                  )}
-                </ul>
-              </div>
             </div>
+          {/* ANAKAN FILTER */}
+            >
+          <div id="anakanfilter" className="hidden w-[167px] mt-[10px]">
+            <div className="bg-third p-[10px] rounded-[10px] text-white">
+              {Array.isArray(childFilter) && childFilter.length > 0 ? (
+                childFilter.map((anaknyafilter) => (
+                  <div key={anaknyafilter?.id} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={anaknyafilter?.id}
+                      name={anaknyafilter?.nama}
+                      onChange={() => {
+                        // updateSelectFilter(anaknyafilter.nama, selectedChild, idParent, anaknyafilter.id);
+                      }}
+                    />
+                    <label htmlFor={anaknyafilter?.id} className="ml-[5px]">{anaknyafilter?.nama}</label>
+                  </div>
+                ))
+              ) : (
+                <p>No child filters available</p>
+              )}
+            </div>
+          </div>
+        </div>
+        
           </div>
         </div>
       {/* <div className="mt-[100px]">
