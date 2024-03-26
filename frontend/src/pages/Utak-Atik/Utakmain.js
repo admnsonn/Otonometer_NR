@@ -828,7 +828,6 @@ const Utakmain = () => {
           </div>
             </div>
           {/* ANAKAN FILTER */}
-            >
           <div id="anakanfilter" className="hidden w-[167px] mt-[10px]">
             <div className="bg-third p-[10px] rounded-[10px] text-white">
               {Array.isArray(childFilter) && childFilter.length > 0 ? (
