@@ -130,7 +130,7 @@ const Utakmain = () => {
       .then((data) => {
         setParents(data.data);
       });
-  }, [JSON.stringify(parents)]);
+  }, []);
 
   function updateParents(item, choosed, id){
     setSelectedParents(item);
@@ -812,7 +812,7 @@ const Utakmain = () => {
                     key={filternya?.id}
                     className={`p-2 text-[12px] hover:bg-[#a4b6b9] hover:text-secondary rounded-[10px] text-center`}
                     onClick={() => {
-                      updateSelectFilter(filternya.nama, selectedSelectFilter, idParent, filternya.idw)
+                      updateSelectFilter(filternya.nama, selectedSelectFilter, idParent, filternya.id)
                     }}
                   >
                     {filternya?.nama}
