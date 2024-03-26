@@ -130,8 +130,7 @@ const Utakmain = () => {
       .then((data) => {
         setParents(data.data);
       });
-  }, []);
-
+  }, [JSON.stringify(parents)]);
 
   function updateParents(item, choosed, id){
     setSelectedParents(item);
@@ -140,6 +139,7 @@ const Utakmain = () => {
       .then((response) => response.json())
       .then((data) => {
         setSelectFilter(data.data);
+        console.log("Pasti kamu memilih " + item)
       });
   }
   const [selectFilter, setSelectFilter] = useState(null);
@@ -155,6 +155,7 @@ const Utakmain = () => {
       .then((response) => response.json())
       .then((data) => {
         setSelectedChild(data.data);
+        console.log("Pasti kamu memilih anak " + item)
       });
   }
 
@@ -742,7 +743,7 @@ const Utakmain = () => {
           <h1 className="text-secondary text-[14px] font-semibold ml-[45px]">
             DATASET 1
           </h1>
-          <div className="w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer uppercase" id="parentDropdown">
+          <div className="w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer" id="parentDropdown">
             <div
               onClick={() => setOpenParents(!openParents)}
               className="bg-secondary w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
@@ -770,7 +771,7 @@ const Utakmain = () => {
                   className={`p-2 text-[12px] hover:bg-third hover:text-white rounded-[10px] text-center`}
                   onClick={() => {
                     updateParents(parentnya.nama, selectedParents, parentnya.id)
-                    sessionStorage.setItem("idprovinsi", parentnya.id);
+                    sessionStorage.setItem("idParent", parentnya.id);
                     sessionStorage.setItem("namaParent", parentnya.nama);
                     setIdParent(parentnya.id);
                     if (parentnya.id !== null) {
