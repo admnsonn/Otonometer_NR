@@ -1,12 +1,12 @@
 import Footer from "../../components/Footer"
 import Jelajahmain from "./Jelajahmain"
-import Header from "../../components/Header/Header"
+import Navbar from "../../components/Header/Navbar"
 import Glosarium from "../../components/Glosarium"
 
 const Jelajahmainpage = () => {
   return (
     <div>
-      <Header />
+      <Navbar />
       <Jelajahmain />
       <Footer />
       <Glosarium/>

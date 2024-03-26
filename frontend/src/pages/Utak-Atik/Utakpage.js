@@ -1,11 +1,11 @@
 import Utak from "./Utak"
 import Footer from "../../components/Footer"
-import Header from "../../components/Header/Header"
+import Navbar from "../../components/Header/Navbar"
 
 const Utakpage = () => {
   return (
     <div>
-      <Header />
+      <Navbar />
       <Utak />
       <Footer />
     </div>

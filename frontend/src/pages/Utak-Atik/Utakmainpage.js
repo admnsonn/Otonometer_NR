@@ -1,12 +1,12 @@
 import Footer from "../../components/Footer"
 import Utakmain from "./Utakmain"
-import Header from "../../components/Header/Header"
+import Navbar from "../../components/Header/Navbar"
 import Glosarium from "../../components/Glosarium"
 
 const Utakmainpage = () => {
   return (
     <div>
-      <Header />
+      <Navbar />
       <Utakmain />
       <Footer />
       <Glosarium/>

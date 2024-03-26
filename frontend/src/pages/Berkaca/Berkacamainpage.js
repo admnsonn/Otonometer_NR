@@ -1,11 +1,11 @@
 import Footer from "../../components/Footer"
 import Berkacamain from "./Berkacamain"
-import Header from "../../components/Header/Header"
+import Navbar from "../../components/Header/Navbar"
 
 const Berkacamainpage = () => {
   return (
     <div>
-      <Header />
+      <Navbar />
       <Berkacamain />
       <Footer />
     </div>

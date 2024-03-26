@@ -1,11 +1,11 @@
 import UtakGraph from "./UtakGraph"
 import Footer from "../../components/Footer"
-import Header from "../../components/Header/Header"
+import Navbar from "../../components/Header/Navbar"
 
 const UtakGraphPage = () => {
   return (
     <div>
-      <Header />
+      <Navbar />
       <UtakGraph />
       <Footer />
     </div>

@@ -1,11 +1,11 @@
 import Jelajahprofil from "./Jelajahprofil"
 import Footer from "../../components/Footer"
-import Header from "../../components/Header/Header"
+import Navbar from "../../components/Header/Navbar"
 
 const Jelajahpage = () => {
   return (
     <div>
-      <Header />
+      <Navbar />
       <Jelajahprofil />
       <Footer />
     </div>
