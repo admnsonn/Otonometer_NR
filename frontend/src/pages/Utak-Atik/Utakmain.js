@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, Children } from "react";
 import map from "../../assets/icons/peta.png";
 import people from "../../assets/icons/people.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -131,7 +131,9 @@ const Utakmain = () => {
         setParents(data.data);
       });
   }, []);
-
+  const [selectFilter, setSelectFilter] = useState(null);
+  const [openSelectFilter, setOpenSelectFilter] = useState(false);
+  const [selectedSelectFilter, setSelectedSelectFilter] = useState("");
   function updateParents(item, choosed, id){
     setSelectedParents(item);
     setOpenParents(false);
@@ -142,11 +144,9 @@ const Utakmain = () => {
         console.log("Pasti kamu memilih " + item)
       });
   }
-  const [selectFilter, setSelectFilter] = useState(null);
-  const [openSelectFilter, setOpenSelectFilter] = useState(false);
-  const [selectedSelectFilter, setSelectedSelectFilter] = useState("");
-
+  const [childFilter, setChildFilter] = useState("")
   const [selectedChild, setSelectedChild] = useState("")
+  const [openChildFilter, setOpenChildFilter] = useState(false);
 
   function updateSelectFilter(item, choosed, idanak, idbunda){
     setSelectedSelectFilter(item);
@@ -154,7 +154,7 @@ const Utakmain = () => {
     fetch("https://api.otonometer.neracaruang.com/api/filter-child?satuan_id="+idanak+"&lang=en&parent_id="+idbunda)
       .then((response) => response.json())
       .then((data) => {
-        setSelectedChild(data.data);
+        setChildFilter(data.data);
         console.log("Pasti kamu memilih anak " + item)
       });
   }
@@ -820,6 +820,43 @@ const Utakmain = () => {
                 ))}
               </ul>
             </div>
+            {/* ANAKAN FILTER */}
+            {/* <div className="w-[167px] h-[41px] rounded-[10px] text-white border-1 border-[f1f1f1] text-[14px] font-medium items-center justify-center drop-shadow-lg mt-[10px] mb-[10px] cursor-pointer">
+              <div
+                onClick={() => setOpenChildFilter(!openChildFilter)}
+                className="bg-third w-full p-2 px-[30px] flex items-center justify-between rounded-[10px]"
+              >
+                {selectedChild
+                  ? selectedChild?.length > 20
+                    ? selectedChild?.substring(0, 20) + "..."
+                    : selectedChild
+                  : "Pilih"}
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  color="white"
+                  className={`ml-[20px] w-[10px] h-[20px] ${
+                    openChildFilter && "rotate-180"
+                  }`}
+                />
+            </div>
+
+              <ul
+                className={`bg-third mt-2 rounded-[10px] max-h-60 overflow-y-auto
+                ${openChildFilter ? "max-h-[240px]" : "max-h-[0]"}`}
+              >
+                {childFilter?.map((anaknyafilter) => (
+                  <li
+                    key={anaknyafilter?.id}
+                    className={`p-2 text-[12px] hover:bg-[#a4b6b9] hover:text-secondary rounded-[10px] text-center`}
+                    onClick={() => {
+                      // updateSelectFilter(anaknyafilter.nama, selectedSelectFilter, idParent, filternya.id)
+                    }}
+                  >
+                    {anaknyafilter?.nama}
+                  </li>
+                ))}
+              </ul>
+            </div> */}
           </div>
         </div>
         
