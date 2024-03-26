@@ -20,6 +20,7 @@ class Login extends React.Component {
       email: "",
       password: "",
       showPassword: false,
+      isLoggedIn: false,
     };
   }
 
@@ -41,6 +42,13 @@ class Login extends React.Component {
     const isEmailValid = /\S+@\S+\.\S+/.test(email);
 
     if (isEmailValid) {
+      try {
+        this.setState({ isLoggedIn: true });
+
+        // Rest of the login logic
+      } catch (error) {
+        console.error("Error during login:", error.message);
+      }
       var data = new URLSearchParams();
       //   // var data = new FormData();
         data.append("email", this.state.email);
@@ -100,6 +108,7 @@ class Login extends React.Component {
   };
 
   render() {
+    const { isLoggedIn } = this.state;
     return (
       <div className="flex flex-col md:flex-row h-screen">
         {/* Bagian Kiri: Ilustrasi */}

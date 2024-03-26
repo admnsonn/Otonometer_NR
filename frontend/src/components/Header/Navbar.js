@@ -43,13 +43,39 @@ const NavLinks = () => {
 const Navbar = () => {
   const navgate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        "https://api.otonometer.neracaruang.com/api/logout",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer YOUR_ACCESS_TOKEN",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        setIsLoggedIn(false);
+        sessionStorage.removeItem("token");
+        navgate("/Login");
+      } else {
+        console.error("Logout failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error during logout:", error.message);
+    }
+  };
+
   return (
-    <div className='flex w-full items-center justify-center sticky bg-none my-[30px] xl:gap-x-[275px] flex-wrap md:gap-x-[20px]'>
+    <div className="flex w-full items-center justify-center sticky bg-none my-[30px] xl:gap-x-[275px] flex-wrap md:gap-x-[20px]">
       <div className="logo">
         <NavLink to={"/"} onClick={() => navgate("/")}>
           <img src={logo} alt="loading" className="w-full h-full" />
@@ -74,11 +100,17 @@ const Navbar = () => {
         </div>
       )}
 
-      <div className="hidden gap-[10px] sm:hidden md:hidden xl:flex">
-        {/* Login */}
-        <NavLink
-          to={"/Login"}
-          className="
+      {isLoggedIn ? (
+        <button onClick={handleLogout} className="text-secondary">
+          Logout
+        </button>
+      ) : (
+        <div className="hidden gap-[10px] sm:hidden md:hidden xl:flex">
+          {/* Login */}
+          <>
+            <NavLink
+              to={"/Login"}
+              className="
             flex 
             bg-secondary 
             hover:bg-third 
@@ -87,13 +119,13 @@ const Navbar = () => {
             rounded-[10px] 
             text-white 
             items-center justify-center"
-        >
-          Masuk
-        </NavLink>
-        {/* Register */}
-        <NavLink
-          to={"/Register"}
-          className="
+            >
+              Masuk
+            </NavLink>
+            {/* Register */}
+            <NavLink
+              to={"/Register"}
+              className="
             flex 
             bg-none 
             hover:bg-third 
@@ -105,10 +137,12 @@ const Navbar = () => {
             items-center 
             border-2 
             border-secondary justify-center"
-        >
-          Register
-        </NavLink>
-      </div>
+            >
+              Register
+            </NavLink>
+          </>
+        </div>
+      )}
     </div>
   );
 };
