@@ -1,5 +1,5 @@
 import Footer from "../../components/Footer"
-import Utakmain from "./Utakmain"
+import Utakmain from "./ArsipUtak"
 import Navbar from "../../components/Header/Navbar"
 import Glosarium from "../../components/Glosarium"
 
