@@ -155,7 +155,7 @@ const Navbar = () => {
         <div>
           {/* {fotoprofile?.map((profil) => ( */}
           {/* <Circleakun key={profil?.image} src={profil?.image} alt="User Profile" size="50px" /> */}
-          <Circleakun src={iconuser} alt="User Profile" size="50px" />
+          <Circleakun src={iconuser} alt="User Profile" size="45px" />
           {/* ))} */}
         </div>
       ) : (
