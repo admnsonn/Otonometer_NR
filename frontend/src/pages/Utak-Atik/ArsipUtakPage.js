@@ -3,7 +3,7 @@ import Utakmain from "./Utakmain"
 import Navbar from "../../components/Header/Navbar"
 import Glosarium from "../../components/Glosarium"
 
-const Utakmainpage = () => {
+const ArsipUtakPage = () => {
   return (
     <div>
       {/* <Navbar /> */}
@@ -14,4 +14,4 @@ const Utakmainpage = () => {
   )
 }
 
-export default Utakmainpage
+export default ArsipUtakPage;

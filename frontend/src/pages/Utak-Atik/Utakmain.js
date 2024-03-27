@@ -163,18 +163,29 @@ const Utakmain = () => {
   const [perimbanganChecked, setPerimbanganChecked] = useState(false);
   const [showPadChildren, setShowPadChildren] = useState(false);
   
-  const handleCheckboxChange = (event) => {
+  const handleCheckboxChange = (event, parentId) => {
     const { name, checked } = event.target;
-
+  
     if (name === "Transfer" || name === "Lain Transfer") {
       setTransferChecked(checked);
-    }else if(name === "Perimbangan" || name === "Lain Imbang"){
+    } else if (name === "Perimbangan" || name === "Lain Imbang") {
       setPerimbanganChecked(checked);
-    }else if(name === "PAD"){
+    } else if (name === "PAD") {
       setShowPadChildren(checked);
+    } else {
+      // Handle child filter checkboxes
+      const updatedChildFilters = childFilter.map(child => {
+        if (child.id === parentId) {
+          // Update the checked state of the child filter
+          return { ...child, checked: checked };
+        }
+        return child;
+      });
+      setChildFilter(updatedChildFilters);
     }
   };
 
+  
 
   // const [selectFilter, setSelectFilter] = useState([]);
   //   useEffect(() => {
@@ -858,14 +869,6 @@ const Utakmain = () => {
                       disabled={(anaknyafilter?.nama === "Perimbangan" || anaknyafilter?.nama === "Lain Imbang") && transferChecked || (anaknyafilter?.nama === "Transfer" || anaknyafilter?.nama === "Lain Transfer") && perimbanganChecked}
                     />
                     <label htmlFor={anaknyafilter?.id} className="ml-[5px]">{anaknyafilter?.nama}</label>
-                    {showPadChildren && (
-                      <ul>
-                      {/* Map through the children of PAD and render each child */}
-                      {childFilter.find(child => child.nama === "PAD")?.child.map(child => (
-                        <li key={child.id}>{child.nama}</li>
-                      ))}
-                    </ul>
-                    )}
                   </div>
                 ))
               ) : (
@@ -873,7 +876,6 @@ const Utakmain = () => {
               )}
               {showPadChildren && (
                 <ul>
-                {/* Map through the children of PAD and render each child */}
                 {childFilter.find(child => child.nama === "PAD")?.child.map(child => (
                   <li key={child.id}>{child.nama}</li>
                 ))}

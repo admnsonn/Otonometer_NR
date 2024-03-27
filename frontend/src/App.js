@@ -15,6 +15,7 @@ import UtakGraphPage from "./pages/Utak-Atik/UtakGraphPage";
 import Arsippage from "./pages/Jelajah/arsippage";
 import HalamanMasuk from "./pages/auth/Masukpage";
 import HalamanDaftar from "./pages/auth/Daftarpage";
+import ArsipUtakPage from "./pages/Utak-Atik/ArsipUtakPage";
 
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
         <Route exact path="/UtakGraph" element={<UtakGraphPage />}></Route>
         <Route exact path="/Arsip" element={<Arsippage />}></Route>
         <Route exact path="/Daftar" element={<HalamanDaftar />}></Route>
+        <Route exact path="/ArsipUtak" element={<ArsipUtakPage />}></Route>
       </Routes>
     </Router>
   );
