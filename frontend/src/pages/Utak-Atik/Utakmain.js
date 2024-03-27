@@ -154,9 +154,23 @@ const Utakmain = () => {
     fetch("https://api.otonometer.neracaruang.com/api/filter-child?satuan_id="+idanak+"&lang=en&parent_id="+idbunda)
       .then((response) => response.json())
       .then((data) => {
+        console.log("Pasti kamu memilih " + item)
         setChildFilter(data.data);
+        console.log(data.data)
       });
   }
+  const [transferChecked, setTransferChecked] = useState(false);
+  const [perimbanganChecked, setPerimbanganChecked] = useState(false);
+  
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+
+    if (name === "Transfer" || name === "Lain Transfer") {
+      setTransferChecked(checked);
+    }else if(name === "Perimbangan" || name === "Lain Imbang"){
+      setPerimbanganChecked(checked);
+    }
+  };
 
 
   // const [selectFilter, setSelectFilter] = useState([]);
@@ -837,9 +851,8 @@ const Utakmain = () => {
                       type="checkbox"
                       id={anaknyafilter?.id}
                       name={anaknyafilter?.nama}
-                      onChange={() => {
-                        // updateSelectFilter(anaknyafilter.nama, selectedChild, idParent, anaknyafilter.id);
-                      }}
+                      onChange={handleCheckboxChange}
+                      disabled={(anaknyafilter?.nama === "Perimbangan" || anaknyafilter?.nama === "Lain Imbang") && transferChecked || (anaknyafilter?.nama === "Transfer" || anaknyafilter?.nama === "Lain Transfer") && perimbanganChecked}
                     />
                     <label htmlFor={anaknyafilter?.id} className="ml-[5px]">{anaknyafilter?.nama}</label>
                   </div>
