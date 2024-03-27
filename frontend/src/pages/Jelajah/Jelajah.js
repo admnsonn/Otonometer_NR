@@ -33,7 +33,7 @@ const Jelajah = () => {
             <h1 className='font-bold text-[96px] '>Jelajah</h1>
             <p className='font-medium text-[34px] mt-[18px] '>Jelajah Lebih Dalam Daerah Pilihanmu!</p>
             <p className='font-regular text-[20px] mt-[18px]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eleifend sapien sit amet nibh consequat, in porttitor tortor vestibulum. Vestibulum consequat nibh vitae lorem sollicitudin, quis lobortis lacus pretium. Pellentesque sed mauris blandit enim aliquet pulvinar.</p>
-            <button
+            <NavLink
             onClick={handlePopup}
             className='
             mt-[38px]
@@ -45,7 +45,7 @@ const Jelajah = () => {
             text-white 
             items-center justify-center'>
             Lanjut
-          </button>
+          </NavLink>
         </div>
         <div>
           <img src={LandingPage} alt="loading" className="w-450" />
