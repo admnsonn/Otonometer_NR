@@ -856,33 +856,49 @@ const Utakmain = () => {
           </div>
             </div>
           {/* ANAKAN FILTER */}
-          <div id="anakanfilter" className="hidden w-[167px] mt-[10px]">
-            <div className="bg-third p-[10px] rounded-[10px] text-white">
-              {Array.isArray(childFilter) && childFilter.length > 0 ? (
-                childFilter.map((anaknyafilter) => (
-                  <div key={anaknyafilter?.id} className="flex items-center">
-                    <input
-                      type="checkbox"
-                      id={anaknyafilter?.id}
-                      name={anaknyafilter?.nama}
-                      onChange={handleCheckboxChange}
-                      disabled={(anaknyafilter?.nama === "Perimbangan" || anaknyafilter?.nama === "Lain Imbang") && transferChecked || (anaknyafilter?.nama === "Transfer" || anaknyafilter?.nama === "Lain Transfer") && perimbanganChecked}
-                    />
-                    <label htmlFor={anaknyafilter?.id} className="ml-[5px]">{anaknyafilter?.nama}</label>
-                  </div>
-                ))
-              ) : (
-                <p>No child filters available</p>
-              )}
-              {showPadChildren && (
-                <ul>
+          <div className="flex">
+            <div id="anakanfilter" className="hidden w-[167px] mt-[10px]">
+              <div className="bg-third p-[10px] rounded-[10px] text-white">
+                {Array.isArray(childFilter) && childFilter.length > 0 ? (
+                  childFilter.map((anaknyafilter) => (
+                    <div key={anaknyafilter?.id} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id={anaknyafilter?.id}
+                        name={anaknyafilter?.nama}
+                        onChange={handleCheckboxChange}
+                        disabled={(anaknyafilter?.nama === "Perimbangan" || anaknyafilter?.nama === "Lain Imbang") && transferChecked || (anaknyafilter?.nama === "Transfer" || anaknyafilter?.nama === "Lain Transfer") && perimbanganChecked}
+                      />
+                      <label htmlFor={anaknyafilter?.id} className="ml-[5px]">{anaknyafilter?.nama}</label>
+                    </div>
+                    ))
+                  ) : (
+                    <p>No child filters available</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          
+          <div>  
+            {showPadChildren && (
+                <div className="w-auto bg-third p-[10px] rounded-[10px] text-white mt-[10px]">
+                  <p className="text-center">PAD</p>
                 {childFilter.find(child => child.nama === "PAD")?.child.map(child => (
-                  <li key={child.id}>{child.nama}</li>
+                  <div key={child?.id} className="flex items-center">
+                    
+                    <input 
+                    type="checkbox"
+                    key={child.id}
+                    name={child.nama}
+
+                  />
+                    <label htmlFor={child?.id} className="ml-[5px]">{child?.nama}</label>
+                  </div>
+                  
                 ))}
-              </ul>
+              </div>
               )}
             </div>
-          </div>
         </div>
         
           </div>
