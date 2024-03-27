@@ -4,10 +4,10 @@ import Footer from "../../components/Footer"
 import Navbar from "../../components/Header/Navbar"
 
 const Dashboardpage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  console.log(sessionStorage.getItem("token"))
   return (
     <div>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar />
       <Dashboard />
       <Footer />
     </div>

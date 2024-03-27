@@ -5,19 +5,24 @@ import Swal from "sweetalert2";
 import { NavLink } from 'react-router-dom';
 const Jelajah = () => {
   const handlePopup = () => {
-    Swal.fire({
-      iconHtml:"<img src='https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihYZPXF44y7OB6l4YYsMNu3Ch8sD5wCW2oyOefMQuMpTcOkFPxlWVCcnvG0Jdp8pleEHWyc-DrJbERHmu8We62KV087J=w1920-h970'",
-      title: "ERROR!",
-      text: "Harap login terlebih dahulu!",
-      confirmButtonText: "Keluar",
-      confirmButtonColor: "#CD3838",
-      customClass: {
-        icon: "no-border",
-        title: "title-icon-error",
-        text: "text-icon",
-        confirmButton: "confirm-icon",
-      }
-    });
+    if
+    (sessionStorage.getItem("token") != ""){
+      window.location.href = "/Jelajah-Main";
+    } else {
+      Swal.fire({
+        iconHtml:"<img src='https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihYZPXF44y7OB6l4YYsMNu3Ch8sD5wCW2oyOefMQuMpTcOkFPxlWVCcnvG0Jdp8pleEHWyc-DrJbERHmu8We62KV087J=w1920-h970'",
+        title: "ERROR!",
+        text: "Harap login terlebih dahulu!",
+        confirmButtonText: "Keluar",
+        confirmButtonColor: "#CD3838",
+        customClass: {
+          icon: "no-border",
+          title: "title-icon-error",
+          text: "text-icon",
+          confirmButton: "confirm-icon",
+        }
+      });
+    }
   };
   
   return (

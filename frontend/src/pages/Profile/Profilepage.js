@@ -1,11 +1,11 @@
 import Profile from "./Profile"
 import Footer from "../../components/Footer"
-import Header from "../../components/Header/Header"
+import Navbar from "../../components/Header/Navbar"
 
 const Profilepage = () => {
   return (
     <div>
-      <Header />
+      <Navbar />
       <Profile />
       <Footer />
     </div>

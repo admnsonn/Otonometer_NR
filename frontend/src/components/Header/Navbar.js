@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import logo from "../../assets/logonav.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, redirect, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import Circleprofile from "../../components/Circleprofile";
+import iconuser from "../../assets/icons/iconuser.png";
+import PropTypes from "prop-types";
 
 const NavLinks = () => {
   const navLinkStyles = ({ isActive }) => {
@@ -40,38 +43,74 @@ const NavLinks = () => {
   );
 };
 
+const Circleakun = ({ src, alt, size }) => {
+  const [isDrop, setIsDrop] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDrop(!isDrop);
+  };
+
+  const containerStyle = {
+    position: "relative",
+    display: "inline-block",
+  };
+
+  const imageStyle = {
+    width: size,
+    height: size,
+    borderRadius: "80%",
+    border: "8px solid #FFFFFF",
+    boxShadow: "0px 0px 7px 0px rgba(0,0,0,0.60)",
+  };
+
+  return (
+    <div style={containerStyle}>
+      <button>
+        <img src={src} alt={alt} style={imageStyle} onClick={toggleDropdown} />
+      </button>
+      {isDrop && (
+        <div class="absolute justify-center ml-[-55px] bg-blue-300 bg-opacity-50 rounded-xl z-50 mt-2 pl-5 pr-5 pt-4 pb-4 shadow-md min-w-[150px] text-center leading-[1.5] text-base text-white flex items-center">
+          <ul>
+            <NavLink to={"/Profile"}>
+              <li className="w-[120px] bg-secondary mb-2 rounded pt-1 pb-1 hover:bg-third hover:text-white">
+                Profile
+              </li>
+            </NavLink>
+            <NavLink onClick={handleLogout}>
+              <li className="w-[120px] bg-[#CD3838] mb-2 rounded pt-1 pb-1 hover:bg-third hover:text-white">
+                Keluar Akun
+              </li>
+            </NavLink>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+Circleakun.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+};
+
+const handleLogout = async () => {
+  sessionStorage.setItem("token", "");
+  window.location.href = "/Login";
+};
+
 const Navbar = () => {
   const navgate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    sessionStorage.getItem("token") != "" ? true : false
+  );
+
+  console.log(sessionStorage.getItem("token") != null ? true : false);
+  console.log(sessionStorage.getItem("token"));
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
-  };
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch(
-        "https://api.otonometer.neracaruang.com/api/logout",
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer YOUR_ACCESS_TOKEN",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.ok) {
-        setIsLoggedIn(false);
-        sessionStorage.removeItem("token");
-        navgate("/Login");
-      } else {
-        console.error("Logout failed:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error during logout:", error.message);
-    }
   };
 
   return (
@@ -97,13 +136,28 @@ const Navbar = () => {
       {isOpen && (
         <div className="flex flex-col justify-center items-end basis-full mt-[20px] mr-[100px] gap-y-[10px] xl:hidden p-auto">
           <NavLinks />
+          <Circleakun
+            onClick={iconuser}
+            src={iconuser}
+            alt="User Profile"
+            size="50px"
+          />
         </div>
       )}
 
       {isLoggedIn ? (
-        <button onClick={handleLogout} className="text-secondary">
-          Logout
-        </button>
+        <div>
+          {/* <button onClick={handleLogout} className="text-secondary">
+            Logout
+          </button> */}
+          {/* <Circleprofile onClick={iconuser} src={iconuser} alt="User Profile" size="50px" /> */}
+          <Circleakun
+            onClick={iconuser}
+            src={iconuser}
+            alt="User Profile"
+            size="50px"
+          />
+        </div>
       ) : (
         <div className="hidden gap-[10px] sm:hidden md:hidden xl:flex">
           {/* Login */}
