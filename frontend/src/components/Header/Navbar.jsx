@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import logo from "../../assets/logonav.svg";
 import { NavLink, redirect, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import Circleprofile from "../Circleprofile";
 import iconuser from "../../assets/icons/iconuser.png";
 import PropTypes from "prop-types";
 
