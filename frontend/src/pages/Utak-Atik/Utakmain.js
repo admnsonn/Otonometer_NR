@@ -161,6 +161,7 @@ const Utakmain = () => {
   }
   const [transferChecked, setTransferChecked] = useState(false);
   const [perimbanganChecked, setPerimbanganChecked] = useState(false);
+  const [showPadChildren, setShowPadChildren] = useState(false);
   
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -169,6 +170,8 @@ const Utakmain = () => {
       setTransferChecked(checked);
     }else if(name === "Perimbangan" || name === "Lain Imbang"){
       setPerimbanganChecked(checked);
+    }else if(name === "PAD"){
+      setShowPadChildren(checked);
     }
   };
 
@@ -855,10 +858,26 @@ const Utakmain = () => {
                       disabled={(anaknyafilter?.nama === "Perimbangan" || anaknyafilter?.nama === "Lain Imbang") && transferChecked || (anaknyafilter?.nama === "Transfer" || anaknyafilter?.nama === "Lain Transfer") && perimbanganChecked}
                     />
                     <label htmlFor={anaknyafilter?.id} className="ml-[5px]">{anaknyafilter?.nama}</label>
+                    {showPadChildren && (
+                      <ul>
+                      {/* Map through the children of PAD and render each child */}
+                      {childFilter.find(child => child.nama === "PAD")?.child.map(child => (
+                        <li key={child.id}>{child.nama}</li>
+                      ))}
+                    </ul>
+                    )}
                   </div>
                 ))
               ) : (
                 <p>No child filters available</p>
+              )}
+              {showPadChildren && (
+                <ul>
+                {/* Map through the children of PAD and render each child */}
+                {childFilter.find(child => child.nama === "PAD")?.child.map(child => (
+                  <li key={child.id}>{child.nama}</li>
+                ))}
+              </ul>
               )}
             </div>
           </div>
