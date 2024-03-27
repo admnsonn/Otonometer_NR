@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../../assets/logonav.svg";
 import { NavLink, redirect, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import Circleprofile from "../../components/Circleprofile";
+import Circleprofile from "../Circleprofile";
 import iconuser from "../../assets/icons/iconuser.png";
 import PropTypes from "prop-types";
 
@@ -113,6 +113,18 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const [fotoprofile, setFotoProfile] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api.otonometer.neracaruang.com/api/profile")
+      .then((response) => response.json())
+      .then((data) => {
+        setFotoProfile(data.data.image);
+        console.log(fotoprofile)
+        console.log("🚀 ~ Navbar ~ fotoprofile:", fotoprofile)
+      });
+  }, []);
+
   return (
     <div className="flex w-full items-center justify-center sticky bg-none my-[30px] xl:gap-x-[275px] flex-wrap md:gap-x-[20px]">
       <div className="logo">
@@ -136,27 +148,16 @@ const Navbar = () => {
       {isOpen && (
         <div className="flex flex-col justify-center items-end basis-full mt-[20px] mr-[100px] gap-y-[10px] xl:hidden p-auto">
           <NavLinks />
-          <Circleakun
-            onClick={iconuser}
-            src={iconuser}
-            alt="User Profile"
-            size="50px"
-          />
+          <Circleakun src={fotoprofile} alt="User Profile" size="50px" />
         </div>
       )}
 
       {isLoggedIn ? (
         <div>
-          {/* <button onClick={handleLogout} className="text-secondary">
-            Logout
-          </button> */}
-          {/* <Circleprofile onClick={iconuser} src={iconuser} alt="User Profile" size="50px" /> */}
-          <Circleakun
-            onClick={iconuser}
-            src={iconuser}
-            alt="User Profile"
-            size="50px"
-          />
+          {/* {fotoprofile?.map((profil) => ( */}
+          {/* <Circleakun key={profil?.image} src={profil?.image} alt="User Profile" size="50px" /> */}
+          <Circleakun src={iconuser} alt="User Profile" size="50px" />
+          {/* ))} */}
         </div>
       ) : (
         <div className="hidden gap-[10px] sm:hidden md:hidden xl:flex">
